@@ -17,6 +17,7 @@ End Code
             for enjoyable, agile development.
         </p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <div id="fileupload"></div>
     </div>
     <div class="col-md-4">
         <h2>Get more libraries</h2>
@@ -29,3 +30,18 @@ End Code
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+@section Scripts
+    <script>
+        // Upload, get or delete files with the built-in Server side file handler.
+        var handlerUrl = "/Backload/FileHandler";
+
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload').fileupload({
+            url: handlerUrl
+        });
+    </script>
+    @Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
+End Section
+@section Styles
+    @Styles.Render("~/backload/blueimp/bootstrap/BasicPlusUI/css")
+End Section
