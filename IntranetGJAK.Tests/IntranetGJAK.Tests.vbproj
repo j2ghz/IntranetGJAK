@@ -6,7 +6,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5456CE5D-C331-4BDF-9298-737B9D18690E}</ProjectGuid>
+    <ProjectGuid>{D665136D-C433-482A-A9DC-538479FDD2D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>IntranetGJAK.Tests</RootNamespace>
     <AssemblyName>IntranetGJAK.Tests</AssemblyName>
@@ -111,7 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IntranetGJAK\IntranetGJAK.vbproj">
-      <Project>{A1ACE3B0-4F2C-4FAF-AFCB-EE2F41F0A94D}</Project>
+      <Project>{0D2CA74C-0A05-4906-A75E-1B99A453AD90}</Project>
       <Name>IntranetGJAK</Name>
     </ProjectReference>
   </ItemGroup>
