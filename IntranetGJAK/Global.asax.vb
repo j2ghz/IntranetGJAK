@@ -8,5 +8,6 @@ Public Class MvcApplication
         FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters)
         RouteConfig.RegisterRoutes(RouteTable.Routes)
         BundleConfig.RegisterBundles(BundleTable.Bundles)
+        Backload.Bundles.BackloadBundles.RegisterBundles(BundleTable.Bundles)
     End Sub
 End Class
