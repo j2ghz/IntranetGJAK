@@ -46,11 +46,21 @@ namespace IntranetGJAK.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FileId,FileName,ContentType,Content,PersonId")] File file)
+        public ActionResult Create([Bind(Include = "FileId,FileName")] File file, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && upload != null && upload.ContentLength > 0)
             {
-                db.Files.Add(file);
+                var _file = new File
+                {
+                    FileName = System.IO.Path.GetFileName(upload.FileName),
+                    ContentType = upload.ContentType,
+                };
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    _file.Content = reader.ReadBytes(upload.ContentLength);
+                }
+                //TODO <aktualni uzivatel>.Files = new List<File> { _file };
+                db.Files.Add(_file);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -113,6 +123,12 @@ namespace IntranetGJAK.Controllers
             db.Files.Remove(file);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Download(int id)
+        {
+            var fileToRetrieve = db.Files.Find(id);
+            return File(fileToRetrieve.Content, fileToRetrieve.ContentType);
         }
 
         protected override void Dispose(bool disposing)
