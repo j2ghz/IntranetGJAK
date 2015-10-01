@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @System.Web.Optimization.Styles.Render("~/backload/blueimp/bootstrap/BasicPlusUI/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -38,6 +39,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @System.Web.Optimization.Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
     @RenderSection("scripts", required: false)
 </body>
 </html>
