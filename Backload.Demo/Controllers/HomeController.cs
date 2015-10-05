@@ -10,29 +10,27 @@ namespace Backload.Demo.Controllers
 
     public class HomeController : Controller
     {
-
         // Start view
         public ActionResult Index()
+        {
+            return RedirectToAction("BasicPlusUI");
+        }
+
+        #region jQuery File Upload Plugin
+
+        // Basic theme (Bootstrap)
+        public ActionResult Basic()
         {
             return View();
         }
 
-
-        #region jQuery File Upload Plugin
-
-        // Basic theme (Bootstrap) 
-        public ActionResult Basic()
-        {
-            return View();
-        }  
-  
-        //Basic Plus theme (Bootstrap) 
+        //Basic Plus theme (Bootstrap)
         public ActionResult BasicPlus()
         {
             return View();
         }
 
-        // Basic Plus UI theme (Bootstrap) 
+        // Basic Plus UI theme (Bootstrap)
         public ActionResult BasicPlusUI()
         {
             return View();
@@ -50,9 +48,7 @@ namespace Backload.Demo.Controllers
             return View();
         }
 
-#endregion
-
-
+        #endregion jQuery File Upload Plugin
 
         #region PlUpload
 
@@ -68,9 +64,7 @@ namespace Backload.Demo.Controllers
             return View();
         }
 
-        #endregion
-
-
+        #endregion PlUpload
 
         #region Fine Uploader
 
@@ -92,9 +86,7 @@ namespace Backload.Demo.Controllers
             return View();
         }
 
-        #endregion
-
-
+        #endregion Fine Uploader
 
         #region Custom controller
 
@@ -116,7 +108,6 @@ namespace Backload.Demo.Controllers
             return View();
         }
 
-        #endregion
-
+        #endregion Custom controller
     }
 }
