@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Backload</id>
+        <version>2.0.0.5</version>
+        <title>Backload. A professional full featured ASP.NET file handler (MVC, Web API, WebForms)</title>
+        <authors>Steffen Habermehl</authors>
+        <owners>Steffen Habermehl</owners>
+        <licenseUrl>https://github.com/blackcity/Backload/License.txt</licenseUrl>
+        <projectUrl>https://github.com/blackcity/Backload/wiki/Upgrade-and-migration</projectUrl>
+        <iconUrl>https://raw.github.com/blackcity/Backload/master/Examples/images/128/backload.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Full package with bundeling. If you do not need bundeling, you may install the Backload.Core package instead.
+
+Backload is a professional, full featured server side file handler for ASP.NET (MVC, Web API, ASP.NET WebForms). It handles the client side jQuery File Upload Plugin from blueimp, PlUpload from Moxiecode and Fine Uploader from Widen Enterprises out of the box, but it can be easily customized to work with any client side plugin (Example 09 on GitHub). More than 15 examples on GitHub. Cloud upload/manage feature (Release 2.5+). Continually developed and backed by the software industry.
+
+Demo package: https://github.com/blackcity/Backload/
+
+Licenses: Standard (free), Pro lite (49EUR), Pro (99EUR), Enterprise light (149EUR), Enterprise (199EUR). Enterprise license includes source code. Web: http://backload.org</description>
+        <summary>Backload is a professional, full featured server side file handler for ASP.NET (MVC, Web API, ASP.NET WebForms).
+http://backload.org</summary>
+        <releaseNotes>IMPORTANT: Migration from previous releases needs your attention! Read the migration notes on github.
+
+Whats new:
+- No external dependencies. Now Backload references only system dlls.
+- MVC 5 compatible (see demo project)
+- All files (server and client) are now in the ~/Backload folder in your project.
+- Brand new API to access most functions from your custom code 
+- 50% new or refactored internal code
+- Optimized memory usage
+- Chunked file uploads for all supported client side plugins
+- Most recent version of the supported client side plugins
+- New options in the configuration</releaseNotes>
+        <copyright>Steffen Habermehl 2015</copyright>
+        <tags>Fileupload, jQuery,ASP.NET, PlUpload, FineUploader, MVC, WebApi, WebForms, Controller, upload</tags>
+        <dependencies>
+            <dependency id="Microsoft.AspNet.Web.Optimization" version="1.1.3" />
+            <dependency id="Backload.Core" version="2.0.0.5" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="content\App_Start\Backload.BundleConfig.cs.pp" target="content\App_Start\Backload.BundleConfig.cs.pp" />
+        <file src="content\Backload\Bundles\BackloadBundles.cs" target="content\Backload\Bundles\BackloadBundles.cs" />
+        <file src="content\Backload\Logs\log.folder" target="content\Backload\Logs\log.folder" />
+        <file src="content\Backload\License.txt" target="content\Backload\License.txt" />
+        <file src="tools\Install.ps1" target="tools\Install.ps1" />
+        <file src="tools\Uninstall.ps1" target="tools\Uninstall.ps1" />
+        <file src="License.txt" target="License.txt" />
+        <file src="Release.txt" target="Release.txt" />
+    </files>
+</package>

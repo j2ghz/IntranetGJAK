@@ -1,0 +1,16 @@
+﻿<configuration>
+
+  <!-- Database used for Custom Database storage demo only -->
+  <connectionStrings>
+    <add name="FilesModel" connectionString="data source=(LocalDB)\v11.0;attachdbfilename=|DataDirectory|\db.mdf;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  
+  <system.webServer>
+ 	<!-- Classic ASPNET demo only-->
+	<handlers accessPolicy="Read,Execute,Script">
+      <remove name="SimpleHandlerFactory-Integrated" />
+      <add name="SimpleHandlerFactory-Integrated" path="FileHandler.ashx" verb="GET,POST,PUT,DELETE" type="System.Web.UI.SimpleHandlerFactory" resourceType="Unspecified" requireAccess="Script" preCondition="integratedMode" />
+    </handlers>
+  </system.webServer>
+  
+</configuration>

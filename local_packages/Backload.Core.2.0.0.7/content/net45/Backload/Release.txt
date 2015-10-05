@@ -1,0 +1,37 @@
+﻿
+What's new in release 2.0?
+
+- No external dependencies. Now Backload references only system dlls.
+- MVC 5 compatible (see demo project)
+- All files (server and client) are now in the ~/Backload folder.
+- The integrated controller is now in your project (~/Backload/Controller/BackloadController.cs)
+- The controller has a new controller path: /Backload/FileHandler
+- Brand new API to access most functions from your custom code (e.g. controller)
+- 50% new or refactored internal code
+- Optimized memory usage
+- Chunked file uploads for all supported client side plugins
+- New code to support PlUpload from MoxieCode and Fine Uploader from Widen Enterprises
+- Using the new Json field names recently introduced in JQuery File Upload Plugin (see below)
+- Most recent version of the supported client side plugins are included (~/Backload/Client)
+- New options in the configuration (more here ~/Backload/Config/_Defaults/Defaults.txt)
+
+
+
+Important migration notes:
+
+- Event handler: If you attached to events, FileUploadStatus and FileUploadStatusItem have been renamed to:
+  FileStatus and FileStatusItem in the namespace Backload.Contracts.Status. In your event handlers you must
+  change the interface names and namespaces.
+
+- Configuration: New Web.Backload.xsd schema file must be referenced in the Web.Backload.config file.
+
+- Web.config: The version of the Backload section must be set from 1.9 to 2:
+  <section name="backload" type="Backload.Configuration.BackloadSection, Backload, Version=2, ... />  
+
+- Javascript: The controller has a new path: /Backload/FileHandler.
+
+- JQuery File Upload Plugin (Views): Release 2.0 uses the new Json field names introduced recently in 
+  the Client side plugin from bluimp: e.g. delete_url -> deleteUrl, thumbnail_url -> thumbnailUrl, delete_type -> deleteType, etc.
+
+- Bundeling: New bundle naming schema (~/Backload/Bundles/BackloadBundles.cs). Example: "~/backload/blueimp/bootstrap/BasicPlusUI" 
+  for the jQuery File Upload Plugin: Basic Plus UI theme.

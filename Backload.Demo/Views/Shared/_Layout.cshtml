@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+    <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Page.Title</title>
+
+    @RenderSection("styles", required: false)
+</head>
+<body>
+<div class="container">
+    <h1>jQuery File Upload Demo</h1>
+    <h2 class="lead">@ViewBag.Title</h2>
+    <ul class="nav nav-tabs">
+        <li @((ViewBag.Title=="Basic theme") ? "class=active" : "" )><a href="/home/basic">Basic</a></li>
+        <li @((ViewBag.Title == "Basic Plus theme") ? "class=active" : "")><a href="/home/basicplus">Basic Plus</a></li>
+        <li @((ViewBag.Title == "Basic Plus UI theme") ? "class=active" : "")><a href="/home/basicplusui">Basic Plus UI</a></li>
+        <li @((ViewBag.Title == "AngularJS theme") ? "class=active" : "")><a href="/home/angularjs">AngularJS</a></li>
+        <li @((ViewBag.Title == "jQuery UI theme") ? "class=active" : "")><a href="/home/jqueryui">jQuery UI</a></li>
+    </ul>
+    <br>
+
+    @RenderBody()
+
+    <br>
+</div>
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
