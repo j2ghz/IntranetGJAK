@@ -126,8 +126,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\db.mdf" />
-    <Content Include="App_Data\db_log.ldf" />
     <Content Include="Backload\Client\blueimp\blob\js\canvas-to-blob.min.js" />
     <Content Include="Backload\Client\blueimp\fileupload\cors\postmessage.html" />
     <Content Include="Backload\Client\blueimp\fileupload\cors\result.html" />
@@ -507,7 +505,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
