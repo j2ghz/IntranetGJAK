@@ -17,5 +17,13 @@ namespace UnitTests
             Assert.IsTrue(result.RouteValues.ContainsKey("action"));
             Assert.AreEqual("BasicPlusUI", result.RouteValues["action"]);
         }
+
+        [TestMethod]
+        public void BasicPlusUI()
+        {
+            HomeController controller = new HomeController();
+            var result = controller.BasicPlusUI() as ViewResult;
+            Assert.IsNotNull(result);
+        }
     }
 }
