@@ -17,8 +17,13 @@ install:
 - cmd: nuget restore
 build:
   project: Backload.Demo.sln
+  publish_wap: true
   parallel: true
   verbosity: minimal
 artifacts:
 - path: Backload.Demo\bin
-deploy: off
+deploy:
+- provider: Environment
+  name: VOSTRO470
+  on:
+    branch: master
