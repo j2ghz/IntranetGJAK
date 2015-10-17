@@ -1,6 +1,7 @@
 ﻿using Backload.Demo.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
 using System.Web.Mvc;
 
 namespace UnitTests
@@ -9,11 +10,12 @@ namespace UnitTests
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void IndexRedirect()
         {
-            var controller = new HomeController();
-            var result = controller.Index() as ViewResult;
-            Assert.AreEqual("Details", result.ViewName);
+            HomeController controller = new HomeController();
+            var result = controller.Index() as RedirectToRouteResult;
+            Assert.IsTrue(result.RouteValues.ContainsKey("action"));
+            Assert.AreEqual("BasicPlusUI", result.RouteValues["action"]);
         }
     }
 }
