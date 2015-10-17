@@ -113,6 +113,7 @@ cache:
 install:
   # by default, all script lines are interpreted as batch
   - nuget restore
+  - type NUL > Backload.Demo\App_Data\db.mdf
   # to run script as a PowerShell command prepend it with ps:
 #  - ps: Write-Host 'This is PowerShell'
   # batch commands start from cmd:
