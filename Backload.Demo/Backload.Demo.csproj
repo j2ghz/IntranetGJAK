@@ -351,9 +351,7 @@
     <Content Include="Backload\ContentTypes\96\Word.png" />
     <Content Include="Backload\License.txt" />
     <Content Include="Backload\Release.txt" />
-    <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\demo.jqueryui.styles.css" />
     <Content Include="Content\demo.styles.css" />
@@ -396,8 +394,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <Content Include="Other\ASPNET\ClassicASPXDemo.aspx" />
     <Content Include="Other\HTML\ClassicHTMLDemo.html" />
     <Content Include="Other\WebApi\WebApiDemo.aspx" />
@@ -498,6 +494,7 @@
     <Content Include="Views\Home\Basic.cshtml" />
     <Content Include="Views\Home\AngularJS.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <None Include="Properties\PublishProfiles\1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
