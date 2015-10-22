@@ -23,14 +23,13 @@ $(function () {
     $('#fileupload').fileupload({
         url: url,
         maxChunkSize: 10000000,                                          // Optional: file chunking with 10MB chunks
-        acceptFileTypes: /(jpg)|(jpeg)|(png)|(gif)|(pdf)$/i              // Allowed file types
+        acceptFileTypes: /(.*)$/i,              // Allowed file types
+        autoUpload: true
     })
     .bind('fileuploadsubmit', function (e, data) {
         // Optional: We add a random uuid form parameter. On chunk uploads the uuid is used to store the chunks.
         data.formData = { uuid: Math.random().toString(36).substr(2, 8) };
     });
-
-
 
     // Load existing files:
     $('#fileupload').addClass('fileupload-processing');
