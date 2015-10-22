@@ -212,4 +212,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
-/bower_components
+bower_components
+/Backload.Demo
