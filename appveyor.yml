@@ -15,6 +15,7 @@ assembly_info:
   assembly_informational_version: '{version}'
 install:
 - cmd: nuget restore
+- cmd: npm install bower -g
 - cmd: bower update
 build:
   project: Backload.Demo.sln
