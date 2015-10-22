@@ -1,0 +1,24 @@
+{
+  "name": "IntranetGJAK",
+  "homepage": "https://github.com/j2ghz/IntranetGJAK",
+  "authors": [
+    "J2ghz <j2.00ghz@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "~1.0.7"
+  }
+}
