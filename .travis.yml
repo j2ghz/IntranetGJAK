@@ -4,4 +4,5 @@ install:
   - kvm upgrade
   - kpm restore --no-cache
 script:
+  - cd UnitTests/
   - k test -parallel none
