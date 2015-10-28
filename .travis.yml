@@ -1,12 +1,9 @@
 language: CSharp
-solution: IntranetGJAK.sln
 install:
   - curl -sSL https://raw.githubusercontent.com/aspnet/Home/master/kvminstall.sh | sh && source ~/.k/kvm/kvm.sh
   - kvm upgrade
   - kpm restore --no-cache
-  - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
-  - dnvm upgrade -r mono
 script:
-  - xbuild /p:Configuration=Release IntranetGJAK.sln
   - cd UnitTests/
   - k test -parallel none
+  - kpm bundle --overwrite --quiet
