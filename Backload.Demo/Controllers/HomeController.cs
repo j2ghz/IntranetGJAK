@@ -1,114 +1,35 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Mvc;
 
-namespace Backload.Demo.Controllers
+namespace IntranetGJAK.Controllers
 {
-    using System.IO;
-
     public class HomeController : Controller
     {
-        // Start view
-        public ActionResult Index()
-        {
-            //return RedirectToAction("BasicPlusUI");
-            return View();
-        }
-
-        //#region jQuery File Upload Plugin
-
-        //// Basic theme (Bootstrap)
-        //public ActionResult Basic()
-        //{
-        //    return View();
-        //}
-
-        ////Basic Plus theme (Bootstrap)
-        //public ActionResult BasicPlus()
-        //{
-        //    return View();
-        //}
-
-        // Basic Plus UI theme (Bootstrap)
-        public ActionResult BasicPlusUI()
+        public IActionResult Index()
         {
             return View();
         }
 
-        //// AngularJS theme
-        //public ActionResult AngularJS()
-        //{
-        //    return View();
-        //}
+        public IActionResult About()
+        {
+            ViewData["Message"] = "Your application description page.";
 
-        //// jQuery UI theme
-        //public ActionResult JQueryUI()
-        //{
-        //    return View();
-        //}
+            return View();
+        }
 
-        //#endregion jQuery File Upload Plugin
+        public IActionResult Contact()
+        {
+            ViewData["Message"] = "Your contact page.";
 
-        //#region PlUpload
+            return View();
+        }
 
-        //// Moxiecode PlUpload plugin simple demo
-        //public ActionResult PlUploadSimple()
-        //{
-        //    return View();
-        //}
-
-        //// Moxiecode PlUpload plugin ui demo
-        //public ActionResult PlUploadUI()
-        //{
-        //    return View();
-        //}
-
-        //#endregion PlUpload
-
-        //#region Fine Uploader
-
-        //// Fine Uploader default demo
-        //public ActionResult FineUploaderDefault()
-        //{
-        //    return View();
-        //}
-
-        //// Fine Uploader gallery demo
-        //public ActionResult FineUploaderGallery()
-        //{
-        //    return View();
-        //}
-
-        //// Fine Uploader simple thumbnails demo
-        //public ActionResult FineUploaderSimple()
-        //{
-        //    return View();
-        //}
-
-        //#endregion Fine Uploader
-
-        //#region Custom controller
-
-        //// Custom controller with events demo
-        //public ActionResult CustomEvents()
-        //{
-        //    return View();
-        //}
-
-        //// Custom controller with basic API method calls
-        //public ActionResult CustomAPI()
-        //{
-        //    return View();
-        //}
-
-        //// Custom controller with database storage demo
-        //public ActionResult CustomDB()
-        //{
-        //    return View();
-        //}
-
-        //#endregion Custom controller
+        public IActionResult Error()
+        {
+            return View("~/Views/Shared/Error.cshtml");
+        }
     }
 }
