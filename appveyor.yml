@@ -1,0 +1,22 @@
+version: 0.1.{build}
+branches:
+  except:
+  - gh-pages
+os: Visual Studio 2015
+configuration:
+- Debug
+- Release
+platform: Any CPU
+shallow_clone: true
+build:
+  project: Backload.Demo.sln
+  publish_wap: true
+  parallel: true
+  verbosity: minimal
+artifacts:
+- path: '*'
+deploy:
+- provider: Environment
+  name: VOSTRO470
+  on:
+    branch: master
