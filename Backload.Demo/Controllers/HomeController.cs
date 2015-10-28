@@ -13,7 +13,8 @@ namespace Backload.Demo.Controllers
         // Start view
         public ActionResult Index()
         {
-            return RedirectToAction("BasicPlusUI");
+            //return RedirectToAction("BasicPlusUI");
+            return View();
         }
 
         //#region jQuery File Upload Plugin

@@ -15,19 +15,10 @@ namespace UnitTests
     public class UnitTest1
     {
         [TestMethod]
-        public void IndexRedirect()
-        {
-            HomeController controller = new HomeController();
-            var result = controller.Index() as RedirectToRouteResult;
-            Assert.IsTrue(result.RouteValues.ContainsKey("action"));
-            Assert.AreEqual("BasicPlusUI", result.RouteValues["action"]);
-        }
-
-        [TestMethod]
         public void BasicPlusUI()
         {
             HomeController controller = new HomeController();
-            var result = controller.BasicPlusUI() as ViewResult;
+            var result = controller.Index() as ViewResult;
             Assert.IsNotNull(result);
         }
 
