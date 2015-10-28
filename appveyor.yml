@@ -9,7 +9,7 @@ configuration:
 platform: Any CPU
 shallow_clone: true
 build:
-  project: Backload.Demo.sln
+  project: IntranetGJAK.sln
   publish_wap: true
   parallel: true
   verbosity: minimal
