@@ -1,4 +1,5 @@
 language: CSharp
+solution: IntranetGJAK.sln
 install:
   - curl -sSL https://raw.githubusercontent.com/aspnet/Home/master/kvminstall.sh | sh && source ~/.k/kvm/kvm.sh
   - kvm upgrade
