@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IntranetGJAK", "Backload.Demo\IntranetGJAK.xproj", "{F70CDBE6-4086-49DC-A9DA-D4743715A449}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IntranetGJAK", "IntranetGJAK\IntranetGJAK.xproj", "{F70CDBE6-4086-49DC-A9DA-D4743715A449}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{64E716FF-297B-4D88-9048-61C615B90CF8}"
 EndProject
