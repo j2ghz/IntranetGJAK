@@ -22,7 +22,7 @@ build:
 test_script:
 - cmd: dnx -p UnitTests/ test
 artifacts:
-- path: '*'
+- path: '**/*'
 deploy:
 - provider: Environment
   name: VOSTRO470
