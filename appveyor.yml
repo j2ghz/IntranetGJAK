@@ -8,6 +8,8 @@ configuration:
 - Release
 platform: Any CPU
 shallow_clone: true
+before_build:
+- cmd: dnvm upgrade
 build:
   project: IntranetGJAK.sln
   publish_wap: true
