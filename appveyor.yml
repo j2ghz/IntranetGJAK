@@ -13,6 +13,7 @@ environment:
 before_build:
 - cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 - cmd: dnvm upgrade
+- cmd: dnu restore
 build:
   project: IntranetGJAK.sln
   publish_wap: true
