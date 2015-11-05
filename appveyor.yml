@@ -20,7 +20,7 @@ build:
   parallel: true
   verbosity: minimal
 test_script:
-- cmd: dnx test -p /UnitTests test
+- cmd: dnx -p UnitTests/ test
 artifacts:
 - path: '*'
 deploy:
