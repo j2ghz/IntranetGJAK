@@ -3,8 +3,7 @@ language: csharp
 services:
  - docker
 install:
- - export OLD=microsoft/aspnet:latest
- - sed 's-$OLD-$ASPNET_VERSION-g' Dockerfile > Dockerfile
+ - sed "s/'microsoft/aspnet:latest'/$ASPNET_VERSION/" Dockerfile > Dockerfile
  - cat Dockerfile
  - docker build -t intranetgjak .
 script:
