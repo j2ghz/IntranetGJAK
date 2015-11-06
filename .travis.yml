@@ -3,6 +3,7 @@ language: csharp
 services:
  - docker
 install:
+ - sed -i 's/microsoft\/aspnet\:latest/${ASPNET_VERSION}/g' Dockerfile
  - docker build -t intranetgjak .
 script:
  - docker run -t -d -p 8080:5000 intranetgjak
