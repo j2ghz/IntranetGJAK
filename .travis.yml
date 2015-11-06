@@ -8,6 +8,6 @@ script:
  - docker run -t -d -p 8080:5000 intranetgjak
 env:
  matrix:
-  - ASPNET_VERSION=latest
-  - ASPNET_VERSION=1.0.0-beta8-coreclr
-  - ASPNET_VERSION=1.0.0-beta8
+  - ASPNET_VERSION=microsoft/aspnet:latest
+  - ASPNET_VERSION=microsoft/aspnet:1.0.0-beta8-coreclr
+  - ASPNET_VERSION=microsoft/aspnet:1.0.0-beta8
