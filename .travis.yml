@@ -1,6 +1,5 @@
-language: CSharp
 services:
  - docker
 script:
- - docker build -t yourapplication .
- - docker run -t -d -p 8080:5000 yourapplication
+ - docker build -t IntranetGJAK .
+ - docker run -t -d -p 8080:5000 IntranetGJAK
