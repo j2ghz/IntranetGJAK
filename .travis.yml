@@ -5,7 +5,7 @@ services:
 install:
  - echo ${ASPNET_VERSION}
  - export VER=s\|microsoft/aspnet:latest\|${ASPNET_VERSION}\|g
- - export a='
+ - export a=\'
  - sed -i $a$VER$a Dockerfile
  - cat Dockerfile
  - docker build -t intranetgjak .
