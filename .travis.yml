@@ -3,7 +3,7 @@ language: csharp
 services:
  - docker
 install:
- - docker build -t intranetgjak .
+ - docker build -v -t intranetgjak .
 script:
  - docker run -t -d -p 8080:5000 intranetgjak
 env:
