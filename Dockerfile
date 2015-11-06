@@ -1,6 +1,6 @@
 # Base of your container
 FROM microsoft/aspnet:latest
-
+RUN ["ls"]
 # Copy the project into folder and then restore packages
 COPY . /app
 WORKDIR /app

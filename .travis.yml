@@ -1,5 +1,5 @@
 services:
  - docker
 script:
- - docker build -t IntranetGJAK .
- - docker run -t -d -p 8080:5000 IntranetGJAK
+ - docker build -t intranetgjak .
+ - docker run -t -d -p 8080:5000 intranetgjak
