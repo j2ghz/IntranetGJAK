@@ -1,8 +1,10 @@
-sudo: false
+language: csharp
+#sudo: false
 services:
  - docker
-script:
+install:
  - docker build -t intranetgjak .
+script:
  - docker run -t -d -p 8080:5000 intranetgjak
 env:
  matrix:
