@@ -4,7 +4,7 @@ services:
  - docker
 install:
  - echo ${ASPNET_VERSION}
- - export VER=s|microsoft/aspnet:latest|${ASPNET_VERSION}|g
+ - export VER=s\|microsoft/aspnet:latest\|${ASPNET_VERSION}\|g
  - export a='
  - sed -i $a$VER$a Dockerfile
  - cat Dockerfile
