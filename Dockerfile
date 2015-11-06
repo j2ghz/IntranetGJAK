@@ -1,5 +1,5 @@
 # Base of your container
-FROM microsoft/aspnet:$ASPNET_VERSION
+FROM microsoft/aspnet:${ASPNET_VERSION}
 
 # Copy the project into folder and then restore packages
 COPY . /app
