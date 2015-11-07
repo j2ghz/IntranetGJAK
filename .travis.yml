@@ -13,3 +13,7 @@ env:
   - ASPNET_VERSION='microsoft/aspnet:latest'
   - ASPNET_VERSION='microsoft/aspnet:1.0.0-beta8-coreclr'
   - ASPNET_VERSION='microsoft/aspnet:1.0.0-beta8'
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov
