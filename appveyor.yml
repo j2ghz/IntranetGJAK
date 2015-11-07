@@ -19,8 +19,6 @@ build:
   publish_wap: true
   parallel: true
   verbosity: minimal
-after_build:
-- cmd: dnx -p project.json web
 test_script:
 - cmd: dnx -p UnitTests/ test
 artifacts:
