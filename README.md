@@ -1,6 +1,7 @@
 # IntranetGJAK
 
-| OS | Build | Download |
+##Master build status:
+| OS | CI | Download |
 | ------------- |:-------------:|:-----:|
-| Windows | [![AppVeyor branch](https://img.shields.io/appveyor/ci/j2ghz/intranetgjak/master.svg)](https://ci.appveyor.com/project/j2ghz/intranetgjak) | - |
-| Linux | [![Travis branch](https://img.shields.io/travis/j2ghz/IntranetGJAK/master.svg)](https://travis-ci.org/j2ghz/IntranetGJAK) | - |
+| Windows (build & test) | [![AppVeyor branch](https://img.shields.io/appveyor/ci/j2ghz/intranetgjak/master.svg)](https://ci.appveyor.com/project/j2ghz/intranetgjak) | - |
+| Linux (build & run) | [![Travis branch](https://img.shields.io/travis/j2ghz/IntranetGJAK/master.svg)](https://travis-ci.org/j2ghz/IntranetGJAK) | - |
