@@ -1,4 +1,4 @@
-﻿{
+{
   "webroot": "wwwroot",
   "userSecretsId": "aspnet5-IntranetGJAK-1f7bf89b-6f57-4c7a-8d25-053413fabb69",
   "version": "1.0.0-*",
@@ -36,7 +36,11 @@
 
   "frameworks": {
     "dnx451": { },
-    "dnxcore50": { }
+    "dnxcore50": {
+      "dependencies": {
+        "System.Private.DataContractSerialization": "4.0.1-beta-23409"
+      }
+    }
   },
 
   "exclude": [
