@@ -7,11 +7,13 @@
 | Linux (build & run) | [![Travis branch](https://img.shields.io/travis/j2ghz/IntranetGJAK/master.svg)](https://travis-ci.org/j2ghz/IntranetGJAK) | - |
 
 # Linux
-- Intall Docker
+- Intall Docker https://www.docker.com/
 - Clone repo
 - `docker build -t intranetgjak .`
 - `docker run -t -d -p <port>:5000 intranetgjak`
+
 # Windows (with VS 2015)
 - open in VS 2015
+
 # Windows (other)
 - WIP
