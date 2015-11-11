@@ -96,10 +96,10 @@ namespace IntranetGJAK.Controllers
 
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
         //Credit to i-e-b and his ASP.Net uploader for the bulk of the upload helper methods - https://github.com/i-e-b/jQueryFileUpload.Net
-        private void UploadPartialFile(string fileName, HttpRequestBase request, List<ViewDataUploadFilesResult> statuses)
+        private void UploadPartialFile(string fileName, HttpRequest request, List<ViewDataUploadFilesResult> statuses)
         {
-            if (request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
-            var file = request.Files[0];
+            if (request.Form.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
+            var file = request.Form.Files[0];
             var inputStream = file.InputStream;
 
             var fullName = Path.Combine(StorageRoot, Path.GetFileName(fileName));
@@ -131,11 +131,11 @@ namespace IntranetGJAK.Controllers
 
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
         //Credit to i-e-b and his ASP.Net uploader for the bulk of the upload helper methods - https://github.com/i-e-b/jQueryFileUpload.Net
-        private void UploadWholeFile(HttpRequestBase request, List<ViewDataUploadFilesResult> statuses)
+        private void UploadWholeFile(HttpRequest request, List<ViewDataUploadFilesResult> statuses)
         {
-            for (int i = 0; i < request.Files.Count; i++)
+            for (int i = 0; i < request.Form.Files.Count; i++)
             {
-                var file = request.Files[i];
+                var file = request.Form.Files[i];
 
                 var fullPath = Path.Combine(StorageRoot, Path.GetFileName(file.FileName));
 
