@@ -10,37 +10,50 @@ using System.Threading.Tasks;
 
 namespace IntranetGJAK.Controllers
 {
-    public class UploadHandler : Controller
+    public class Files : Controller
     {
         private IApplicationEnvironment _hostingEnvironment;
 
-        public UploadHandler(IApplicationEnvironment hostingEnvironment)
+        public Files(IApplicationEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
-        }
-
-        public IActionResult test()
-        {
-            return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(IList<IFormFile> files)
         {
+            List<ViewDataUploadFilesResult> data = new List<ViewDataUploadFilesResult>();
             foreach (var file in files)
             {
-                var fileName = ContentDispositionHeaderValue
-                    .Parse(file.ContentDisposition)
-                    .FileName
-                    .Trim('"');// FileName returns "fileName.ext"(with double quotes) in beta 3
-
-                if (true)//fileName.EndsWith(".txt"))// Important for security if saving in webroot
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "\\wwwroot\\Uploads\\" + fileName);
+                await file.SaveAsAsync(filePath);
+                var fileresult = new ViewDataUploadFilesResult()
                 {
-                    var filePath = _hostingEnvironment.ApplicationBasePath + "\\wwwroot\\" + fileName;
-                    await file.SaveAsAsync(filePath);
-                }
+                    name = fileName,
+                    size = file.Length,
+                    url = "/Files/" + fileName
+                };
+                data.Add(fileresult);
             }
-            return RedirectToAction("Index", "Home");
+
+            return Json(data);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Index(string filename)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ViewDataUploadFilesResult
+    {
+        public string name { get; set; }
+        public long size { get; set; }
+        public string url { get; set; }
+        public string thumbnail_url { get; set; }
+        public string delete_url { get; set; }
+        public string delete_type { get; set; }
     }
 }
