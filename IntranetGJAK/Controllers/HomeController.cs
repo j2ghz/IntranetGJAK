@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Mvc;
+using Microsoft.Dnx.Runtime;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
