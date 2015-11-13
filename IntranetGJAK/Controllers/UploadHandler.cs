@@ -20,23 +20,29 @@ namespace IntranetGJAK.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(IList<IFormFile> files)
+        public async Task<IActionResult> Index()
         {
-            List<ViewDataUploadFilesResult> data = new List<ViewDataUploadFilesResult>();
-            foreach (var file in files)
+            Console.Write(DateTime.Now);
+            Console.WriteLine(Request.Form.Files.Count);
+            List<ViewDataUploadFilesResult> files = new List<ViewDataUploadFilesResult>();
+            foreach (var file in Request.Form.Files)
             {
-                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
-                var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "\\wwwroot\\Uploads\\" + fileName);
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", fileName);
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 await file.SaveAsAsync(filePath);
                 var fileresult = new ViewDataUploadFilesResult()
                 {
                     name = fileName,
                     size = file.Length,
-                    url = "/Files/" + fileName
+                    url = "/Uploads/" + fileName
                 };
-                data.Add(fileresult);
+                files.Add(fileresult);
+                Console.Write(DateTime.Now);
+                Console.WriteLine(fileName);
             }
-
+            ReturnData data = new ReturnData();
+            data.files = files;
             return Json(data);
         }
 
@@ -45,6 +51,11 @@ namespace IntranetGJAK.Controllers
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class ReturnData
+    {
+        public IList<ViewDataUploadFilesResult> files { get; set; }
     }
 
     public class ViewDataUploadFilesResult
