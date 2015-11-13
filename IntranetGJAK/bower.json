@@ -8,6 +8,11 @@
     "jquery": "2.1.4",
     "jquery-validation": "1.11.1",
     "jquery-validation-unobtrusive": "3.2.2",
-    "blueimp-file-upload": "jquery-file-upload#~9.11.2"
+    "blueimp-file-upload": "jquery-file-upload#~9.11.2",
+    "blueimp-gallery": "~2.16.0",
+    "blueimp-canvas-to-blob": "~2.2.0",
+    "blueimp-load-image": "~1.14.0",
+    "blueimp-tmpl": "~2.5.5",
+    "jquery-ui": "~1.11.4"
   }
 }

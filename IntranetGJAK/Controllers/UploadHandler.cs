@@ -67,7 +67,7 @@ namespace IntranetGJAK.Controllers
         [HttpDelete]
         public async Task<IActionResult> Index(string name)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         [HttpGet]
