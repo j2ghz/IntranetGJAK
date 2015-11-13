@@ -22,6 +22,7 @@ namespace IntranetGJAK.Controllers
         [HttpPost]
         public async Task<IActionResult> Index()
         {
+            System.Diagnostics.Debug.WriteLine("File upload processing complete");
             List<IReturnData> files = new List<IReturnData>();
             foreach (var file in Request.Form.Files)
             {
@@ -53,15 +54,14 @@ namespace IntranetGJAK.Controllers
                 }
                 finally
                 {
+                    System.Diagnostics.Debug.WriteLine(fileresult.name + " - " + fileresult.size);
                     files.Add(fileresult);
                 }
             }
             ReturnData data = new ReturnData();
             data.files = files;
-            if (data.files.Count > 0)
-                return Json(data);
-            else
-                return View();
+            System.Diagnostics.Debug.WriteLine("File upload processing complete");
+            return Json(data);
         }
 
         [HttpDelete]
@@ -74,6 +74,7 @@ namespace IntranetGJAK.Controllers
         [ActionName("Index")]
         public async Task<IActionResult> ListFiles()
         {
+            System.Diagnostics.Debug.WriteLine("Listing files");
             List<IReturnData> files = new List<IReturnData>();
             foreach (string filepath in Directory.EnumerateFiles(Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads")))
             {
@@ -101,11 +102,13 @@ namespace IntranetGJAK.Controllers
                 }
                 finally
                 {
+                    System.Diagnostics.Debug.WriteLine(fileresult.name + " - " + fileresult.size);
                     files.Add(fileresult);
                 }
             }
             ReturnData data = new ReturnData();
             data.files = files;
+            System.Diagnostics.Debug.WriteLine("File listing complete");
             return Json(data);
         }
     }
@@ -129,6 +132,7 @@ namespace IntranetGJAK.Controllers
     {
         public string name { get; set; }
         public long size { get; set; }
+
         public string error { get; set; }
     }
 
