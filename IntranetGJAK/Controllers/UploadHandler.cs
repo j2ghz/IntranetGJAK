@@ -40,8 +40,8 @@ namespace IntranetGJAK.Controllers
 
                     fileresult.url = "/Uploads/" + fileName;
                     fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(filePath);
-                    fileresult.delete_url = "/?name=" + fileName;
-                    fileresult.delete_type = "DELETE";
+                    fileresult.deleteUrl = "/?name=" + fileName;
+                    fileresult.deleteType = "DELETE";
                 }
                 catch (Exception ex)
                 {
@@ -87,8 +87,8 @@ namespace IntranetGJAK.Controllers
 
                     fileresult.url = "/Uploads/" + file.Name;
                     fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(filepath);
-                    fileresult.delete_url = "/?name=" + file.Name;
-                    fileresult.delete_type = "DELETE";
+                    fileresult.deleteUrl = "/?name=" + file.Name;
+                    fileresult.deleteType = "DELETE";
                 }
                 catch (Exception ex)
                 {
@@ -124,8 +124,8 @@ namespace IntranetGJAK.Controllers
         public long size { get; set; }
         public string url { get; set; }
         public string thumbnail_url { get; set; }
-        public string delete_url { get; set; }
-        public string delete_type { get; set; }
+        public string deleteUrl { get; set; }
+        public string deleteType { get; set; }
     }
 
     public class ViewDataUploadError : IReturnData
