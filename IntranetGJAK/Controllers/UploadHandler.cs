@@ -58,7 +58,10 @@ namespace IntranetGJAK.Controllers
             }
             ReturnData data = new ReturnData();
             data.files = files;
-            return Json(data);
+            if (data.files.Count > 0)
+                return Json(data);
+            else
+                return View();
         }
 
         [HttpDelete]
