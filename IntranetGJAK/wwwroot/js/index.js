@@ -22,15 +22,15 @@ $(function () {
         type: 'POST'
     });
 
-    // Enable iframe cross-domain access via redirect option:
-    $('#fileupload').fileupload(
-        'option',
-        'redirect',
-        window.location.href.replace(
-            /\/[^\/]*$/,
-            '/cors/result.html?%s'
-        )
-    );
+    // FIXME TODO Enable iframe cross-domain access via redirect option:
+    //$('#fileupload').fileupload(
+    //    'option',
+    //    'redirect',
+    //    window.location.href.replace(
+    //        /\/[^\/]*$/,
+    //        '/cors/result.html?%s'
+    //    )
+    //);
 
     // Load existing files:
     $('#fileupload').addClass('fileupload-processing');

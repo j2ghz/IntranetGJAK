@@ -69,6 +69,45 @@ namespace IntranetGJAK.Controllers
         {
             return null;
         }
+
+        [HttpGet]
+        [ActionName("Index")]
+        public async Task<IActionResult> ListFiles()
+        {
+            List<IReturnData> files = new List<IReturnData>();
+            foreach (string filepath in Directory.EnumerateFiles(Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads")))
+            {
+                var fileresult = new ViewDataUploadFilesResult();
+                try
+                {
+                    FileInfo file = new FileInfo(filepath);
+                    fileresult.name = file.Name;
+                    fileresult.size = file.Length;
+
+                    fileresult.url = "/Uploads/" + file.Name;
+                    fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(filepath);
+                    fileresult.delete_url = "/?name=" + file.Name;
+                    fileresult.delete_type = "DELETE";
+                }
+                catch (Exception ex)
+                {
+                    FileInfo file = new FileInfo(filepath);
+                    ViewDataUploadError error = new ViewDataUploadError()
+                    {
+                        name = file.Name,
+                        size = file.Length,
+                        error = ex.ToString()
+                    };
+                }
+                finally
+                {
+                    files.Add(fileresult);
+                }
+            }
+            ReturnData data = new ReturnData();
+            data.files = files;
+            return Json(data);
+        }
     }
 
     public class ReturnData
