@@ -36,12 +36,15 @@ namespace IntranetGJAK.Controllers
 
                     var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", fileName);
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
                     await file.SaveAsAsync(filePath);
 
                     fileresult.url = "/Uploads/" + fileName;
-                    fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(filePath);
-                    fileresult.deleteUrl = "/?name=" + fileName;
+                    fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(fileName);
+                    fileresult.deleteUrl = "/Files/Index/?name=" + fileName;
                     fileresult.deleteType = "DELETE";
+
+                    files.Add(fileresult);
                 }
                 catch (Exception ex)
                 {
@@ -51,11 +54,11 @@ namespace IntranetGJAK.Controllers
                         size = file.Length,
                         error = ex.ToString()
                     };
+                    files.Add(error);
                 }
                 finally
                 {
                     System.Diagnostics.Debug.WriteLine(fileresult.name + " - " + fileresult.size);
-                    files.Add(fileresult);
                 }
             }
             ReturnData data = new ReturnData();
@@ -67,7 +70,22 @@ namespace IntranetGJAK.Controllers
         [HttpDelete]
         public async Task<IActionResult> Index(string name)
         {
-            throw new NotImplementedException();
+            ReturnDeleteData data = new ReturnDeleteData();
+            data.files = new Dictionary<string, bool>();
+            try
+            {
+                FileInfo file = new FileInfo(Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", name));
+                if (file.Exists == true)
+                    file.Delete();
+                if (file.Exists == false)
+                    throw new Exception("File not deleted!");
+                data.files.Add(name, true);
+            }
+            catch
+            {
+                data.files.Add(name, false);
+            }
+            return Json(data);
         }
 
         [HttpGet]
@@ -87,7 +105,7 @@ namespace IntranetGJAK.Controllers
 
                     fileresult.url = "/Uploads/" + file.Name;
                     fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(filepath);
-                    fileresult.deleteUrl = "/?name=" + file.Name;
+                    fileresult.deleteUrl = "/Files/Index/?name=" + file.Name;
                     fileresult.deleteType = "DELETE";
                 }
                 catch (Exception ex)
@@ -111,6 +129,11 @@ namespace IntranetGJAK.Controllers
             System.Diagnostics.Debug.WriteLine("File listing complete");
             return Json(data);
         }
+    }
+
+    public class ReturnDeleteData
+    {
+        public Dictionary<string, bool> files;
     }
 
     public class ReturnData
