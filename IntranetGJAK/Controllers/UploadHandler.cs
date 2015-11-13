@@ -22,8 +22,6 @@ namespace IntranetGJAK.Controllers
         [HttpPost]
         public async Task<IActionResult> Index()
         {
-            Console.Write(DateTime.Now);
-            Console.WriteLine(Request.Form.Files.Count);
             List<ViewDataUploadFilesResult> files = new List<ViewDataUploadFilesResult>();
             foreach (var file in Request.Form.Files)
             {
@@ -35,11 +33,12 @@ namespace IntranetGJAK.Controllers
                 {
                     name = fileName,
                     size = file.Length,
-                    url = "/Uploads/" + fileName
+                    url = "/Uploads/" + fileName,
+                    thumbnail_url = Tools.Thumbnails.GetThumbnail(filePath),
+                    delete_url = "/?name=" + fileName,
+                    delete_type = "DELETE"
                 };
                 files.Add(fileresult);
-                Console.Write(DateTime.Now);
-                Console.WriteLine(fileName);
             }
             ReturnData data = new ReturnData();
             data.files = files;
@@ -47,9 +46,9 @@ namespace IntranetGJAK.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Index(string filename)
+        public async Task<IActionResult> Index(string name)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 

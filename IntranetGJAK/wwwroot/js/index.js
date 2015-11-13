@@ -24,8 +24,8 @@ $(function () {
     $('#fileupload').fileupload({
         url: 'Files/Index',
         dataType: 'json',
-        autoUpload: true,
-        acceptFileTypes: /(\.|\/)(\w*)$/i,
+        autoUpload: false,
+        //acceptFileTypes: /(\.|\/)(\w*)$/i,
         //maxFileSize: 999000,
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to
