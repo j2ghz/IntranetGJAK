@@ -22,23 +22,39 @@ namespace IntranetGJAK.Controllers
         [HttpPost]
         public async Task<IActionResult> Index()
         {
-            List<ViewDataUploadFilesResult> files = new List<ViewDataUploadFilesResult>();
+            List<IReturnData> files = new List<IReturnData>();
             foreach (var file in Request.Form.Files)
             {
-                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", fileName);
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-                await file.SaveAsAsync(filePath);
-                var fileresult = new ViewDataUploadFilesResult()
+                var fileresult = new ViewDataUploadFilesResult();
+
+                try
                 {
-                    name = fileName,
-                    size = file.Length,
-                    url = "/Uploads/" + fileName,
-                    thumbnail_url = Tools.Thumbnails.GetThumbnail(filePath),
-                    delete_url = "/?name=" + fileName,
-                    delete_type = "DELETE"
-                };
-                files.Add(fileresult);
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    fileresult.name = fileName;
+                    fileresult.size = file.Length;
+
+                    var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", fileName);
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                    await file.SaveAsAsync(filePath);
+
+                    fileresult.url = "/Uploads/" + fileName;
+                    fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(filePath);
+                    fileresult.delete_url = "/?name=" + fileName;
+                    fileresult.delete_type = "DELETE";
+                }
+                catch (Exception ex)
+                {
+                    ViewDataUploadError error = new ViewDataUploadError()
+                    {
+                        name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"'),
+                        size = file.Length,
+                        error = ex.ToString()
+                    };
+                }
+                finally
+                {
+                    files.Add(fileresult);
+                }
             }
             ReturnData data = new ReturnData();
             data.files = files;
@@ -54,10 +70,10 @@ namespace IntranetGJAK.Controllers
 
     public class ReturnData
     {
-        public IList<ViewDataUploadFilesResult> files { get; set; }
+        public IList<IReturnData> files { get; set; }
     }
 
-    public class ViewDataUploadFilesResult
+    public class ViewDataUploadFilesResult : IReturnData
     {
         public string name { get; set; }
         public long size { get; set; }
@@ -65,5 +81,18 @@ namespace IntranetGJAK.Controllers
         public string thumbnail_url { get; set; }
         public string delete_url { get; set; }
         public string delete_type { get; set; }
+    }
+
+    public class ViewDataUploadError : IReturnData
+    {
+        public string name { get; set; }
+        public long size { get; set; }
+        public string error { get; set; }
+    }
+
+    public interface IReturnData
+    {
+        string name { get; set; }
+        long size { get; set; }
     }
 }
