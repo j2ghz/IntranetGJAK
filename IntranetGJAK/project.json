@@ -58,6 +58,6 @@
   ],
   "scripts": {
     "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ],
-    "postrestore": [ "npm install", "bower install" ]
+    "postrestore": [ "npm install", "npm install bower -g" , "bower install" ]
   }
 }

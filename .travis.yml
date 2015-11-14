@@ -1,4 +1,4 @@
-language: csharp
+language: nodejs
 #sudo: false
 services:
  - docker
