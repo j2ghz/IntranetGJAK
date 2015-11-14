@@ -24,7 +24,7 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
-            Assert.NotNull((new Files(null)).Index()); //moq
+            Assert.NotNull((new Files(null)).List()); //moq
         }
     }
 }

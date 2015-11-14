@@ -24,9 +24,12 @@ namespace IntranetGJAK.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index()
+        [ActionName("Index")]
+        public async Task<IActionResult> Upload()
         {
-            Log.Information("Starting file upload processing from {@source}, number of files attached: {@filesAttached}", Request.Host.ToString(), Request.Form.Files.Count);
+            var log = Log.ForContext("ACtion", "Upload");
+            log.Information("Starting file upload processing from {@source}, number of files attached: {@filesAttached}", Request.Host.ToString(), Request.Form.Files.Count);
+
             List<IReturnData> files = new List<IReturnData>();
             foreach (var file in Request.Form.Files)
             {
@@ -60,12 +63,12 @@ namespace IntranetGJAK.Controllers
                         size = file.Length,
                         error = ex.ToString()
                     };
-                    Log.Warning("Processing error: {@Exception}", ex);
+                    log.Warning("Processing error: {@Exception}", ex);
                     files.Add(error);
                 }
                 finally
                 {
-                    Log.Information("Processed file: {@fileName} {@fileSize}", fileresult.name, Formatting.FormatBytes(fileresult.size));
+                    log.Information("Processed file: {@fileName} {@fileSize}", fileresult.name, Formatting.FormatBytes(fileresult.size));
                 }
             }
             ReturnData data = new ReturnData();
@@ -76,7 +79,8 @@ namespace IntranetGJAK.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Index(string name)
+        [ActionName("Index")]
+        public async Task<IActionResult> Delete(string name)
         {
             Log.Information("Starting deletion of {@fileName}", name);
             ReturnDeleteData data = new ReturnDeleteData();
@@ -103,7 +107,7 @@ namespace IntranetGJAK.Controllers
 
         [HttpGet]
         [ActionName("Index")]
-        public async Task<IActionResult> ListFiles()
+        public async Task<IActionResult> List()
         {
             Log.Information("Starting file listing for {@source}", Request.Host.ToString());
             List<IReturnData> files = new List<IReturnData>();

@@ -29,7 +29,7 @@ namespace IntranetGJAK
 #if DNXCORE50
       .WriteTo.TextWriter(Console.Out)
 #else
-      .WriteTo.LiterateConsole()
+      .WriteTo.LiterateConsole().WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"))
 #endif
       .MinimumLevel.Information().CreateLogger();
 
