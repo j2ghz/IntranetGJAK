@@ -9,7 +9,7 @@ namespace IntranetGJAK.Tools
             switch (Path.GetExtension(filePath))
             {
                 default:
-                    return "default.png";
+                    return "/images/filetypeicons/default.svg";
             }
         }
     }

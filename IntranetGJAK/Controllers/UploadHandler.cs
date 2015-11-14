@@ -45,7 +45,7 @@ namespace IntranetGJAK.Controllers
                     Task savefile = file.SaveAsAsync(filePath);
 
                     fileresult.url = "/Uploads/" + fileName;
-                    fileresult.thumbnail_url = Thumbnails.GetThumbnail(fileName);
+                    fileresult.thumbnailUrl = Thumbnails.GetThumbnail(fileName);
                     fileresult.deleteUrl = "/Files/Index/?name=" + fileName;
                     fileresult.deleteType = "DELETE";
 
@@ -105,7 +105,7 @@ namespace IntranetGJAK.Controllers
 
         [HttpGet]
         [ActionName("Index")]
-        public async Task<IActionResult> List()
+        public IActionResult List()
         {
             Log.Information("Starting file listing for {@source}", Request.Host.ToString());
             List<IReturnData> files = new List<IReturnData>();
@@ -119,7 +119,7 @@ namespace IntranetGJAK.Controllers
                     fileresult.size = file.Length;
 
                     fileresult.url = "/Uploads/" + file.Name;
-                    fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(filepath);
+                    fileresult.thumbnailUrl = Tools.Thumbnails.GetThumbnail(filepath);
                     fileresult.deleteUrl = "/Files/Index/?name=" + file.Name;
                     fileresult.deleteType = "DELETE";
                 }
@@ -161,7 +161,7 @@ namespace IntranetGJAK.Controllers
         public string name { get; set; }
         public long size { get; set; }
         public string url { get; set; }
-        public string thumbnail_url { get; set; }
+        public string thumbnailUrl { get; set; }
         public string deleteUrl { get; set; }
         public string deleteType { get; set; }
     }
