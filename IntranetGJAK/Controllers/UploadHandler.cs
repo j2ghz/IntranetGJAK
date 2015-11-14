@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNet.Http;
+﻿using IntranetGJAK.Tools;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Dnx.Runtime;
+using Microsoft.Framework.Logging;
 using Microsoft.Net.Http.Headers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,12 +20,13 @@ namespace IntranetGJAK.Controllers
         public Files(IApplicationEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
+            Log.Debug("File handler created with base path: {@basepath}", Path.Combine(hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads"));
         }
 
         [HttpPost]
         public async Task<IActionResult> Index()
         {
-            System.Diagnostics.Debug.WriteLine("File upload processing complete");
+            Log.Information("Starting file upload processing from {@source}, number of files attached: {@filesAttached}", Request.Host.ToString(), Request.Form.Files.Count);
             List<IReturnData> files = new List<IReturnData>();
             foreach (var file in Request.Form.Files)
             {
@@ -56,37 +60,44 @@ namespace IntranetGJAK.Controllers
                         size = file.Length,
                         error = ex.ToString()
                     };
+                    Log.Warning("Processing error: {@Exception}", ex);
                     files.Add(error);
                 }
                 finally
                 {
-                    System.Diagnostics.Debug.WriteLine(fileresult.name + " - " + fileresult.size);
+                    Log.Information("Processed file: {@fileName} {@fileSize}", fileresult.name, Formatting.FormatBytes(fileresult.size));
                 }
             }
             ReturnData data = new ReturnData();
             data.files = files;
-            System.Diagnostics.Debug.WriteLine("File upload processing complete");
+            Log.Information("Completed file upload processing from {@source}, processed {@filesProcessed} out of {@filesAttached} files", Request.Host.ToString(), data.files.Count, Request.Form.Files.Count);
+            Log.Verbose("Response {@fileData}", data.files);
             return Json(data);
         }
 
         [HttpDelete]
         public async Task<IActionResult> Index(string name)
         {
+            Log.Information("Starting deletion of {@fileName}", name);
             ReturnDeleteData data = new ReturnDeleteData();
             data.files = new Dictionary<string, bool>();
             try
             {
                 FileInfo file = new FileInfo(Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", name));
                 if (file.Exists == true)
-                    file.Delete();
+                    await file.DeleteAsync();
                 if (file.Exists == false)
                     throw new Exception("File not deleted!");
+                else
+                    Log.Information("File {@fileName} successfully deleted", file.Name);
                 data.files.Add(name, true);
             }
-            catch
+            catch (Exception ex)
             {
                 data.files.Add(name, false);
+                Log.Warning("File deletion failed. {@Exception}", ex);
             }
+            Log.Information("Finished deletion of {@fileName}", name);
             return Json(data);
         }
 
@@ -94,7 +105,7 @@ namespace IntranetGJAK.Controllers
         [ActionName("Index")]
         public async Task<IActionResult> ListFiles()
         {
-            System.Diagnostics.Debug.WriteLine("Listing files");
+            Log.Information("Starting file listing for {@source}", Request.Host.ToString());
             List<IReturnData> files = new List<IReturnData>();
             foreach (string filepath in Directory.EnumerateFiles(Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads")))
             {
@@ -122,13 +133,13 @@ namespace IntranetGJAK.Controllers
                 }
                 finally
                 {
-                    System.Diagnostics.Debug.WriteLine(fileresult.name + " - " + fileresult.size);
+                    Log.Information("Found file: {@FileName} {@Size}", fileresult.name, Formatting.FormatBytes(fileresult.size));
                     files.Add(fileresult);
                 }
             }
             ReturnData data = new ReturnData();
             data.files = files;
-            System.Diagnostics.Debug.WriteLine("File listing complete");
+            Log.Information("Finished file listing for {@source}", Request.Host.ToString());
             return Json(data);
         }
     }

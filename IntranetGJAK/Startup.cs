@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using IntranetGJAK.Models;
+using IntranetGJAK.Services;
 using Microsoft.AspNet.Authentication.Facebook;
 using Microsoft.AspNet.Authentication.Google;
 using Microsoft.AspNet.Authentication.MicrosoftAccount;
@@ -15,8 +13,11 @@ using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using IntranetGJAK.Models;
-using IntranetGJAK.Services;
+using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IntranetGJAK
 {
@@ -24,6 +25,14 @@ namespace IntranetGJAK
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
+            Log.Logger = new LoggerConfiguration()
+#if DNXCORE50
+      .WriteTo.TextWriter(Console.Out)
+#else
+      .WriteTo.LiterateConsole()
+#endif
+      .MinimumLevel.Information().CreateLogger();
+
             // Setup configuration sources.
 
             var builder = new ConfigurationBuilder()
@@ -75,6 +84,7 @@ namespace IntranetGJAK
             loggerFactory.MinimumLevel = LogLevel.Information;
             loggerFactory.AddConsole();
             loggerFactory.AddDebug();
+            loggerFactory.AddSerilog();
 
             // Configure the HTTP request pipeline.
 

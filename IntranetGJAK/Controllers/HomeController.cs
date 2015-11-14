@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Mvc;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Net.Http.Headers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace IntranetGJAK.Controllers
     {
         public IActionResult Index()
         {
+            Log.Information("Requested Index");
             return View();
         }
 

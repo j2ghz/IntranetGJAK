@@ -26,7 +26,8 @@
     "Microsoft.Framework.Logging": "1.0.0-beta8",
     "Microsoft.Framework.Logging.Console": "1.0.0-beta8",
     "Microsoft.Framework.Logging.Debug": "1.0.0-beta8",
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta8"
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta8",
+    "Serilog.Framework.Logging": "1.0.0-beta8-10065"
   },
 
   "commands": {
@@ -35,7 +36,11 @@
   },
 
   "frameworks": {
-    "dnx451": { },
+    "dnx451": {
+      "dependencies": {
+        "Serilog.Sinks.Literate": "1.2.0"
+      }
+    },
     "dnxcore50": {
       "dependencies": {
         "System.Private.DataContractSerialization": "4.0.1-beta-23409"
