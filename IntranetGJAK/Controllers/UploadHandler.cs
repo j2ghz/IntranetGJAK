@@ -2,13 +2,11 @@
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Logging;
 using Microsoft.Net.Http.Headers;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace IntranetGJAK.Controllers
@@ -47,7 +45,7 @@ namespace IntranetGJAK.Controllers
                     Task savefile = file.SaveAsAsync(filePath);
 
                     fileresult.url = "/Uploads/" + fileName;
-                    fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(fileName);
+                    fileresult.thumbnail_url = Thumbnails.GetThumbnail(fileName);
                     fileresult.deleteUrl = "/Files/Index/?name=" + fileName;
                     fileresult.deleteType = "DELETE";
 
