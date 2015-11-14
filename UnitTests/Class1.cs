@@ -10,7 +10,6 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
-            Assert.NotNull((new HomeController()).Index());
         }
     }
 
@@ -19,7 +18,6 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
-            Assert.NotNull((new Files(null)).List()); //moq
         }
     }
 }
