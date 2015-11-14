@@ -8,6 +8,9 @@
     <link asp-append-version="true" href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link asp-append-version="true" href="~/lib/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
     <link asp-append-version="true" href="~/lib/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet" />
+    <link asp-append-version="true" href="~/lib/pace/themes/blue/pace-theme-flash.css" rel="stylesheet" />
+    <link asp-append-version="true" href="~/lib/offline/themes/offline-language-english.css" rel="stylesheet" />
+    <link asp-append-version="true" href="~/lib/offline/themes/offline-theme-default.css" rel="stylesheet" />
     @await RenderSectionAsync("styles", false)
 </head>
 <body>
@@ -15,6 +18,8 @@
     <script asp-append-version="true" src="~/lib/jquery/dist/jquery.js"></script>
     <script asp-append-version="true" src="~/lib/jquery-ui/jquery-ui.js"></script>
     <script asp-append-version="true" src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script asp-append-version="true" src="~/lib/pace/pace.js"></script>
+    <script asp-append-version="true" src="~/lib/offline/offline.js"></script>
     @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>

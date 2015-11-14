@@ -13,6 +13,8 @@
     "blueimp-canvas-to-blob": "~2.2.0",
     "blueimp-load-image": "~1.14.0",
     "blueimp-tmpl": "~2.5.5",
-    "jquery-ui": "~1.11.4"
+    "jquery-ui": "~1.11.4",
+    "offline": "~0.7.14",
+    "PACE": "pace#~1.0.2"
   }
 }
