@@ -37,7 +37,7 @@ namespace IntranetGJAK.Controllers
                     var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", fileName);
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
-                    await file.SaveAsAsync(filePath);
+                    Task savefile = file.SaveAsAsync(filePath);
 
                     fileresult.url = "/Uploads/" + fileName;
                     fileresult.thumbnail_url = Tools.Thumbnails.GetThumbnail(fileName);
@@ -45,6 +45,8 @@ namespace IntranetGJAK.Controllers
                     fileresult.deleteType = "DELETE";
 
                     files.Add(fileresult);
+
+                    await savefile;
                 }
                 catch (Exception ex)
                 {
