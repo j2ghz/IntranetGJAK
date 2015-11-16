@@ -14,6 +14,8 @@ before_build:
 - cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 - cmd: dnvm upgrade
 - cmd: dnu restore
+after_build:
+- cmd: 7z a IntranetGJAK.zip %APPVEYOR_BUILD_FOLDER%/artifacts/bin/IntranetGJAK/Release/**/*
 build:
   project: IntranetGJAK.sln
   publish_wap: true
@@ -22,7 +24,8 @@ build:
 test_script:
 - cmd: dnx -p UnitTests/ test
 artifacts:
-- path: artifacts/**/*
+- path: IntranetGJAK.zip
+  name: IntranetGJAK
 deploy:
 - provider: Environment
   name: VOSTRO470
