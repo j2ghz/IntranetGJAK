@@ -33,7 +33,7 @@ namespace IntranetGJAK
 #else
       .WriteTo.LiterateConsole().WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"))
 #endif
-            .MinimumLevel.Information().CreateLogger();
+      .MinimumLevel.Information().CreateLogger();
 
             // Setup configuration sources.
 
