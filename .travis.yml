@@ -1,10 +1,24 @@
 language: node_js
-node_js: "stable"
 sudo: false
 install:
- - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
- - dnvm upgrade -r coreclr
+  - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
+  - dnvm upgrade -r coreclr
 script:
- - dnu restore
- - dnx -p UnitTests/project.json test
- - dnx -p IntranetGJAK/project.json web
+  - dnu restore
+  - dnx -p UnitTests/project.json test
+  - dnx -p IntranetGJAK/project.json web
+addons:
+  apt:
+    packages:
+    - cmake
+    - unzip
+    - curl
+    - libunwind8 
+    - gettext 
+    - libssl-dev 
+    - libcurl3-dev 
+    - zlib1g 
+    - libicu-dev
+    - make
+    - automake
+    - libtool
