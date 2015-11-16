@@ -7,7 +7,9 @@ using Microsoft.AspNet.Authentication.Twitter;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.StaticFiles;
 using Microsoft.Data.Entity;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
@@ -27,11 +29,11 @@ namespace IntranetGJAK
         {
             Log.Logger = new LoggerConfiguration()
 #if DNXCORE50
-      .WriteTo.TextWriter(Console.Out)
+      .WriteTo.TextWriter(Console.Out).WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet.log"), System.IO.FileMode.Create)))
 #else
       .WriteTo.LiterateConsole().WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"))
 #endif
-      .MinimumLevel.Information().CreateLogger();
+            .MinimumLevel.Information().CreateLogger();
 
             // Setup configuration sources.
 
@@ -106,7 +108,13 @@ namespace IntranetGJAK
             app.UseIISPlatformHandler();
 
             // Add static files to the request pipeline.
-            app.UseStaticFiles();
+            StaticFileOptions s = new StaticFileOptions();
+            s.ServeUnknownFileTypes = true;
+            s.OnPrepareResponse += new Action<StaticFileResponseContext>((StaticFileResponseContext obj) =>
+            {
+                Log.Information("Requested {path}", obj.Context.Request.Path);
+            });
+            app.UseStaticFiles(s);
 
             // Add cookie-based authentication to the request pipeline.
             app.UseIdentity();

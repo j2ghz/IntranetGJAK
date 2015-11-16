@@ -38,7 +38,8 @@
   "frameworks": {
     "dnx451": {
       "dependencies": {
-        "Serilog.Sinks.Literate": "1.2.0"
+        "Serilog.Sinks.Literate": "1.2.0",
+        "Serilog.Sinks.Logentries": "1.5.8"
       }
     },
     "dnxcore50": {
