@@ -1,19 +1,10 @@
 language: node_js
-#sudo: false
-services:
- - docker
+node_js: "stable"
+sudo: false
 install:
- - sed -i "s@microsoft/aspnet:latest@$ASPNET_VERSION@" Dockerfile
- - cat Dockerfile
- - docker build -t intranetgjak .
+ - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
+ - dnvm upgrade -r coreclr
 script:
- - docker run -t -d -p 8080:5000 intranetgjak
-env:
- matrix:
-  - ASPNET_VERSION='microsoft/aspnet:latest'
-  - ASPNET_VERSION='microsoft/aspnet:1.0.0-beta8-coreclr'
-  - ASPNET_VERSION='microsoft/aspnet:1.0.0-beta8'
-before_install:
-  - pip install --user codecov
-after_success:
-  - codecov
+ - dnu restore
+ - dnx -p UnitTests/project.json test
+ - dnx -p IntranetGJAK/project.json web
