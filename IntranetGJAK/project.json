@@ -38,8 +38,7 @@
   "frameworks": {
     "dnx451": {
       "dependencies": {
-        "Serilog.Sinks.Literate": "1.2.0",
-        "Serilog.Sinks.Logentries": "1.5.8"
+        "Serilog.Sinks.Literate": "1.2.0"
       }
     },
     "dnxcore50": {
@@ -59,6 +58,6 @@
   ],
   "scripts": {
     "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ],
-    "postrestore": [ "npm install", "npm install bower -g" , "bower install" ]
+    "postrestore": [ "npm install", "npm install bower -g", "bower install" ]
   }
 }
