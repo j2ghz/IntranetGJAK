@@ -13,11 +13,11 @@ addons:
     - cmake
     - unzip
     - curl
-    - libunwind8 
-    - gettext 
-    - libssl-dev 
-    - libcurl3-dev 
-    - zlib1g 
+    - libunwind8
+    - gettext
+    - libssl-dev
+    - libcurl3-dev
+    - zlib1g
     - libicu-dev
     - make
     - automake
