@@ -16,7 +16,6 @@ addons:
     - libunwind8
     - gettext
     - libssl-dev
-    - libcurl3-dev
     - zlib1g
     - libicu-dev
     - make
