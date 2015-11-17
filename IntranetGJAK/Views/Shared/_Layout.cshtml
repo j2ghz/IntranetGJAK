@@ -11,10 +11,38 @@
     <link asp-append-version="true" href="~/lib/pace/themes/blue/pace-theme-flash.css" rel="stylesheet" />
     <link asp-append-version="true" href="~/lib/offline/themes/offline-language-english.css" rel="stylesheet" />
     <link asp-append-version="true" href="~/lib/offline/themes/offline-theme-default.css" rel="stylesheet" />
+    <link asp-append-version="true" href="~/css/site.css" rel="stylesheet" />
     @await RenderSectionAsync("styles", false)
 </head>
 <body>
-    @RenderBody()
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand">IntranetGJAK</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2015 - IntranetGJAK</p>
+        </footer>
+    </div>
+
     <script asp-append-version="true" src="~/lib/jquery/dist/jquery.js"></script>
     <script asp-append-version="true" src="~/lib/jquery-ui/jquery-ui.js"></script>
     <script asp-append-version="true" src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

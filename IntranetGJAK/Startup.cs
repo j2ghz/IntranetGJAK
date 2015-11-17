@@ -27,13 +27,17 @@ namespace IntranetGJAK
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
+            string template = "{Timestamp:HH:mm} [{Level}] ({User}) {Message}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
 #if DNXCORE50
-      .WriteTo.TextWriter(Console.Out).WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet.log"), System.IO.FileMode.Create)))
+      .WriteTo.TextWriter(Console.Out,outputTemplate: template)
+      .WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet.log"), System.IO.FileMode.Create)),outputTemplate: template)
 #else
-      .WriteTo.LiterateConsole().WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"))
+      .WriteTo.LiterateConsole(outputTemplate: template)
+      .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"), outputTemplate: template)
 #endif
-      .MinimumLevel.Information().CreateLogger();
+      .MinimumLevel.Debug()
+      .Enrich.WithProperty("User", null).CreateLogger();
 
             // Setup configuration sources.
 
@@ -112,7 +116,7 @@ namespace IntranetGJAK
             s.ServeUnknownFileTypes = true;
             s.OnPrepareResponse += new Action<StaticFileResponseContext>((StaticFileResponseContext obj) =>
             {
-                Log.Information("Requested {path}", obj.Context.Request.Path);
+                Log.ForContext("User", obj.Context.User.Identity.Name).Information("Requested {path}", obj.Context.Request.Path);
             });
             app.UseStaticFiles(s);
 

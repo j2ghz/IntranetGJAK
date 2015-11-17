@@ -7,8 +7,11 @@ namespace IntranetGJAK.Controllers
     {
         public IActionResult Index()
         {
-            Log.Information("Requested Index");
-            return View();
+            Log.ForContext("User", User.Identity.Name).Information("Requested Index");
+            if (User.Identity.IsAuthenticated)
+                return View();
+            else
+                return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Error()
