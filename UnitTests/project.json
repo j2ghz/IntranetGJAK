@@ -24,6 +24,6 @@
     "IntranetGJAK": "1.0.0-*",
     "OpenCover": "4.6.166",
     "xunit": "2.1.0-*",
-    "xunit.runner.dnx": "2.1.0-beta6-build191"
+    "xunit.runner.dnx": "2.1.0-rc1-build204"
   }
 }
