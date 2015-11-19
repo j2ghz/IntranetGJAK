@@ -18,7 +18,7 @@
     }
   },
   "commands": {
-    "test": "xunit.runner.dnx tests.xml"
+    "test": "xunit.runner.dnx -xml tests.xml"
   },
   "dependencies": {
     "IntranetGJAK": "1.0.0-*",
