@@ -27,7 +27,7 @@ namespace IntranetGJAK.Controllers
         {
             IFormCollection Form = await Request.ReadFormAsync();
             ILogger log = Log.ForContext("User", User.Identity.Name);
-            log.Information("Starting file upload processing from {@source}, number of files attached: {@filesAttached}", Request.Host.ToString(), Form.Files.Count);
+            log.Information("Starting file upload processing, number of files attached: {@filesAttached}", Form.Files.Count);
 
             List<IReturnData> files = new List<IReturnData>();
             foreach (var file in Form.Files)
@@ -72,7 +72,7 @@ namespace IntranetGJAK.Controllers
             }
             ReturnData data = new ReturnData();
             data.files = files;
-            log.Information("Completed file upload processing from {@source}, processed {@filesProcessed} out of {@filesAttached} files", Request.Host.ToString(), data.files.Count, Form.Files.Count);
+            log.Information("Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files", data.files.Count, Form.Files.Count);
             log.Verbose("Response {@fileData}", data.files);
             return Json(data);
         }
@@ -144,7 +144,7 @@ namespace IntranetGJAK.Controllers
             }
             ReturnData data = new ReturnData();
             data.files = files;
-            log.Information("Finished file listing for");
+            log.Information("Finished file listing");
             return Json(data);
         }
 
