@@ -14,11 +14,13 @@ namespace IntranetGJAK.Controllers
     public class Files : Controller
     {
         private IApplicationEnvironment _hostingEnvironment;
+        private string FileUploadPath;
 
         public Files(IApplicationEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
-            Log.Verbose("File handler created with base path: {@basepath}", Path.Combine(hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads"));
+            FileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
+            Log.Verbose("File handler created with base path: {@basepath}", FileUploadPath);
         }
 
         [HttpPost]
@@ -40,12 +42,12 @@ namespace IntranetGJAK.Controllers
                     fileresult.name = fileName;
                     fileresult.size = file.Length;
 
-                    var filePath = Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", fileName);
+                    var filePath = Path.Combine(FileUploadPath, fileName);
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
                     Task savefile = file.SaveAsAsync(filePath);
 
-                    fileresult.url = "/Uploads/" + fileName;
+                    fileresult.url = "/Files/Download/?name=" + fileName;
                     fileresult.thumbnailUrl = Thumbnails.GetThumbnail(fileName);
                     fileresult.deleteUrl = "/Files/Index/?name=" + fileName;
                     fileresult.deleteType = "DELETE";
@@ -87,7 +89,7 @@ namespace IntranetGJAK.Controllers
             data.files = new Dictionary<string, bool>();
             try
             {
-                FileInfo file = new FileInfo(Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads", name));
+                FileInfo file = new FileInfo(Path.Combine(FileUploadPath, name));
                 if (file.Exists == true)
                     await file.DeleteAsync();
                 if (file.Exists == false)
@@ -112,7 +114,7 @@ namespace IntranetGJAK.Controllers
             ILogger log = Log.ForContext("User", User.Identity.Name);
             log.Information("Starting file listing");
             List<IReturnData> files = new List<IReturnData>();
-            foreach (string filepath in Directory.EnumerateFiles(Path.Combine(_hostingEnvironment.ApplicationBasePath, "wwwroot", "Uploads")))
+            foreach (string filepath in Directory.EnumerateFiles(FileUploadPath))
             {
                 var fileresult = new ViewDataUploadFilesResult();
                 try
@@ -121,7 +123,7 @@ namespace IntranetGJAK.Controllers
                     fileresult.name = file.Name;
                     fileresult.size = file.Length;
 
-                    fileresult.url = "/Uploads/" + file.Name;
+                    fileresult.url = "/Files/Download/?name=" + file.Name;
                     fileresult.thumbnailUrl = Tools.Thumbnails.GetThumbnail(filepath);
                     fileresult.deleteUrl = "/Files/Index/?name=" + file.Name;
                     fileresult.deleteType = "DELETE";
@@ -150,9 +152,10 @@ namespace IntranetGJAK.Controllers
 
         [HttpGet]
         [ActionName("Download")]
-        public IActionResult Download(string filename)
+        public IActionResult Download(string name)
         {
-            throw new NotImplementedException();
+            FileInfo file = new FileInfo(Path.Combine(FileUploadPath, name));
+            return File(file.OpenRead(), "application/octet-stream", file.Name);
         }
     }
 
