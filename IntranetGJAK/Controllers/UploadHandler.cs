@@ -147,6 +147,13 @@ namespace IntranetGJAK.Controllers
             log.Information("Finished file listing for");
             return Json(data);
         }
+
+        [HttpGet]
+        [ActionName("Download")]
+        public IActionResult Download(string filename)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ReturnDeleteData
