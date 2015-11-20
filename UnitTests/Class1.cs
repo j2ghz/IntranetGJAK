@@ -10,6 +10,7 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
+            Assert.True(true);
         }
     }
 
@@ -18,6 +19,7 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
+            Assert.False(true);
         }
     }
 }
