@@ -158,8 +158,7 @@ namespace IntranetGJAK.Controllers
             FileInfo file = new FileInfo(Path.Combine(FileUploadPath, name));
             if (User.Identity.IsAuthenticated)
                 return File(file.OpenRead(), "application/octet-stream", file.Name);
-            Response.StatusCode = 401;
-            return RedirectToAction("Login", "Account");
+            return HttpUnauthorized();
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using IntranetGJAK.Controllers;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.Runtime.Versioning;
@@ -14,6 +15,20 @@ namespace UnitTests
         public void ControllerNotNull()
         {
             Assert.NotNull(new HomeController());
+        }
+
+        [Fact]
+        public void IndexNotLoggedInRedirects()
+        {
+            var home = new HomeController();
+            var result = home.Index();
+            Assert.NotNull(result);
+            Assert.IsType<RedirectToActionResult>(result);
+            RedirectToActionResult redirect = (RedirectToActionResult)result;
+            Assert.Equal("Account", redirect.ControllerName);
+            Assert.Equal("Login", redirect.ActionName);
+            Assert.Equal(false, redirect.Permanent);
+            Assert.Empty(redirect.RouteValues);
         }
     }
 
