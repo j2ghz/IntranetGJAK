@@ -68,6 +68,8 @@ namespace IntranetGJAK
 
             services.AddMvc();
 
+            services.AddSingleton<IFileRepository, FileRepository>();
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
