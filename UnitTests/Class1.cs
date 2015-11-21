@@ -1,5 +1,4 @@
 ﻿using IntranetGJAK.Controllers;
-using LightMock;
 using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.Runtime.Versioning;
@@ -23,27 +22,17 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
-            var mock = new LightMock.MockContext<Microsoft.Extensions.PlatformAbstractions.IApplicationEnvironment>();
-            var env = new appenv(mock);
-            mock.Arrange(f => f.ApplicationBasePath).Returns("");
-            Assert.NotNull(new Files(env));
+            Assert.NotNull(new Files(new appenv()));
         }
     }
 
     public class appenv : IApplicationEnvironment
     {
-        private readonly IInvocationContext<IApplicationEnvironment> context;
-
-        public appenv(IInvocationContext<IApplicationEnvironment> context)
-        {
-            this.context = context;
-        }
-
         string IApplicationEnvironment.ApplicationBasePath
         {
             get
             {
-                return context.Invoke(f => f.ApplicationBasePath);
+                return "";
             }
         }
 
