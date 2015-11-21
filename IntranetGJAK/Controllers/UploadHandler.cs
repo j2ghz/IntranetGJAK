@@ -156,7 +156,10 @@ namespace IntranetGJAK.Controllers
         public IActionResult Download(string name)
         {
             FileInfo file = new FileInfo(Path.Combine(FileUploadPath, name));
-            return File(file.OpenRead(), "application/octet-stream", file.Name);
+            if (User.Identity.IsAuthenticated)
+                return File(file.OpenRead(), "application/octet-stream", file.Name);
+            Response.StatusCode = 401;
+            return RedirectToAction("Login", "Account");
         }
     }
 
