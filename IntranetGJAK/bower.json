@@ -6,7 +6,7 @@
     "bootstrap-touch-carousel": "0.8.0",
     "hammer.js": "2.0.4",
     "jquery": "2.1.4",
-    "jquery-validation": "1.14.1",
+    "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.4",
     "blueimp-file-upload": "jquery-file-upload#~9.11.2",
     "blueimp-gallery": "~2.16.0",
