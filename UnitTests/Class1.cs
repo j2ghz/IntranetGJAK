@@ -1,4 +1,8 @@
 ﻿using IntranetGJAK.Controllers;
+using Microsoft.AspNet.Mvc;
+using Microsoft.Extensions.PlatformAbstractions;
+using System;
+using System.Runtime.Versioning;
 using Xunit;
 
 namespace UnitTests
@@ -10,7 +14,21 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
-            Assert.True(true);
+            Assert.NotNull(new HomeController());
+        }
+
+        [Fact]
+        public void IndexNotLoggedInRedirects()
+        {
+            var home = new HomeController();
+            var result = home.Index();
+            Assert.NotNull(result);
+            Assert.IsType<RedirectToActionResult>(result);
+            RedirectToActionResult redirect = (RedirectToActionResult)result;
+            Assert.Equal("Account", redirect.ControllerName);
+            Assert.Equal("Login", redirect.ActionName);
+            Assert.Equal(false, redirect.Permanent);
+            Assert.Empty(redirect.RouteValues);
         }
     }
 
@@ -19,7 +37,60 @@ namespace UnitTests
         [Fact]
         public void ControllerNotNull()
         {
-            Assert.False(false);
+            Assert.NotNull(new Files(new appenv()));
+        }
+    }
+
+    public class appenv : IApplicationEnvironment
+    {
+        string IApplicationEnvironment.ApplicationBasePath
+        {
+            get
+            {
+                return "";
+            }
+        }
+
+        string IApplicationEnvironment.ApplicationName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        string IApplicationEnvironment.ApplicationVersion
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        string IApplicationEnvironment.Configuration
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        FrameworkName IApplicationEnvironment.RuntimeFramework
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        object IApplicationEnvironment.GetData(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IApplicationEnvironment.SetData(string name, object value)
+        {
+            throw new NotImplementedException();
         }
     }
 }
