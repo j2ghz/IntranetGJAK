@@ -7,10 +7,7 @@
 | Linux (build & run) | 94.125.220.136:80?guest=1 | - |
 
 # Linux
-- Intall Docker https://www.docker.com/
-- Clone repo
-- `docker build -t intranetgjak .`
-- `docker run -t -d -p <port>:5000 intranetgjak`
+- WIP
 
 # Windows (with VS 2015)
 - open in VS 2015
