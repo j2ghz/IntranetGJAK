@@ -1,4 +1,5 @@
 ﻿using IntranetGJAK.Controllers;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.PlatformAbstractions;
 using Serilog;
@@ -21,7 +22,14 @@ namespace UnitTests
         [Fact]
         public void IndexNotLoggedInRedirects()
         {
-            var home = new HomeController();
+            var home = new HomeController()
+            {
+                ActionContext = new ActionContext
+                {
+                    HttpContext = new HttpContext() //FIX use https://github.com/nsubstitute/NSubstitute
+                }
+            };
+
             var result = home.Index();
             Assert.NotNull(result);
             Assert.IsType<RedirectToActionResult>(result);
