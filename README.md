@@ -7,7 +7,12 @@
 | Linux (build & run) | 94.125.220.136:80?guest=1 | - |
 
 # Linux
-- WIP
+- Install dependencies
+  - http://docs.asp.net/en/latest/getting-started/installing-on-linux.html
+  - `npm install`
+  - `bower install`
+  - `dnu restore`
+- `dnx web` or `dnu publish`
 
 # Windows (with VS 2015)
 - open in VS 2015
