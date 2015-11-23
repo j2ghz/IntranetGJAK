@@ -1,4 +1,5 @@
 ﻿using IntranetGJAK.Controllers;
+using Microsoft.AspNet.Mvc;
 using Xunit;
 
 namespace UnitTests
@@ -11,6 +12,19 @@ namespace UnitTests
         public void ControllerNotNull()
         {
             Assert.True(true);
+        }
+
+        [Fact]
+        public void Error()
+        {
+            var controller = new HomeController();
+            Assert.NotNull(controller);
+            var result = controller.Error();
+            Assert.NotNull(result);
+            Assert.IsType<ViewResult>(result);
+            ViewResult view = (ViewResult)result;
+            Assert.NotNull(view);
+            Assert.Equal("~/Views/Shared/Error.cshtml", view.ViewName);
         }
     }
 
