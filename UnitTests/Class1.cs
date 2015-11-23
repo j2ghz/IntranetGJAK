@@ -1,6 +1,7 @@
 ﻿using IntranetGJAK.Controllers;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.PlatformAbstractions;
+using Serilog;
 using System;
 using System.Runtime.Versioning;
 using Xunit;
@@ -29,6 +30,18 @@ namespace UnitTests
             Assert.Equal("Login", redirect.ActionName);
             Assert.Equal(false, redirect.Permanent);
             Assert.Empty(redirect.RouteValues);
+        }
+
+        [Fact]
+        public void Error()
+        {
+            var controller = new HomeController();
+            Assert.NotNull(controller);
+            var result = controller.Error();
+            Assert.NotNull(result);
+            Assert.IsType<ViewResult>(result);
+            ViewResult view = (ViewResult)result;
+            Assert.NotNull(view);
         }
     }
 

@@ -88,6 +88,7 @@ namespace IntranetGJAK
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseDirectoryBrowser();
             }
             else
             {
@@ -105,6 +106,8 @@ namespace IntranetGJAK
                 }
                 catch { }
             }
+
+            //TODO: Add request logger
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 

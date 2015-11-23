@@ -11,7 +11,6 @@ namespace IntranetGJAK.Controllers
     {
         public IActionResult Index()
         {
-            Log.ForContext("User", User.Identity.Name).Information("Requested Index");
             if (User.Identity.IsAuthenticated)
                 return View();
             else
