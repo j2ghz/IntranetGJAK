@@ -51,7 +51,7 @@
     "**.vspscc"
   ],
   "scripts": {
-    "prepublish": [ "gulp clean", "gulp min" ],
-    "postrestore": [ "npm install", "node_modules/.bin/bower install --allow-root", "node_modules/.bin/tsd install", "node_modules/.bin/tsd rebundle" ]
+    "postrestore": "npm install",
+    "prepublish": [ "gulp clean", "gulp min" ]
   }
 }

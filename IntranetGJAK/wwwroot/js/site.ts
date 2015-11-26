@@ -1,2 +1,2 @@
-﻿/// <reference path="tsd.d.ts" />
+/// <reference path="tsd.d.ts" />
 swal("Povedlo se!");
