@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace IntranetGJAK.Controllers
 {
+    using System.IO;
+
+    using Serilog;
+
     [Route("api/[controller]")]
     public class FileController : Controller
     {
@@ -17,21 +21,25 @@ namespace IntranetGJAK.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<File> Get()
+        public JsonResult Get()
         {
-            return Files.GetAll();
+            Log.Information("Get triggerd");
+            return Json(Files.GetAll());//TODO return the right format
         }
 
         // GET api/values/5
         [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetById(string id)
         {
+            if (!User.Identity.IsAuthenticated)
+                return HttpUnauthorized();
             var item = Files.Find(id);
             if (item == null)
             {
                 return HttpNotFound();
             }
-            return new ObjectResult(item);
+            var file = new FileInfo(item.Path);
+            return PhysicalFile(file.FullName, "application/octet-stream"); //copypasted from old controller, refactor
         }
 
         // POST api/values

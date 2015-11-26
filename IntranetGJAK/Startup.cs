@@ -88,7 +88,6 @@ namespace IntranetGJAK
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseDirectoryBrowser();
             }
             else
             {
