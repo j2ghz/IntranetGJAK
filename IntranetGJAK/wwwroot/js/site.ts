@@ -1,1 +1,1 @@
-﻿// Write your code.
+﻿/// <reference path="tsd.d.ts" />
