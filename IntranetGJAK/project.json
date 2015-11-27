@@ -51,7 +51,7 @@
     "**.vspscc"
   ],
   "scripts": {
-    "postrestore": [ "npm install", "gulp" ],
-    "prepublish": [ "gulp clean", "gulp min" ]
+    "postrestore": [ "npm install" ],
+    "prepublish": [ "\"node_modules/.bin/gulp\"" ]
   }
 }

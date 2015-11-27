@@ -16,9 +16,9 @@
     "typescript": "^1.6.2"
   },
   "dependencies": {
-    "bower": "^1.6.5"
+    "bower": "^1.6.8"
   },
   "scripts": {
-    "install": "gulp install"
+    "install": "\"node_modules/.bin/gulp\" install"
   }
 }
