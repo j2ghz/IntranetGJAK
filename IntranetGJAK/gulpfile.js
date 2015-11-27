@@ -49,7 +49,7 @@ gulp.task("min:css", function () {
         .pipe(gulp.dest("."));
 });
 
-gulp.task("min", ["min:js", "sass"]);
+gulp.task("min", ["typescript","sass"]);
 
 gulp.task("default", ["min"]);
 
@@ -76,11 +76,11 @@ gulp.task("tsd:rebundle",["tsd:install"], shell.task([
 
 gulp.task("sass", function () {
     return gulp.src(paths.webroot +"sass/*.scss")
-        .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer())
         .pipe(concat("stylesheet.css"))
-        .pipe(sourcemaps.write("."))
         .pipe(cssmin())
+        .pipe(sourcemaps.write("."))
         .pipe(gulp.dest(paths.webroot + "css/"));
 });
