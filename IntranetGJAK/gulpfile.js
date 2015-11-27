@@ -47,7 +47,7 @@ gulp.task("min:css", function () {
 
 gulp.task("min", ["min:js", "min:css"]);
 
-gulp.task("default", ["clean", "typescript", "min"]);
+gulp.task("default", ["clean", "typescript"]);
 
 gulp.task("typescript", function () {
     return gulp.src(paths.ts)
