@@ -53,6 +53,8 @@ gulp.task("min", ["min:js", "sass"]);
 
 gulp.task("default", ["min"]);
 
+gulp.task("install", ["min"]);
+
 gulp.task("typescript", ["tsd:rebundle"] ,function () {
     return gulp.src(paths.ts)
         .pipe(ts({
