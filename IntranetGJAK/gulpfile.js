@@ -3,11 +3,15 @@
 "use strict";
 
 var gulp = require("gulp"),
+    shell = require("gulp-shell"),
     rimraf = require("rimraf"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify"),
-    ts = require("gulp-typescript");;
+    sass = require("gulp-sass"),
+    autoprefixer = require("gulp-autoprefixer"),
+    sourcemaps = require("gulp-sourcemaps"),
+    ts = require("gulp-typescript");
 
 var paths = {
     webroot: "./wwwroot/"
@@ -22,16 +26,16 @@ paths.concatJsDest = paths.webroot + "js/site.min.js";
 paths.concatCssDest = paths.webroot + "css/site.min.css";
 
 gulp.task("clean:js", function (cb) {
-    rimraf(paths.concatJsDest, cb);
+    rimraf(paths.webroot + "js/", cb);
 });
 
 gulp.task("clean:css", function (cb) {
-    rimraf(paths.concatCssDest, cb);
+    rimraf(paths.webroot + "css/", cb);
 });
 
 gulp.task("clean", ["clean:js", "clean:css"]);
 
-gulp.task("min:js", function () {
+gulp.task("min:js",["typescript"], function () {
     return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
         .pipe(concat(paths.concatJsDest))
         .pipe(uglify())
@@ -45,15 +49,36 @@ gulp.task("min:css", function () {
         .pipe(gulp.dest("."));
 });
 
-gulp.task("min", ["min:js", "min:css"]);
+gulp.task("min", ["min:js", "sass"]);
 
-gulp.task("default", ["clean", "typescript"]);
+gulp.task("default", ["min"]);
 
-gulp.task("typescript", function () {
+gulp.task("typescript", ["tsd:rebundle"] ,function () {
     return gulp.src(paths.ts)
         .pipe(ts({
             noImplicitAny: true,
             out: "site.js"
         })
         .pipe(gulp.dest(paths.webroot + "js/")));
+});
+
+gulp.task("tsd:install", shell.task([
+        "\"node_modules/.bin/tsd\" install"
+])
+);
+
+gulp.task("tsd:rebundle",["tsd:install"], shell.task([
+        "\"node_modules/.bin/tsd\" rebundle"
+])
+);
+
+gulp.task("sass", function () {
+    return gulp.src(paths.webroot +"sass/*.scss")
+        .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.init())
+        .pipe(autoprefixer())
+        .pipe(concat("stylesheet.css"))
+        .pipe(sourcemaps.write("."))
+        .pipe(cssmin())
+        .pipe(gulp.dest(paths.webroot + "css/"));
 });
