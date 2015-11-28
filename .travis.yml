@@ -9,7 +9,7 @@ install:
   - sudo apt-get install -qq unzip curl
   - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh
   - source ~/.dnx/dnvm/dnvm.sh
-  - sudo apt-get install -qq libunwind8 gettext libssl-dev libcurl3-dev zlib1g libicu-dev
+  - sudo apt-get install -qq gettext libssl-dev libcurl3-dev zlib1g libicu-dev # libunwind8
   - dnvm upgrade -r $R
   - cd "$projectdir"
 script:
