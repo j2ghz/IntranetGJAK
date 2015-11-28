@@ -51,6 +51,6 @@
     "**.vspscc"
   ],
   "scripts": {
-    "prepublish": [ "\"node_modules/.bin/gulp\"" ]
+    "prepublish": [ "npm install" ]
   }
 }
