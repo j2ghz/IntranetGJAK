@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/j2ghz/IntranetGJAK.png?label=ready&title=Ready)](https://waffle.io/j2ghz/IntranetGJAK)
 # IntranetGJAK
 
 ##Master build status:
