@@ -15,6 +15,7 @@
     "blueimp-tmpl": "~2.5.5",
     "jquery-ui": "~1.11.4",
     "offline": "~0.7.14",
-    "PACE": "pace#~1.0.2"
+    "PACE": "pace#~1.0.2",
+    "sweetalert": "~1.1.3"
   }
 }

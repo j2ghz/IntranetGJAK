@@ -1,24 +1,18 @@
 language: node_js
 sudo: true
+env:
+  - R=coreclr
+  - R=mono
 install:
   - projectdir="$PWD"
-  - sudo -E apt-get -yq update
-  - sudo -E apt-get -yq --force-yes install unzip curl
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq unzip curl
   - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh
   - source ~/.dnx/dnvm/dnvm.sh
-  - sudo -E apt-get -yq --force-yes install libunwind8 gettext libssl-dev libcurl3-dev zlib1g libicu-dev
-  - dnvm upgrade -r coreclr
-  - sudo -E apt-get -yq --force-yes install make automake libtool curl
-  - curl -sSL https://github.com/libuv/libuv/archive/v1.4.2.tar.gz | sudo tar zxfv - -C /usr/local/src
-  - cd /usr/local/src/libuv-1.4.2
-  - sudo sh autogen.sh
-  - sudo ./configure
-  - sudo make
-  - sudo make install
-  - sudo rm -rf /usr/local/src/libuv-1.4.2 && cd ~/
-  - sudo ldconfig
+  - sudo apt-get install -qq gettext libssl-dev libcurl3-dev zlib1g libicu-dev # libunwind8
+  - dnvm upgrade -r $R
   - cd "$projectdir"
 script:
   - dnu restore
+  - dnu -p IntranetGJAK/project.json publish
   - dnx -p UnitTests/project.json test
-  - dnx -p IntranetGJAK/project.json web
