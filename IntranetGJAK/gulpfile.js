@@ -60,7 +60,7 @@ gulp.task("install", shell.task([
 ])
 );
 
-gulp.task("scripts",["tsd"], function () {
+gulp.task("scripts",["tsd","clean:js"], function () {
     var tsResult = gulp.src(paths.ts)
                        .pipe(sourcemaps.init()) // This means sourcemaps will be generated 
                        .pipe(ts({
@@ -86,7 +86,7 @@ gulp.task("tsd:rebundle", ["tsd:install"], shell.task([
 
 gulp.task("tsd", ["tsd:rebundle"]);
 
-gulp.task("sass", function() {
+gulp.task("sass", ["clean:css"], function() {
     return gulp.src(paths.sass)
         .pipe(sourcemaps.init())
         .pipe(sass().on("error", sass.logError))
