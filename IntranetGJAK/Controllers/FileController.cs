@@ -32,11 +32,6 @@ namespace IntranetGJAK.Controllers
     public class FileController : Controller
     {
         /// <summary>
-        /// The hosting environment. Mainly for Path to uploaded files
-        /// </summary>
-        private readonly IApplicationEnvironment hostingEnvironment;
-
-        /// <summary>
         /// The file upload path.
         /// </summary>
         private readonly string fileUploadPath;
@@ -49,8 +44,21 @@ namespace IntranetGJAK.Controllers
         /// </param>
         public FileController(IApplicationEnvironment hostingEnvironment)
         {
-            this.hostingEnvironment = hostingEnvironment;
-            this.fileUploadPath = Path.Combine(this.hostingEnvironment.ApplicationBasePath, "Uploads");
+            this.fileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
+            Log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileController"/> class.
+        /// </summary>
+        /// <param name="hostingEnvironment">
+        /// The hosting environment.
+        /// </param>
+        /// <param name="files">A list of files</param>
+        public FileController(IApplicationEnvironment hostingEnvironment, IFileRepository files)
+        {
+            this.Files = files;
+            this.fileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
             Log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
         }
 
@@ -58,6 +66,7 @@ namespace IntranetGJAK.Controllers
         /// Gets or sets a list of all files from database
         /// </summary>
         [FromServices]
+        // ReSharper disable once MemberCanBePrivate.Global
         public IFileRepository Files { get; set; }
 
         /// <summary>
@@ -152,9 +161,11 @@ namespace IntranetGJAK.Controllers
                 }
             }
 
-            ReturnData data = new ReturnData();
-            data.files = files;
-            log.Information("Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files", data.files.Count, form.Files.Count);
+    var data = new ReturnData { files = files };
+    log.Information(
+        "Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files",
+        data.files.Count,
+        form.Files.Count);
             log.Verbose("Response {@fileData}", data.files);
             return this.Json(data);
         }
@@ -165,7 +176,7 @@ namespace IntranetGJAK.Controllers
         /// <param name="id">The id of the file in database</param>
         /// <returns><see cref="NotImplementedException"/></returns>
         [HttpPut("{id}")]
-        public IActionResult Put(int id)
+        public IActionResult Put(string id)
         {
             return this.HttpBadRequest("Not implemented");
         }
@@ -176,30 +187,50 @@ namespace IntranetGJAK.Controllers
         /// <param name="id">ID of file in database</param>
         /// <returns><see cref="JsonResult"/> for BlueImpFileUploadPlugin</returns>
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
-            ILogger log = Log.ForContext("User", User.Identity.Name);
-            log.Information("Starting deletion of {@fileName}", name);
-            ReturnDeleteData data = new ReturnDeleteData();
-            data.files = new Dictionary<string, bool>();
-            try
+            if (!this.User.Identity.IsAuthenticated)
             {
-                FileInfo file = new FileInfo(Path.Combine(FileUploadPath, name));
-                if (file.Exists == true)
-                    await file.DeleteAsync();
-                if (file.Exists == false)
-                    throw new Exception("File not deleted!");
-                else
-                    log.Information("File {@fileName} successfully deleted", file.Name);
-                data.files.Add(name, true);
+                return this.HttpUnauthorized();
             }
-            catch (Exception ex)
+
+            var item = this.Files.Find(id);
+            if (item == null)
             {
-                data.files.Add(name, false);
-                log.Warning("File deletion failed. {@Exception}", ex);
+                return this.HttpNotFound("File not found in database");
             }
-            log.Information("Finished deletion of {@fileName}", name);
-            return Json(data);
+
+            var file = new FileInfo(item.Path);
+            if (!file.Exists)
+            {
+                return this.HttpNotFound("File found in database, but not on disk");
+            }
+
+            file.DeleteAsync();
+            this.Files.Remove(item.Key);
+
+            ////ILogger log = Log.ForContext("User", User.Identity.Name);
+            ////log.Information("Starting deletion of {@fileName}", name);
+            ////ReturnDeleteData data = new ReturnDeleteData();
+            ////data.files = new Dictionary<string, bool>();
+            ////try
+            ////{
+            ////    FileInfo file = new FileInfo(Path.Combine(FileUploadPath, name));
+            ////    if (file.Exists == true)
+            ////        await file.DeleteAsync();
+            ////    if (file.Exists == false)
+            ////        throw new Exception("File not deleted!");
+            ////    else
+            ////        log.Information("File {@fileName} successfully deleted", file.Name);
+            ////    data.files.Add(name, true);
+            ////}
+            ////catch (Exception ex)
+            ////{
+            ////    data.files.Add(name, false);
+            ////    log.Warning("File deletion failed. {@Exception}", ex);
+            ////}
+            ////log.Information("Finished deletion of {@fileName}", name);
+            return this.Json(string.Empty); // FIXME: return the right json
         }
     }
 }
