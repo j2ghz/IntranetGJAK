@@ -70,6 +70,6 @@ $(() => {
         $(this).removeClass("fileupload-processing");
     }).done(function (result) {
         var fu: any = $(this).fileupload("option", "done");
-            fu.call(this, $.Event("done"), { result: result });
+        fu.call(this, $.Event("done"), { result: result });
     });
 });

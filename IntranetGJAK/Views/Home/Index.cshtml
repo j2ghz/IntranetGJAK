@@ -9,9 +9,6 @@
     <link asp-append-version="true" href="~/lib/blueimp-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
     <link asp-append-version="true" href="~/lib/blueimp-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
     <noscript>
-        <link asp-append-version="true" href="~/lib/blueimp-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
-    </noscript>
-    <noscript>
         <link asp-append-version="true" href="~/lib/blueimp-file-upload/css/jquery.fileupload-ui-noscript.css" rel="stylesheet" />
     </noscript>
 }
@@ -58,7 +55,7 @@
             </div>
         </div>
         <!-- The table listing the files available for upload/download -->
-        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+        <table role="presentation" class="table table-striped table-hover"><tbody class="files"></tbody></table>
     </form>
     <br>
 </div>
@@ -178,6 +175,4 @@
     <script asp-append-version="true" src="~/lib/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
     <!-- The File Upload user interface plugin -->
     <script asp-append-version="true" src="~/lib/blueimp-file-upload/js/jquery.fileupload-ui.js"></script>
-    <!-- The main application script -->
-    <script asp-append-version="true" src="~/js/index.js"></script>
 }
