@@ -19,6 +19,6 @@
     "bower": "^1.6.8"
   },
   "scripts": {
-    "install": "\"node_modules/.bin/gulp\" install"
+    "install": "node_modules/.bin/gulp install"
   }
 }
