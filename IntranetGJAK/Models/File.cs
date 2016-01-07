@@ -1,11 +1,11 @@
-﻿using System;
+﻿namespace IntranetGJAK.Models
+{
+    using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IntranetGJAK.Models
-{
     public class File
     {
         public string Key { get; set; }

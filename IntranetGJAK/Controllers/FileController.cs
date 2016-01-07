@@ -16,6 +16,7 @@ namespace IntranetGJAK.Controllers
     using System.Threading.Tasks;
 
     using IntranetGJAK.Models;
+    using IntranetGJAK.Models.JSON.Blueimp_FileUpload;
     using IntranetGJAK.Tools;
 
     using Microsoft.AspNet.Http;
@@ -28,25 +29,13 @@ namespace IntranetGJAK.Controllers
     /// <summary>
     /// Controller for WebAPI used for uploading and downloading files
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/file")]
     public class FileController : Controller
     {
         /// <summary>
         /// The file upload path.
         /// </summary>
         private readonly string fileUploadPath;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileController"/> class.
-        /// </summary>
-        /// <param name="hostingEnvironment">
-        /// The hosting environment.
-        /// </param>
-        public FileController(IApplicationEnvironment hostingEnvironment)
-        {
-            this.fileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
-            Log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileController"/> class.
@@ -73,6 +62,7 @@ namespace IntranetGJAK.Controllers
         /// A list of all files encoded loaded from database
         /// </summary>
         /// <returns>JSON for BlueImpFileUpload plugin</returns>
+        [ActionName("Index")]
         [HttpGet]
         public JsonResult Get()
         {
@@ -85,6 +75,7 @@ namespace IntranetGJAK.Controllers
         /// </summary>
         /// <param name="id">ID of file from database</param>
         /// <returns>File to be sent to client</returns>
+        [ActionName("Index")]
         [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetById(string id)
         {
@@ -209,28 +200,10 @@ namespace IntranetGJAK.Controllers
             file.DeleteAsync();
             this.Files.Remove(item.Key);
 
-            ////ILogger log = Log.ForContext("User", User.Identity.Name);
-            ////log.Information("Starting deletion of {@fileName}", name);
-            ////ReturnDeleteData data = new ReturnDeleteData();
-            ////data.files = new Dictionary<string, bool>();
-            ////try
-            ////{
-            ////    FileInfo file = new FileInfo(Path.Combine(FileUploadPath, name));
-            ////    if (file.Exists == true)
-            ////        await file.DeleteAsync();
-            ////    if (file.Exists == false)
-            ////        throw new Exception("File not deleted!");
-            ////    else
-            ////        log.Information("File {@fileName} successfully deleted", file.Name);
-            ////    data.files.Add(name, true);
-            ////}
-            ////catch (Exception ex)
-            ////{
-            ////    data.files.Add(name, false);
-            ////    log.Warning("File deletion failed. {@Exception}", ex);
-            ////}
-            ////log.Information("Finished deletion of {@fileName}", name);
-            return this.Json(string.Empty); // FIXME: return the right json
+            DeletedData files = new DeletedData();
+
+
+            return this.Json(files);
         }
     }
 }
