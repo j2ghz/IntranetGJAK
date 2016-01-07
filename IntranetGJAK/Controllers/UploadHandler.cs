@@ -162,37 +162,37 @@ namespace IntranetGJAK.Controllers
         }
     }
 
-    public class ReturnDeleteData
-    {
-        public Dictionary<string, bool> files;
-    }
+    ////public class ReturnDeleteData
+    ////{
+    ////    public Dictionary<string, bool> files;
+    ////}
 
-    public class ReturnData
-    {
-        public IList<IReturnData> files { get; set; }
-    }
+    ////public class ReturnData
+    ////{
+    ////    public IList<IReturnData> files { get; set; }
+    ////}
 
-    public class ViewDataUploadFilesResult : IReturnData
-    {
-        public string name { get; set; }
-        public long size { get; set; }
-        public string url { get; set; }
-        public string thumbnailUrl { get; set; }
-        public string deleteUrl { get; set; }
-        public string deleteType { get; set; }
-    }
+    ////public class ViewDataUploadFilesResult : IReturnData
+    ////{
+    ////    public string name { get; set; }
+    ////    public long size { get; set; }
+    ////    public string url { get; set; }
+    ////    public string thumbnailUrl { get; set; }
+    ////    public string deleteUrl { get; set; }
+    ////    public string deleteType { get; set; }
+    ////}
 
-    public class ViewDataUploadError : IReturnData
-    {
-        public string name { get; set; }
-        public long size { get; set; }
+    ////public class ViewDataUploadError : IReturnData
+    ////{
+    ////    public string name { get; set; }
+    ////    public long size { get; set; }
 
-        public string error { get; set; }
-    }
+    ////    public string error { get; set; }
+    ////}
 
-    public interface IReturnData
-    {
-        string name { get; set; }
-        long size { get; set; }
-    }
+    ////public interface IReturnData
+    ////{
+    ////    string name { get; set; }
+    ////    long size { get; set; }
+    ////}
 }

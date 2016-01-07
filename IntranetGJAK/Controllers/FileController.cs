@@ -9,7 +9,7 @@
 
 namespace IntranetGJAK.Controllers
 {
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+    // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -99,10 +99,11 @@ namespace IntranetGJAK.Controllers
             return this.PhysicalFile(file.FullName, "application/octet-stream"); // copypasted from old controller, refactor
         }
 
-/// <summary>
-/// Add a new file
-/// </summary>
-/// <returns><see cref="JsonResult"/> for BlueImpUploadPlugin</returns>
+        /// <summary>
+        /// Add a new file
+        /// </summary>
+        /// <returns><see cref="JsonResult"/> for BlueImpUploadPlugin</returns>
+        [ActionName("Index")]
         [HttpPost]
         public async Task<IActionResult> Post()
         {
@@ -110,10 +111,10 @@ namespace IntranetGJAK.Controllers
             ILogger log = Log.ForContext("User", this.User.Identity.Name);
             log.Information("Starting file upload processing, number of files attached: {@filesAttached}", form.Files.Count);
 
-            List<IReturnData> files = new List<IReturnData>();
+            var files = new FilesData();
             foreach (var file in form.Files)
             {
-                var fileresult = new ViewDataUploadFilesResult();
+                var fileresult = new Models.JSON.Blueimp_FileUpload.FilesData();
 
                 try
                 {
@@ -152,13 +153,13 @@ namespace IntranetGJAK.Controllers
                 }
             }
 
-    var data = new ReturnData { files = files };
-    log.Information(
-        "Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files",
-        data.files.Count,
-        form.Files.Count);
+            var data = new ReturnData { files = files };
+            log.Information(
+                "Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files",
+                data.files.Count,
+                form.Files.Count);
             log.Verbose("Response {@fileData}", data.files);
-            return this.Json(data);
+            return this.Json(files);
         }
 
         /// <summary>
@@ -166,6 +167,7 @@ namespace IntranetGJAK.Controllers
         /// </summary>
         /// <param name="id">The id of the file in database</param>
         /// <returns><see cref="NotImplementedException"/></returns>
+        [ActionName("Index")]
         [HttpPut("{id}")]
         public IActionResult Put(string id)
         {
@@ -177,6 +179,7 @@ namespace IntranetGJAK.Controllers
         /// </summary>
         /// <param name="id">ID of file in database</param>
         /// <returns><see cref="JsonResult"/> for BlueImpFileUploadPlugin</returns>
+        [ActionName("Index")]
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {

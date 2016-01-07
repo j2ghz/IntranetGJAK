@@ -7,11 +7,17 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
 {
     using System.IO;
 
+/// <summary>
+/// Core class for returning upload data
+/// </summary>
     public class FilesData
     {
         public IBlueimpResult[] files { get; set; }
     }
 
+    /// <summary>
+    /// Core class for returning delete data
+    /// </summary>
     public class DeletedData
     {
         public Dictionary<string, bool> files { get; set; }
@@ -22,7 +28,10 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
 
     }
 
-    public class Uploadad : IBlueimpResult
+    /// <summary>
+    /// Class with info about an uploaded file
+    /// </summary>
+    public class UploadSucceeded : IBlueimpResult
     {
         public string name { get; set; }
 
@@ -37,6 +46,9 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
         public string deleteTyp { get; set; }
     }
 
+    /// <summary>
+    /// Class with info about an upload failure
+    /// </summary>
     public class UploadFailed : IBlueimpResult
     {
         public string name { get; set; }
