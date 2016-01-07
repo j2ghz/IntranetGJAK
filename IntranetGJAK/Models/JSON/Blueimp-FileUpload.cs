@@ -7,12 +7,19 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
 {
     using System.IO;
 
-/// <summary>
-/// Core class for returning upload data
-/// </summary>
+    using File = IntranetGJAK.Models.File;
+
+    /// <summary>
+    /// Core class for returning upload data
+    /// </summary>
     public class FilesData
     {
-        public IBlueimpResult[] files { get; set; }
+        public List<IBlueimpResult> files { get; set; }
+
+        public FilesData()
+        {
+            files = new List<IBlueimpResult>();
+        }
     }
 
     /// <summary>
@@ -25,7 +32,9 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
 
     public interface IBlueimpResult
     {
+        string name { get; set; }
 
+        long size { get; set; }
     }
 
     /// <summary>
@@ -35,15 +44,15 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
     {
         public string name { get; set; }
 
-        public int size { get; set; }
+        public long size { get; set; }
 
         public string url { get; set; }
 
-        public string thumbnailurl { get; set; }
+        public string thumbnailUrl { get; set; }
 
         public string deleteUrl { get; set; }
 
-        public string deleteTyp { get; set; }
+        public string deleteType { get; set; }
     }
 
     /// <summary>
@@ -53,7 +62,7 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
     {
         public string name { get; set; }
 
-        public int size { get; set; }
+        public long size { get; set; }
 
         public string error { get; set; }
     }

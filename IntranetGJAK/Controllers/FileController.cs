@@ -29,7 +29,7 @@ namespace IntranetGJAK.Controllers
     /// <summary>
     /// Controller for WebAPI used for uploading and downloading files
     /// </summary>
-    [Route("api/file")]
+    [Route("api/files")]
     public class FileController : Controller
     {
         /// <summary>
@@ -112,53 +112,53 @@ namespace IntranetGJAK.Controllers
             log.Information("Starting file upload processing, number of files attached: {@filesAttached}", form.Files.Count);
 
             var files = new FilesData();
-            foreach (var file in form.Files)
+            foreach (var formFile in form.Files)
             {
-                var fileresult = new Models.JSON.Blueimp_FileUpload.FilesData();
-
+                var file = new Models.File();
+                    var fileresult = new Models.JSON.Blueimp_FileUpload.UploadSucceeded();
                 try
                 {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fileName = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
                     fileresult.name = fileName;
-                    fileresult.size = file.Length;
+                    fileresult.size = formFile.Length;
 
                     var filePath = Path.Combine(this.fileUploadPath, fileName);
                     Directory.CreateDirectory(filePath);
 
-                    var savefile = file.SaveAsAsync(filePath);
+                    var savefile = formFile.SaveAsAsync(filePath);
 
-                    fileresult.url = "/Files/Download/?name=" + fileName;
+                    fileresult.url = "/api/files?id=" + fileName;
                     fileresult.thumbnailUrl = Thumbnails.GetThumbnail(fileName);
                     fileresult.deleteUrl = "/Files/Index/?name=" + fileName;
                     fileresult.deleteType = "DELETE";
 
-                    files.Add(fileresult);
 
                     await savefile;
+                    files.files.Add(fileresult);
+                    Response.StatusCode = 201;
                 }
                 catch (Exception ex)
                 {
-                    ViewDataUploadError error = new ViewDataUploadError()
+                    var error = new UploadFailed()
                     {
-                        name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"'),
-                        size = file.Length,
+                        name = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"'),
+                        size = formFile.Length,
                         error = ex.ToString()
                     };
                     log.Warning("Processing error: {@Exception}", ex);
-                    files.Add(error);
+                    files.files.Add(error);
+                    Response.StatusCode = 500;
                 }
                 finally
                 {
                     log.Information("Processed file: {@fileName} {@fileSize}", fileresult.name, Formatting.FormatBytes(fileresult.size));
                 }
             }
-
-            var data = new ReturnData { files = files };
             log.Information(
                 "Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files",
-                data.files.Count,
+                files.files.Count,
                 form.Files.Count);
-            log.Verbose("Response {@fileData}", data.files);
+            log.Verbose("Response {@fileData}", files.files);
             return this.Json(files);
         }
 
