@@ -76,13 +76,13 @@ namespace IntranetGJAK.Controllers
         /// <param name="id">ID of file from database</param>
         /// <returns>File to be sent to client</returns>
         [ActionName("Index")]
-        [HttpGet("{id}", Name = "GetTodo")]
+        [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.HttpUnauthorized();
-            }
+            ////if (!this.User.Identity.IsAuthenticated)
+            ////{
+            ////    return this.HttpUnauthorized();
+            ////}
 
             var item = this.Files.Find(id);
             if (item == null)
@@ -96,7 +96,7 @@ namespace IntranetGJAK.Controllers
                 return this.HttpNotFound("File found in database, but not on disk");
             }
 
-            return this.PhysicalFile(file.FullName, "application/octet-stream"); // copypasted from old controller, refactor
+            return this.PhysicalFile(file.FullName, "application/octet-stream", item.Name); // copypasted from old controller, refactor
         }
 
         /// <summary>
@@ -107,35 +107,29 @@ namespace IntranetGJAK.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
-            IFormCollection form = await this.Request.ReadFormAsync();
-            ILogger log = Log.ForContext("User", this.User.Identity.Name);
+            var form = await this.Request.ReadFormAsync();
+            var log = Log.ForContext("User", this.User.Identity.Name);
             log.Information("Starting file upload processing, number of files attached: {@filesAttached}", form.Files.Count);
+            this.Response.StatusCode = 201;
 
             var files = new FilesData();
             foreach (var formFile in form.Files)
             {
                 var file = new Models.File();
-                    var fileresult = new Models.JSON.Blueimp_FileUpload.UploadSucceeded();
                 try
                 {
-                    var fileName = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
-                    fileresult.name = fileName;
-                    fileresult.size = formFile.Length;
+                    file.Key = System.Guid.NewGuid().ToString();
+                    file.Path = Path.Combine(this.fileUploadPath, file.Key);
 
-                    var filePath = Path.Combine(this.fileUploadPath, fileName);
-                    Directory.CreateDirectory(filePath);
+                    Directory.CreateDirectory(Path.GetPathRoot(file.Path));
+                    var taskSave = formFile.SaveAsAsync(file.Path);
 
-                    var savefile = formFile.SaveAsAsync(filePath);
+                    file.Name = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
+                    file.Size = formFile.Length;
+                    this.Files.Add(file);
 
-                    fileresult.url = "/api/files?id=" + fileName;
-                    fileresult.thumbnailUrl = Thumbnails.GetThumbnail(fileName);
-                    fileresult.deleteUrl = "/Files/Index/?name=" + fileName;
-                    fileresult.deleteType = "DELETE";
-
-
-                    await savefile;
-                    files.files.Add(fileresult);
-                    Response.StatusCode = 201;
+                    await taskSave;
+                    files.files.Add(file.ToSerializeable());
                 }
                 catch (Exception ex)
                 {
@@ -147,13 +141,14 @@ namespace IntranetGJAK.Controllers
                     };
                     log.Warning("Processing error: {@Exception}", ex);
                     files.files.Add(error);
-                    Response.StatusCode = 500;
+                    this.Response.StatusCode = 500;
                 }
                 finally
                 {
-                    log.Information("Processed file: {@fileName} {@fileSize}", fileresult.name, Formatting.FormatBytes(fileresult.size));
+                    log.Information("Processed file: {filename} {fileSize}", file.Name, Formatting.FormatBytes(file.Size));
                 }
             }
+
             log.Information(
                 "Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files",
                 files.files.Count,

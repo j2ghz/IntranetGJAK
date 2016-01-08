@@ -1,16 +1,36 @@
 ﻿namespace IntranetGJAK.Models
 {
     using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using IntranetGJAK.Models.JSON.Blueimp_FileUpload;
+    using IntranetGJAK.Tools;
 
     public class File
     {
         public string Key { get; set; }
+
         public string Name { get; set; }
+
         public string Path { get; set; }
+
+        public long Size { get; set; }
+
+        public UploadSucceeded ToSerializeable()
+        {
+            return new UploadSucceeded
+            {
+                url = "/api/files?id=" + this.Key,
+                thumbnailUrl = Thumbnails.GetThumbnail(this.Name),
+                deleteUrl = "/Files/Index/?name=" + this.Name,
+                deleteType = "DELETE"
+            };
+
+        }
+
     }
 
     public interface IFileRepository
