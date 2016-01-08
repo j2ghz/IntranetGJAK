@@ -23,6 +23,8 @@
         {
             return new UploadSucceeded
             {
+                name = this.Name,
+                size = this.Size,
                 url = "/api/files?id=" + this.Key,
                 thumbnailUrl = Thumbnails.GetThumbnail(this.Name),
                 deleteUrl = "/Files/Index/?name=" + this.Name,

@@ -11,7 +11,7 @@ namespace IntranetGJAK.Controllers
     {
         public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (true) ////(User.Identity.IsAuthenticated)
                 return View();
             else
                 return RedirectToAction("Login", "Account");
