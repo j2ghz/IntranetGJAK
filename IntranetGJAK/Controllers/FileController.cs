@@ -107,9 +107,9 @@ namespace IntranetGJAK.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
+            var log = Log.ForContext("Module", "FileController.POST"); //TODO logging for context better
             var form = await this.Request.ReadFormAsync();
-            var log = Log.ForContext("User", this.User.Identity.Name);
-            log.Information("Starting file upload processing, number of files attached: {@filesAttached}", form.Files.Count);
+            log.Information("Request with {@filesAttached} file(s)", form.Files.Count);
             this.Response.StatusCode = 201;
 
             var files = new FilesData();
@@ -145,14 +145,11 @@ namespace IntranetGJAK.Controllers
                 }
                 finally
                 {
-                    log.Information("Processed file: {filename} {fileSize}", file.Name, Formatting.FormatBytes(file.Size));
+                    log.Information("File '{name}' with a size of {size} processed.", file.Name, Formatting.FormatBytes(file.Size));
                 }
             }
 
-            log.Information(
-                "Completed file upload processing, processed {@filesProcessed} out of {@filesAttached} files",
-                files.files.Count,
-                form.Files.Count);
+            log.Information("{FileCount} file(s) processed", files.files.Count);
             log.Verbose("Response {@fileData}", files.files);
             return this.Json(files);
         }

@@ -20,18 +20,20 @@ using System.Threading.Tasks;
 
 namespace IntranetGJAK
 {
+    using Serilog.Configuration;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            string template = "{Timestamp:HH:mm} [{Level}] ({User}) {Message}{NewLine}{Exception}";
+            const string Template = "{Timestamp:HH:mm} [{Level}] ({Module}) {Message}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
 #if DNXCORE50
       .WriteTo.TextWriter(Console.Out,outputTemplate: template)
       .WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet.log"), System.IO.FileMode.Create)),outputTemplate: template)
 #else
-      .WriteTo.LiterateConsole(outputTemplate: template)
-      .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"), outputTemplate: template)
+      .WriteTo.LiterateConsole(outputTemplate: Template)
+      .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"), outputTemplate: Template)
 #endif
       .MinimumLevel.Debug()
       .Enrich.WithProperty("User", null).CreateLogger();
@@ -114,7 +116,7 @@ namespace IntranetGJAK
             s.ServeUnknownFileTypes = true;
             s.OnPrepareResponse += new Action<StaticFileResponseContext>((StaticFileResponseContext obj) =>
             {
-                Log.ForContext("User", obj.Context.User.Identity.Name).Information("Requested {path}", obj.Context.Request.Path);
+                Log.ForContext("Module", "StaticFiles").Information("Requested {path}", obj.Context.Request.Path);
             });
             app.UseStaticFiles(s);
 
