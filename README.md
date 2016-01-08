@@ -1,4 +1,6 @@
 [![Waffle.io](https://img.shields.io/badge/Progress-waffle.io-blue.svg)](https://waffle.io/j2ghz/IntranetGJAK)
+[![NPM Dependency Status](https://www.versioneye.com/user/projects/56903f23daa0bf0035000077/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56903f23daa0bf0035000077)
+[![Bower Dependency Status](https://www.versioneye.com/user/projects/56903ee2daa0bf003900006b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56903ee2daa0bf003900006b)
 # IntranetGJAK
 
 ##Master build status:
