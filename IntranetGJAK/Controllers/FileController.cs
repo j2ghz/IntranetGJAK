@@ -107,7 +107,7 @@ namespace IntranetGJAK.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
-            var log = Log.ForContext("Module", "FileController.POST"); //TODO logging for context better
+            var log = Log.ForContext<FileController>(); // TODO logging for context better
             var form = await this.Request.ReadFormAsync();
             log.Information("Request with {@filesAttached} file(s)", form.Files.Count);
             this.Response.StatusCode = 201;

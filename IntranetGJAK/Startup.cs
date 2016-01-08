@@ -26,7 +26,7 @@ namespace IntranetGJAK
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            const string Template = "{Timestamp:HH:mm} [{Level}] ({Module}) {Message}{NewLine}{Exception}";
+            const string Template = "{Timestamp:HH:mm:ss} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
 #if DNXCORE50
       .WriteTo.TextWriter(Console.Out,outputTemplate: Template)
@@ -81,7 +81,7 @@ namespace IntranetGJAK
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
 
