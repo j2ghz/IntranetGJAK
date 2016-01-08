@@ -18,7 +18,7 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
 
         public FilesData()
         {
-            files = new List<IBlueimpResult>();
+            this.files = new List<IBlueimpResult>(1);
         }
     }
 
@@ -28,6 +28,11 @@ namespace IntranetGJAK.Models.JSON.Blueimp_FileUpload
     public class DeletedData
     {
         public Dictionary<string, bool> files { get; set; }
+
+        public DeletedData()
+        {
+            files = new Dictionary<string, bool>(1);
+        }
     }
 
     public interface IBlueimpResult

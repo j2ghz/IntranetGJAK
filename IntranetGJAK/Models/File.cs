@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,10 +12,11 @@
 
     public class File
     {
+        [Required]
         public string Key { get; set; }
-
+        [Required]
         public string Name { get; set; }
-
+        [Required]
         public string Path { get; set; }
 
         public long Size { get; set; }
@@ -25,9 +27,9 @@
             {
                 name = this.Name,
                 size = this.Size,
-                url = "/api/files?id=" + this.Key,
+                url = "/api/files/" + this.Key,
                 thumbnailUrl = Thumbnails.GetThumbnail(this.Name),
-                deleteUrl = "/Files/Index/?name=" + this.Name,
+                deleteUrl = "/api/files/" + this.Key,
                 deleteType = "DELETE"
             };
 

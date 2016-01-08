@@ -70,7 +70,7 @@
 ////                }
 ////                finally
 ////                {
-////                    log.Information("Processed file: {@fileName} {@fileSize}", fileresult.name, Formatting.FormatBytes(fileresult.size));
+////                    log.Information("Processed file: {@fileName} {@fileSize}", fileresult.name, Format.Bytes(fileresult.size));
 ////                }
 ////            }
 ////            ReturnData data = new ReturnData();
@@ -141,7 +141,7 @@
 ////                }
 ////                finally
 ////                {
-////                    log.Information("Found file: {@FileName} {@Size}", fileresult.name, Formatting.FormatBytes(fileresult.size));
+////                    log.Information("Found file: {@FileName} {@Size}", fileresult.name, Format.Bytes(fileresult.size));
 ////                    files.Add(fileresult);
 ////                }
 ////            }

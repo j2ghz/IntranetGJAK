@@ -13,6 +13,7 @@ namespace IntranetGJAK.Controllers
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
     using IntranetGJAK.Models;
@@ -37,6 +38,8 @@ namespace IntranetGJAK.Controllers
         /// </summary>
         private readonly string fileUploadPath;
 
+        private readonly ILogger log;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FileController"/> class.
         /// </summary>
@@ -46,10 +49,12 @@ namespace IntranetGJAK.Controllers
         /// <param name="files">A list of files</param>
         public FileController(IApplicationEnvironment hostingEnvironment, IFileRepository files)
         {
+            this.log = Log.ForContext<FileController>();
             this.Files = files;
             this.fileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
-            Log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
+            log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
         }
+
 
         /// <summary>
         /// Gets or sets a list of all files from database
@@ -66,8 +71,15 @@ namespace IntranetGJAK.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            Log.Information("Get triggerd");
-            return this.Json(this.Files.GetAll()); // TODO: return the right format
+            this.log.Information("Listing files:");
+            var files = new FilesData();
+            foreach (var file in this.Files.GetAll())
+            {
+                files.files.Add(file.ToSerializeable());
+                this.log.Information("Found {FileName} {Size}", file.Name, Format.Bytes(file.Size));
+            }
+            this.log.Information("Found {FileCount} file(s)", files.files.Count);
+            return this.Json(files);
         }
 
         /// <summary>
@@ -107,7 +119,6 @@ namespace IntranetGJAK.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
-            var log = Log.ForContext<FileController>(); // TODO logging for context better
             var form = await this.Request.ReadFormAsync();
             log.Information("Request with {@filesAttached} file(s)", form.Files.Count);
             this.Response.StatusCode = 201;
@@ -145,7 +156,7 @@ namespace IntranetGJAK.Controllers
                 }
                 finally
                 {
-                    log.Information("File '{name}' with a size of {size} processed.", file.Name, Formatting.FormatBytes(file.Size));
+                    log.Information("File '{name}' with a size of {size} processed.", file.Name, Format.Bytes(file.Size));
                 }
             }
 
@@ -175,29 +186,46 @@ namespace IntranetGJAK.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.HttpUnauthorized();
-            }
+            this.log.Information("Removing {id}", id);
+            bool removed = false;
+            ////if (!this.User.Identity.IsAuthenticated)
+            ////{
+            ////    this.log.Information("User Unauthorized");
+            ////    return this.HttpUnauthorized();
+            ////}
 
             var item = this.Files.Find(id);
             if (item == null)
             {
+                this.log.Warning("File {id} not found in database", id);
                 return this.HttpNotFound("File not found in database");
             }
 
-            var file = new FileInfo(item.Path);
-            if (!file.Exists)
+            this.log.Information("File found: {FileName} {Size}", item.Name, Format.Bytes(item.Size));
+            if (item.Path == null)
             {
-                return this.HttpNotFound("File found in database, but not on disk");
+                this.log.Error("Invalid Database Record {id}, removing", item.Key);
+                this.Files.Remove(item.Key);
+                removed = true;
             }
+            else
+            {
+                var file = new FileInfo(item.Path);
 
-            file.DeleteAsync();
-            this.Files.Remove(item.Key);
-
+                if (file.Exists)
+                {
+                    file.DeleteAsync();
+                    this.Files.Remove(item.Key);
+                    removed = true;
+                }
+                else
+                {
+                    this.log.Error("File found in database, but not on disk");
+                }
+            }
             DeletedData files = new DeletedData();
-
-
+            
+            files.files.Add(item.Key, removed);
             return this.Json(files);
         }
     }
