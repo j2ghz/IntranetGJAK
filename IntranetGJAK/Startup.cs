@@ -27,10 +27,14 @@ namespace IntranetGJAK
         {
             const string Template = "{Timestamp:HH:mm:ss.fff} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
-                        .WriteTo.ColoredConsole(outputTemplate: Template)
                         .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"), outputTemplate: Template)
+#if DNXCORE50
+                        .WriteTo.ColoredConsole(outputTemplate: Template)
+#endif
 #if DNX451
+                        .WriteTo.LiterateConsole(outputTemplate: Template)
                         .Enrich.FromLogContext()
+                        .WriteTo.Trace()
 #endif
                         .MinimumLevel.Debug()
                         .CreateLogger();
@@ -80,7 +84,8 @@ namespace IntranetGJAK
             loggerFactory.MinimumLevel = LogLevel.Information;
 #if DNXCORE50
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-#else 
+#endif
+#if DNX451
             loggerFactory.AddSerilog();
 #endif
             loggerFactory.AddDebug();
