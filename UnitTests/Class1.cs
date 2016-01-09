@@ -15,34 +15,34 @@
     // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
     public class Home
     {
-        [Fact]
-        public void ControllerNotNull()
-        {
-            Assert.NotNull(new HomeController());
-        }
+        ////[Fact]
+        ////public void ControllerNotNull()
+        ////{
+        ////    Assert.NotNull(new HomeController());
+        ////}
 
-        [Fact]
-        public void IndexNotLoggedInRedirects()
-        {
-            Assert.True(true);
-            return; //Not Implemented yet
-            var home = new HomeController()
-            {
-                ActionContext = new ActionContext
-                {
-                    HttpContext = null // FIX use some coreclr50 compatible mocking framework
-                }
-            };
+        ////[Fact]
+        ////public void IndexNotLoggedInRedirects()
+        ////{
+        ////    Assert.True(true);
+        ////    return; //Not Implemented yet
+        ////    var home = new HomeController()
+        ////    {
+        ////        ActionContext = new ActionContext
+        ////        {
+        ////            HttpContext = null // FIX use some coreclr50 compatible mocking framework
+        ////        }
+        ////    };
 
-            var result = home.Index();
-            Assert.NotNull(result);
-            Assert.IsType<RedirectToActionResult>(result);
-            RedirectToActionResult redirect = (RedirectToActionResult)result;
-            Assert.Equal("Account", redirect.ControllerName);
-            Assert.Equal("Login", redirect.ActionName);
-            Assert.Equal(false, redirect.Permanent);
-            Assert.Empty(redirect.RouteValues);
-        }
+        ////    var result = home.Index();
+        ////    Assert.NotNull(result);
+        ////    Assert.IsType<RedirectToActionResult>(result);
+        ////    RedirectToActionResult redirect = (RedirectToActionResult)result;
+        ////    Assert.Equal("Account", redirect.ControllerName);
+        ////    Assert.Equal("Login", redirect.ActionName);
+        ////    Assert.Equal(false, redirect.Permanent);
+        ////    Assert.Empty(redirect.RouteValues);
+        ////}
 
         [Fact]
         public void Error()
@@ -57,14 +57,14 @@
         }
     }
 
-    public class UploadController
-    {
-        [Fact]
-        public void ControllerNotNull()
-        {
-            Assert.NotNull(new Files(new AppEnv()));
-        }
-    }
+    ////public class UploadController
+    ////{
+    ////    [Fact]
+    ////    public void ControllerNotNull()
+    ////    {
+    ////        Assert.NotNull(new Files(new AppEnv()));
+    ////    }
+    ////}
 
 /// <summary>
 /// FIX lack of mocking framework
