@@ -29,7 +29,9 @@ namespace IntranetGJAK
             Log.Logger = new LoggerConfiguration()
                         .WriteTo.ColoredConsole(outputTemplate: Template)
                         .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"), outputTemplate: Template)
+#if DNX451
                         .Enrich.FromLogContext()
+#endif
                         .MinimumLevel.Debug()
                         .CreateLogger();
 
@@ -76,9 +78,12 @@ namespace IntranetGJAK
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
-            ////loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+#if DNXCORE50
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+#else 
             loggerFactory.AddSerilog();
+#endif
+            loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
