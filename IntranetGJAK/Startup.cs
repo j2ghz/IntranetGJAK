@@ -76,7 +76,7 @@ namespace IntranetGJAK
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            ////loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
 
