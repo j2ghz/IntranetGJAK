@@ -12,8 +12,9 @@
 
     public class File
     {
+        [Key]
         [Required]
-        public string Key { get; set; }
+        public string Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -29,9 +30,9 @@
             {
                 name = this.Name,
                 size = this.Size,
-                url = "/api/files/" + this.Key,
+                url = "/api/files/" + this.Id,
                 thumbnailUrl = Thumbnails.GetThumbnail(this.Name),
-                deleteUrl = "/api/files/" + this.Key,
+                deleteUrl = "/api/files/" + this.Id,
                 deleteType = "DELETE"
             };
 
@@ -68,8 +69,8 @@
 
         public void Add(File item)
         {
-            item.Key = Guid.NewGuid().ToString();
-            _Files[item.Key] = item;
+            item.Id = Guid.NewGuid().ToString();
+            _Files[item.Id] = item;
         }
 
         public File Find(string key)
@@ -89,7 +90,7 @@
 
         public void Update(File item)
         {
-            _Files[item.Key] = item;
+            _Files[item.Id] = item;
         }
     }
 }

@@ -60,7 +60,6 @@ namespace IntranetGJAK.Controllers
         /// Gets or sets a list of all files from database
         /// </summary>
         [FromServices]
-        // ReSharper disable once MemberCanBePrivate.Global
         public IFileRepository Files { get; set; }
 
         /// <summary>
@@ -129,8 +128,8 @@ namespace IntranetGJAK.Controllers
                 var file = new Models.File();
                 try
                 {
-                    file.Key = System.Guid.NewGuid().ToString();
-                    file.Path = Path.Combine(this.fileUploadPath, file.Key);
+                    file.Id = System.Guid.NewGuid().ToString();
+                    file.Path = Path.Combine(this.fileUploadPath, file.Id);
 
                     Directory.CreateDirectory(Path.GetPathRoot(file.Path));
                     var taskSave = formFile.SaveAsAsync(file.Path);
@@ -216,8 +215,8 @@ namespace IntranetGJAK.Controllers
             this.log.Information("File found: {FileName} {Size}", item.Name, Format.Bytes(item.Size));
             if (item.Path == null)
             {
-                this.log.Error("Invalid Database Record {id}, removing", item.Key);
-                this.Files.Remove(item.Key);
+                this.log.Error("Invalid Database Record {id}, removing", item.Id);
+                this.Files.Remove(item.Id);
                 removed = true;
             }
             else
@@ -227,7 +226,7 @@ namespace IntranetGJAK.Controllers
                 if (file.Exists)
                 {
                     file.DeleteAsync();
-                    this.Files.Remove(item.Key);
+                    this.Files.Remove(item.Id);
                     removed = true;
                 }
                 else
@@ -237,7 +236,7 @@ namespace IntranetGJAK.Controllers
             }
             DeletedData files = new DeletedData();
 
-            files.files.Add(item.Key, removed);
+            files.files.Add(item.Id, removed);
             return this.Json(files);
         }
     }
