@@ -18,8 +18,10 @@
         public string Name { get; set; }
         [Required]
         public string Path { get; set; }
-
+        [Required]
         public long Size { get; set; }
+        [Required]
+        public string Uploader { get; set; }
 
         public UploadSucceeded ToSerializeable()
         {

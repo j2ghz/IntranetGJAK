@@ -52,7 +52,7 @@ namespace IntranetGJAK.Controllers
             this.log = Log.ForContext<FileController>();
             this.Files = files;
             this.fileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
-            log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
+            this.log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
         }
 
 
@@ -120,7 +120,7 @@ namespace IntranetGJAK.Controllers
         public async Task<IActionResult> Post()
         {
             var form = await this.Request.ReadFormAsync();
-            log.Information("Request with {@filesAttached} file(s)", form.Files.Count);
+            this.log.Information("Request with {@filesAttached} file(s)", form.Files.Count);
             this.Response.StatusCode = 201;
 
             var files = new FilesData();
@@ -137,6 +137,7 @@ namespace IntranetGJAK.Controllers
 
                     file.Name = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
                     file.Size = formFile.Length;
+                    file.Uploader = this.User.Identity.Name;
                     this.Files.Add(file);
 
                     await taskSave;
@@ -150,18 +151,29 @@ namespace IntranetGJAK.Controllers
                         size = formFile.Length,
                         error = ex.ToString()
                     };
-                    log.Warning("Processing error: {@Exception}", ex);
+                    this.log.Warning("Processing error: {@Exception}", ex);
                     files.files.Add(error);
                     this.Response.StatusCode = 500;
                 }
                 finally
                 {
-                    log.Information("File '{name}' with a size of {size} processed.", file.Name, Format.Bytes(file.Size));
+                    if (file.Size != new FileInfo(file.Path).Length)
+                    {
+                        this.log.Error(
+                            "File is a different size than advertised! {sizeAdvertised} != {Actualsize}",
+                            file.Size,
+                            new FileInfo(file.Path).Length);
+                    }
+
+                    this.log.Information(
+                        "File '{name}' with a size of {size} processed",
+                        file.Name,
+                        Format.Bytes(file.Size));
                 }
             }
 
-            log.Information("{FileCount} file(s) processed", files.files.Count);
-            log.Verbose("Response {@fileData}", files.files);
+            this.log.Information("{FileCount} file(s) processed", files.files.Count);
+            this.log.Verbose("Response {@fileData}", files.files);
             return this.Json(files);
         }
 
@@ -224,7 +236,7 @@ namespace IntranetGJAK.Controllers
                 }
             }
             DeletedData files = new DeletedData();
-            
+
             files.files.Add(item.Key, removed);
             return this.Json(files);
         }
