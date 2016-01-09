@@ -37,6 +37,10 @@ namespace IntranetGJAK
             .MinimumLevel.Debug()
             .CreateLogger();
 
+            Log.Information("{AppName} {AppVersion}",appEnv.ApplicationName,appEnv.ApplicationVersion );
+            Log.Information("{@RuntimeFramework}", appEnv.RuntimeFramework);
+            Log.Information("{LogPath}", System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"));
+
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
