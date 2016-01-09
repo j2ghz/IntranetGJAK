@@ -16,6 +16,7 @@ before_build:
 - cmd: dnu restore
 - cmd: cd IntranetGJAK
 - cmd: npm install
+- cmd: gulp
 - cmd: dnu publish
 build:
   project: IntranetGJAK.sln

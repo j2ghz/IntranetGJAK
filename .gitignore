@@ -1,8 +1,5 @@
-*/Uploads/
 */wwwroot/lib/
 */wwwroot/_references.js
-*.min.css
-*.min.js
 */test-reports/*
 
 ## Ignore Visual Studio temporary files, build results, and
