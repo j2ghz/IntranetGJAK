@@ -34,7 +34,7 @@ namespace IntranetGJAK
 #if DNX451
                         .WriteTo.LiterateConsole(outputTemplate: Template)
                         .Enrich.FromLogContext()
-                        .WriteTo.Trace()
+                        //.WriteTo.Trace()
 #endif
                         .MinimumLevel.Debug()
                         .CreateLogger();
@@ -82,14 +82,13 @@ namespace IntranetGJAK
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
+            loggerFactory.AddDebug();
 #if DNXCORE50
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 #endif
 #if DNX451
             loggerFactory.AddSerilog();
 #endif
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
