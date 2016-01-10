@@ -25,7 +25,8 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
-    "Serilog.Framework.Logging": "1.0.0-rc1-final-10075"
+    "Serilog.Framework.Logging": "1.0.0-rc1-final-10075",
+    "System.Data.SqlClient": "4.0.0-beta-23516"
   },
 
   "commands": {
