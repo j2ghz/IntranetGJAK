@@ -16,7 +16,7 @@
 
 $(() => {
     "use strict";
-    var uploadUrl = "api/files";
+    var uploadUrl = "/api/files";
     // Initialize the jQuery File Upload widget:
     $("#fileupload").fileupload({
         // Uncomment the following to send cross-domain cookies:

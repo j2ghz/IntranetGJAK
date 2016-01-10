@@ -74,7 +74,7 @@ namespace IntranetGJAK
 
             services.AddMvc();
 
-            services.AddSingleton<IFileRepository, FileRepository>();
+            //services.AddSingleton<IFileRepository, FileRepository>();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -91,7 +91,7 @@ namespace IntranetGJAK
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
+                //app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }

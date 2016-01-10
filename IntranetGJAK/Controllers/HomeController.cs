@@ -11,20 +11,17 @@ namespace IntranetGJAK.Controllers
 
     public class HomeController : Controller
     {
-        public HomeController(IFileRepository files)
+        public HomeController()
         {
-            this.Files = files;
+
         }
 
-        /// <summary>
-        /// Gets or sets a list of all files from database
-        /// </summary>
         [FromServices]
-        private IFileRepository Files { get; set; }
+        public ApplicationDbContext DbContext { get; set; }
 
         public IActionResult Index()
         {
-            return View(this.Files.GetAll());
+            return this.View(this.DbContext.Files);
         }
 
         public IActionResult Upload()
@@ -42,7 +39,7 @@ namespace IntranetGJAK.Controllers
 
         public IActionResult Error()
         {
-            return View();
+            return this.View();
         }
     }
 }

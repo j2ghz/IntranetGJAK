@@ -57,10 +57,10 @@
     {
         private static ConcurrentDictionary<string, File> _Files = new ConcurrentDictionary<string, File>();
 
-        ////public FileRepository()
-        ////{
-            
-        ////}
+
+        public FileRepository()
+        {
+        }
 
         public IEnumerable<File> GetAll()
         {

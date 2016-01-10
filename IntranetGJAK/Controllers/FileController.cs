@@ -13,6 +13,7 @@ namespace IntranetGJAK.Controllers
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
@@ -22,6 +23,7 @@ namespace IntranetGJAK.Controllers
 
     using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Mvc;
+    using Microsoft.Data.Entity;
     using Microsoft.Extensions.PlatformAbstractions;
     using Microsoft.Net.Http.Headers;
 
@@ -47,20 +49,15 @@ namespace IntranetGJAK.Controllers
         /// The hosting environment.
         /// </param>
         /// <param name="files">A list of files</param>
-        public FileController(IApplicationEnvironment hostingEnvironment, IFileRepository files)
+        public FileController(IApplicationEnvironment hostingEnvironment)
         {
             this.log = Log.ForContext<FileController>();
-            this.Files = files;
             this.fileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
             this.log.Verbose("File handler created with base path: {@basepath}", this.fileUploadPath);
         }
 
-
-        /// <summary>
-        /// Gets or sets a list of all files from database
-        /// </summary>
         [FromServices]
-        public IFileRepository Files { get; set; }
+        public ApplicationDbContext Db { get; set; }
 
         /// <summary>
         /// A list of all files encoded loaded from database
@@ -72,7 +69,7 @@ namespace IntranetGJAK.Controllers
         {
             this.log.Information("Listing files:");
             var files = new FilesData();
-            foreach (var file in this.Files.GetAll())
+            foreach (var file in this.Db.Files)
             {
                 files.files.Add(file.ToSerializeable());
                 this.log.Information("Found {FileName} {Size}", file.Name, Format.Bytes(file.Size));
@@ -95,19 +92,20 @@ namespace IntranetGJAK.Controllers
             ////    return this.HttpUnauthorized();
             ////}
 
-            var item = this.Files.Find(id);
-            if (item == null)
+            var item = from record in this.Db.Files where record.Id == id select record;
+            if (item.Count() != 1)
             {
                 return this.HttpNotFound("File not found in database");
             }
+            var _item = item.First();
 
-            var file = new FileInfo(item.Path);
+            var file = new FileInfo(_item.Path);
             if (!file.Exists)
             {
                 return this.HttpNotFound("File found in database, but not on disk");
             }
 
-            return this.PhysicalFile(file.FullName, "application/octet-stream", item.Name); // copypasted from old controller, refactor
+            return this.PhysicalFile(file.FullName, "application/octet-stream", _item.Name); // copypasted from old controller, refactor
         }
 
         /// <summary>
@@ -137,9 +135,10 @@ namespace IntranetGJAK.Controllers
                     file.Name = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
                     file.Size = formFile.Length;
                     file.Uploader = this.User.Identity.Name;
-                    this.Files.Add(file);
+                    this.Db.Files.Add(file);
 
                     await taskSave;
+                    this.Db.SaveChanges();
                     files.files.Add(file.ToSerializeable());
                 }
                 catch (Exception ex)
@@ -205,18 +204,23 @@ namespace IntranetGJAK.Controllers
             ////    return this.HttpUnauthorized();
             ////}
 
-            var item = this.Files.Find(id);
-            if (item == null)
+            var items = from record in this.Db.Files where record.Id == id select record;
+            if (!items.Any())
             {
                 this.log.Warning("File {id} not found in database", id);
                 return this.HttpNotFound("File not found in database");
             }
+            else if (items.Count() > 1)
+            {
+                this.log.Error("Multiple same id records returned from database {@records}", items);
+            }
+            var item = items.First();
 
             this.log.Information("File found: {FileName} {Size}", item.Name, Format.Bytes(item.Size));
             if (item.Path == null)
             {
                 this.log.Error("Invalid Database Record {id}, removing", item.Id);
-                this.Files.Remove(item.Id);
+                this.Db.Files.Remove(item);
                 removed = true;
             }
             else
@@ -226,7 +230,7 @@ namespace IntranetGJAK.Controllers
                 if (file.Exists)
                 {
                     file.DeleteAsync();
-                    this.Files.Remove(item.Id);
+                    this.Db.Files.Remove(item);
                     removed = true;
                 }
                 else
@@ -234,9 +238,10 @@ namespace IntranetGJAK.Controllers
                     this.log.Error("File found in database, but not on disk");
                 }
             }
+            this.Db.SaveChanges();
             DeletedData files = new DeletedData();
 
-            files.files.Add(item.Id, removed);
+            files.files.Add(item.Name, removed);
             return this.Json(files);
         }
     }
