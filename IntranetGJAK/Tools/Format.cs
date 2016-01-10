@@ -2,9 +2,9 @@
 
 namespace IntranetGJAK.Tools
 {
-    public class Formatting
+    public class Format
     {
-        public static string FormatBytes(long bytes)
+        public static string Bytes(long bytes)
         {
             string[] Suffix = { "B", "KB", "MB", "GB", "TB" };
             int i;

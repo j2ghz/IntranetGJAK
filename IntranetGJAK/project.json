@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet5-IntranetGJAK-59626e0b-9fc5-4037-ab48-68c8541f2730",
   "version": "1.0.0-*",
   "compilationOptions": {
@@ -26,11 +26,11 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
     "Microsoft.AspNet.SignalR.Server": "3.0.0-*",
-    "Serilog.Framework.Logging": "1.0.0-rc1-final-10071"
+    "Serilog.Framework.Logging": "1.0.0-rc1-final-10075"
   },
 
   "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel",
+    "web": "Microsoft.AspNet.Server.Kestrel --server.urls http://0.0.0.0:5000",
     "ef": "EntityFramework.Commands"
   },
 

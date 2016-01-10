@@ -90,7 +90,7 @@ gulp.task("sass", ["clean:css"], function() {
     return gulp.src(paths.sass)
         .pipe(sourcemaps.init())
         .pipe(sass().on("error", sass.logError))
-        .pipe(autoprefixer())
+        //.pipe(autoprefixer())
         .pipe(concat("site.css"))
         .pipe(cssmin())
         .pipe(sourcemaps.write("."))

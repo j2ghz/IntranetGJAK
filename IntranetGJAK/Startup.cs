@@ -20,21 +20,27 @@ using System.Threading.Tasks;
 
 namespace IntranetGJAK
 {
+
     public class Startup
     {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
-            string template = "{Timestamp:HH:mm} [{Level}] ({User}) {Message}{NewLine}{Exception}";
+            const string Template = "{Timestamp:HH:mm:ss.fff} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
 #if DNXCORE50
-      .WriteTo.TextWriter(Console.Out,outputTemplate: template)
-      .WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet.log"), System.IO.FileMode.Create)),outputTemplate: template)
+            .WriteTo.TextWriter(Console.Out, outputTemplate: Template)
+            .WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet.log"), System.IO.FileMode.Create)),outputTemplate: Template)
 #else
-      .WriteTo.LiterateConsole(outputTemplate: template)
-      .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "Logs", "intranet-{Date}.log"), outputTemplate: template)
+            .WriteTo.LiterateConsole(outputTemplate: Template)
+            .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"), outputTemplate: Template)
 #endif
-      .MinimumLevel.Debug()
-      .Enrich.WithProperty("User", null).CreateLogger();
+            .MinimumLevel.Debug()
+            .CreateLogger();
+
+            var log = Log.ForContext<Startup>();
+            log.Information("{AppName} {AppVersion}",appEnv.ApplicationName,appEnv.ApplicationVersion );
+            log.Information("{@RuntimeFramework}", appEnv.RuntimeFramework.FullName);
+            log.Information("{LogPath}", System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"));
 
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
@@ -79,7 +85,7 @@ namespace IntranetGJAK
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddSerilog();
 
@@ -106,16 +112,9 @@ namespace IntranetGJAK
                 catch { }
             }
 
-            //TODO: Add request logger
-
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
-            StaticFileOptions s = new StaticFileOptions();
-            s.ServeUnknownFileTypes = true;
-            s.OnPrepareResponse += new Action<StaticFileResponseContext>((StaticFileResponseContext obj) =>
-            {
-                Log.ForContext("User", obj.Context.User.Identity.Name).Information("Requested {path}", obj.Context.Request.Path);
-            });
+            var s = new StaticFileOptions { ServeUnknownFileTypes = true };
             app.UseStaticFiles(s);
 
             app.UseIdentity();

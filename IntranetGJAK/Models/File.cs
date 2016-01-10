@@ -1,16 +1,43 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace IntranetGJAK.Models
+﻿namespace IntranetGJAK.Models
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using IntranetGJAK.Models.JSON.Blueimp_FileUpload;
+    using IntranetGJAK.Tools;
+
     public class File
     {
-        public string Key { get; set; }
+        [Key]
+        [Required]
+        public string Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Path { get; set; }
+        [Required]
+        public long Size { get; set; }
+        [Required]
+        public string Uploader { get; set; }
+
+        public UploadSucceeded ToSerializeable()
+        {
+            return new UploadSucceeded
+            {
+                name = this.Name,
+                size = this.Size,
+                url = "/api/files/" + this.Id,
+                thumbnailUrl = Thumbnails.GetThumbnail(this.Name),
+                deleteUrl = "/api/files/" + this.Id,
+                deleteType = "DELETE"
+            };
+
+        }
+
     }
 
     public interface IFileRepository
@@ -30,10 +57,10 @@ namespace IntranetGJAK.Models
     {
         private static ConcurrentDictionary<string, File> _Files = new ConcurrentDictionary<string, File>();
 
-        public FileRepository()
-        {
-            Add(new File { Name = "Item1" });
-        }
+        ////public FileRepository()
+        ////{
+            
+        ////}
 
         public IEnumerable<File> GetAll()
         {
@@ -42,8 +69,8 @@ namespace IntranetGJAK.Models
 
         public void Add(File item)
         {
-            item.Key = Guid.NewGuid().ToString();
-            _Files[item.Key] = item;
+            item.Id = Guid.NewGuid().ToString();
+            _Files[item.Id] = item;
         }
 
         public File Find(string key)
@@ -63,7 +90,7 @@ namespace IntranetGJAK.Models
 
         public void Update(File item)
         {
-            _Files[item.Key] = item;
+            _Files[item.Id] = item;
         }
     }
 }
