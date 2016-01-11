@@ -28,12 +28,12 @@ namespace IntranetGJAK
             const string Template = "{Timestamp:HH:mm:ss.fff} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
 #if DNXCORE50
-            .WriteTo.TextWriter(Console.Out, outputTemplate: Template)
-            .WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet.log"), System.IO.FileMode.Create)),outputTemplate: Template)
+            .WriteTo.ColoredConsole(outputTemplate: Template)
+            //.WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet.log"), System.IO.FileMode.Create)),outputTemplate: Template)
 #else
             .WriteTo.LiterateConsole(outputTemplate: Template)
-            .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"), outputTemplate: Template)
 #endif
+            .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"), outputTemplate: Template)
             .MinimumLevel.Debug()
             .CreateLogger();
 
