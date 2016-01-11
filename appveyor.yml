@@ -13,6 +13,7 @@ environment:
 init:
 - cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 - cmd: dnvm upgrade
+- cmd: SET
 install:
 - cmd: dnu restore
 - cmd: cd IntranetGJAK
@@ -31,4 +32,3 @@ cache:
  - IntranetGJAK\wwwroot\lib
  - IntranetGJAK\node_modules
  - %APPDATA%\npm-cache
- - C:\Users\appveyor\.dnx\packages
