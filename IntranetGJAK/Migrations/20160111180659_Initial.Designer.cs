@@ -8,14 +8,13 @@ using IntranetGJAK.Models;
 namespace IntranetGJAK.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160110115836_Files2")]
-    partial class Files2
+    [Migration("20160111180659_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
 
             modelBuilder.Entity("IntranetGJAK.Models.ApplicationUser", b =>
                 {

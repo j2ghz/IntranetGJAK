@@ -20,9 +20,16 @@ using System.Threading.Tasks;
 
 namespace IntranetGJAK
 {
+    using System.IO;
+
+    using ILogger = Serilog.ILogger;
 
     public class Startup
     {
+        private ILogger log;
+
+        private readonly string databasePath;
+
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
             const string Template = "{Timestamp:HH:mm:ss.fff} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}";
@@ -33,14 +40,17 @@ namespace IntranetGJAK
 #else
             .WriteTo.LiterateConsole(outputTemplate: Template)
 #endif
-            .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"), outputTemplate: Template)
+            .WriteTo.RollingFile(Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"), outputTemplate: Template)
             .MinimumLevel.Debug()
             .CreateLogger();
 
-            var log = Log.ForContext<Startup>();
-            log.Information("{AppName} {AppVersion}",appEnv.ApplicationName,appEnv.ApplicationVersion );
+            log = Log.ForContext<Startup>();
+            log.Information("{AppName} {AppVersion}", appEnv.ApplicationName, appEnv.ApplicationVersion);
             log.Information("{@RuntimeFramework}", appEnv.RuntimeFramework.FullName);
-            log.Information("{LogPath}", System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"));
+            log.Information("{LogPath}", Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"));
+
+            databasePath = Path.Combine(appEnv.ApplicationBasePath, "database.sqlite");
+            this.log.Information("Using database {path}", databasePath);
 
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
@@ -60,15 +70,15 @@ namespace IntranetGJAK
         public IConfigurationRoot Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services, IApplicationEnvironment appEnv)
+        public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddEntityFramework()
                 .AddSqlite()
-                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(System.IO.Path.Combine(appEnv.ApplicationBasePath, "database.sqlite")));
-                //.AddSqlServer()
-                //.AddDbContext<ApplicationDbContext>(options =>
-                //    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=" + databasePath));
+            //.AddSqlServer()
+            //.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
