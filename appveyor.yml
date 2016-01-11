@@ -10,26 +10,25 @@ platform: Any CPU
 shallow_clone: true
 environment:
   DNX_FEED: https://www.nuget.org/api/v2
-before_build:
+init:
 - cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 - cmd: dnvm upgrade
+install:
 - cmd: dnu restore
 - cmd: cd IntranetGJAK
 - cmd: npm install
-- cmd: gulp
+build_script:
+- cmd: cd IntranetGJAK
 - cmd: dnu publish
-build:
-  project: IntranetGJAK.sln
-  publish_wap: true
-  parallel: true
-  verbosity: minimal
+after_build:
+- cmd: 7z a IntranetGJAK.zip %APPVEYOR_BUILD_FOLDER%\artifacts
 test_script:
-- cmd: dnx -p UnitTests/ test
+- cmd: dnx -p UnitTests\ test
 artifacts:
 - path: IntranetGJAK.zip
   name: IntranetGJAK
-deploy:
-- provider: Environment
-  name: VOSTRO470
-  on:
-    branch: master
+cache:
+ - IntranetGJAK\wwwroot\lib
+ - IntranetGJAK\node_modules
+ - %APPDATA%\npm-cache
+ - C:\Users\appveyor\.dnx\packages
