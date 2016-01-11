@@ -7,9 +7,9 @@ shallow_clone: true
 environment:
   matrix:
     - framework: dnx451
-	  runtime: clr
+      runtime: clr
     - framework: dnxcore50
-	  runtime: coreclr
+      runtime: coreclr
 init:
 - cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 - cmd: dnvm upgrade -r %runtime%
