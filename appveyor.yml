@@ -31,4 +31,4 @@ artifacts:
 cache:
  - IntranetGJAK\wwwroot\lib
  - IntranetGJAK\node_modules
- - %APPDATA%\npm-cache
+ - "%APPDATA%\npm-cache"
