@@ -8,6 +8,7 @@
   "dependencies": {
     "EntityFramework.Commands": "7.0.0-rc1-final",
     "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+    "EntityFramework.Sqlite": "7.0.0-rc1-final",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics.Entity": "7.0.0-rc1-final",
     "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
@@ -24,8 +25,9 @@
     "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
+    "Microsoft.NETCore.Platforms": "1.0.1-*",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
-    "Serilog.Framework.Logging": "1.0.0-rc1-final-10075"
+    "Serilog.Framework.Logging": "1.0.0-rc1-final-10083"
   },
 
   "commands": {
@@ -39,7 +41,13 @@
         "Serilog.Sinks.Literate": "1.2.0"
       }
     },
-    "dnxcore50": { }
+    "dnxcore50": {
+      "dependencies": {
+        "runtime.unix.System.Data.SqlClient": "4.0.0-beta-23516",
+        "runtime.unix.System.Net.Security": "4.0.0-beta-23516",
+        "System.Data.SqlClient": "4.0.0-beta-23516"
+      }
+    }
   },
 
   "exclude": [

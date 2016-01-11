@@ -1,3 +1,4 @@
+*.sqlite
 */wwwroot/lib/
 */wwwroot/_references.js
 */test-reports/*

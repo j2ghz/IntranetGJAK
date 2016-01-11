@@ -20,27 +20,37 @@ using System.Threading.Tasks;
 
 namespace IntranetGJAK
 {
+    using System.IO;
+
+    using ILogger = Serilog.ILogger;
 
     public class Startup
     {
+        private ILogger log;
+
+        private readonly string databasePath;
+
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
             const string Template = "{Timestamp:HH:mm:ss.fff} [{Level}] [{SourceContext}] {Message}{NewLine}{Exception}";
             Log.Logger = new LoggerConfiguration()
 #if DNXCORE50
-            .WriteTo.TextWriter(Console.Out, outputTemplate: Template)
-            .WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet.log"), System.IO.FileMode.Create)),outputTemplate: Template)
+            .WriteTo.ColoredConsole(outputTemplate: Template)
+            //.WriteTo.TextWriter(new System.IO.StreamWriter(new System.IO.FileStream(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet.log"), System.IO.FileMode.Create)),outputTemplate: Template)
 #else
             .WriteTo.LiterateConsole(outputTemplate: Template)
-            .WriteTo.RollingFile(System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"), outputTemplate: Template)
 #endif
+            .WriteTo.RollingFile(Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"), outputTemplate: Template)
             .MinimumLevel.Debug()
             .CreateLogger();
 
-            var log = Log.ForContext<Startup>();
-            log.Information("{AppName} {AppVersion}",appEnv.ApplicationName,appEnv.ApplicationVersion );
+            log = Log.ForContext<Startup>();
+            log.Information("{AppName} {AppVersion}", appEnv.ApplicationName, appEnv.ApplicationVersion);
             log.Information("{@RuntimeFramework}", appEnv.RuntimeFramework.FullName);
-            log.Information("{LogPath}", System.IO.Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"));
+            log.Information("{LogPath}", Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"));
+
+            databasePath = Path.Combine(appEnv.ApplicationBasePath, "database.sqlite");
+            this.log.Information("Using database {path}", databasePath);
 
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
@@ -64,9 +74,11 @@ namespace IntranetGJAK
         {
             // Add framework services.
             services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                .AddSqlite()
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=" + databasePath));
+            //.AddSqlServer()
+            //.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
