@@ -60,13 +60,15 @@ namespace IntranetGJAK
         public IConfigurationRoot Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IApplicationEnvironment appEnv)
         {
             // Add framework services.
             services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                .AddSqlite()
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite(System.IO.Path.Combine(appEnv.ApplicationBasePath, "database.sqlite")));
+                //.AddSqlServer()
+                //.AddDbContext<ApplicationDbContext>(options =>
+                //    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
