@@ -17,6 +17,7 @@ install:
 - cmd: dnu restore
 - cmd: cd IntranetGJAK
 - cmd: npm install
+- cmd: node_modules/.bin/gulp install
 build_script:
 - cmd: dnu publish --runtime %framework%
 after_build:
