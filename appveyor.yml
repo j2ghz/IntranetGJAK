@@ -19,7 +19,7 @@ install:
 - cmd: npm install
 - cmd: node_modules/.bin/gulp install
 build_script:
-- cmd: dnu publish --runtime %framework%
+- cmd: dnu publish --framework %framework%
 after_build:
 - cmd: cd ..
 - cmd: 7z a IntranetGJAK.zip %APPVEYOR_BUILD_FOLDER%\artifacts
