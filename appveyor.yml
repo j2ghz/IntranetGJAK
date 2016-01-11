@@ -31,5 +31,5 @@ artifacts:
 cache:
  - IntranetGJAK\wwwroot\lib
  - IntranetGJAK\node_modules
- - "%APPDATA%\npm-cache"
- - "%USERPROFILE%\.dnx\packages"
+ - $(APPDATA)\npm-cache"
+ - $(USERPROFILE)\.dnx\packages
