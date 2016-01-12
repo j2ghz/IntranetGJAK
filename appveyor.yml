@@ -19,7 +19,7 @@ install:
 - cmd: npm install
 - cmd: node_modules/.bin/gulp install
 build_script:
-- cmd: dnu publish --runtime %framework%
+- cmd: dnu publish --framework %framework% -o %APPVEYOR_BUILD_FOLDER%\artifacts
 after_build:
 - cmd: cd ..
 - cmd: 7z a IntranetGJAK.zip %APPVEYOR_BUILD_FOLDER%\artifacts
@@ -31,6 +31,6 @@ artifacts:
 cache:
  - IntranetGJAK\wwwroot\lib
  - IntranetGJAK\node_modules
- - $(APPDATA)\npm-cache
- - $(USERPROFILE)\.dnx\packages
- - $(USERPROFILE)\.dnx\runtimes
+ - '%APPDATA%\npm-cache'
+ - '%USERPROFILE%\.dnx\packages'
+ - '%USERPROFILE%\.dnx\runtimes'

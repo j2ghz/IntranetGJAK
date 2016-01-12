@@ -16,12 +16,15 @@
         [Required]
         public string Id { get; set; }
         [Required]
+        [Display(Name = "Název souboru")]
         public string Name { get; set; }
         [Required]
         public string Path { get; set; }
         [Required]
+        [Display(Name = "Velikost")]
         public long Size { get; set; }
         [Required]
+        [Display(Name = "Odesílatel")]
         public string Uploader { get; set; }
 
         public UploadSucceeded ToSerializeable()

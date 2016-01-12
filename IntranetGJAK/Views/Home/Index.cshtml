@@ -1,21 +1,14 @@
+@using IntranetGJAK.Tools
 @model IEnumerable<IntranetGJAK.Models.File>
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Seznam souborù";
 }
 
-<h2>View</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Path)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Size)
@@ -30,9 +23,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Path)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Size)
