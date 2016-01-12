@@ -1,26 +1,26 @@
-﻿using IntranetGJAK.Models;
-using IntranetGJAK.Services;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics.Entity;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.StaticFiles;
-using Microsoft.Data.Entity;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
-using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace IntranetGJAK
+﻿namespace IntranetGJAK
 {
     using System.IO;
+    using IntranetGJAK.Models;
+    using IntranetGJAK.Services;
+    using Microsoft.AspNet.Builder;
+    using Microsoft.AspNet.Diagnostics.Entity;
+    using Microsoft.AspNet.Hosting;
+    using Microsoft.AspNet.Http;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.StaticFiles;
+    using Microsoft.Data.Entity;
+    using Microsoft.Dnx.Runtime;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.PlatformAbstractions;
+    using Serilog;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Swashbuckle.SwaggerGen;
 
     using ILogger = Serilog.ILogger;
 
@@ -28,7 +28,7 @@ namespace IntranetGJAK
     {
         private ILogger log;
 
-        private readonly string databasePath;
+        private readonly string envPath;
 
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
@@ -49,8 +49,7 @@ namespace IntranetGJAK
             log.Information("{@RuntimeFramework}", appEnv.RuntimeFramework.FullName);
             log.Information("{LogPath}", Path.Combine(appEnv.ApplicationBasePath, "intranet-{Date}.log"));
 
-            databasePath = Path.Combine(appEnv.ApplicationBasePath, "database.sqlite");
-            this.log.Information("Using database {path}", databasePath);
+            envPath = appEnv.ApplicationBasePath;
 
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
@@ -75,7 +74,7 @@ namespace IntranetGJAK
             // Add framework services.
             services.AddEntityFramework()
                 .AddSqlite()
-                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=" + databasePath));
+                .AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=" + Path.Combine(this.envPath, "database.sqlite")));
             //.AddSqlServer()
             //.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
@@ -85,6 +84,30 @@ namespace IntranetGJAK
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            string xmlPath = Directory.GetFiles(Path.Combine(this.envPath,".."), "IntranetGJAK.xml", SearchOption.AllDirectories).First();
+
+            services.AddSwaggerGen();
+
+            services.ConfigureSwaggerDocument(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "IntranetGJAK API",
+                    Description = "A simple file repository",
+                    TermsOfService = "TBA"
+                });
+                options.OperationFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlActionComments(xmlPath));
+            });
+
+            services.ConfigureSwaggerSchema(
+                options =>
+                    {
+                        options.DescribeAllEnumsAsStrings = true;
+                        options.ModelFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlTypeComments(xmlPath));
+                    }
+            );
 
             //services.AddSingleton<IFileRepository, FileRepository>();
 
@@ -130,6 +153,9 @@ namespace IntranetGJAK
             app.UseStaticFiles(s);
 
             app.UseIdentity();
+
+            app.UseSwaggerGen();
+            app.UseSwaggerUi();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
