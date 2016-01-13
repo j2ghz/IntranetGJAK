@@ -6,17 +6,17 @@
 ##Master build status:
 | OS | CI | Download |
 | ------------- |:-------------:|:-----:|
-| Windows | [![AppVeyor branch](https://img.shields.io/appveyor/ci/j2ghz/intranetgjak/master.svg)](https://ci.appveyor.com/project/j2ghz/intranetgjak) | - |
+| Windows DNX45 and DNXCORE50 | [![AppVeyor branch](https://img.shields.io/appveyor/ci/j2ghz/intranetgjak/master.svg)](https://ci.appveyor.com/project/j2ghz/intranetgjak) | - |
 | Linux | - | - |
-| Linux | [![Travis branch](https://img.shields.io/travis/j2ghz/IntranetGJAK/master.svg)](https://travis-ci.org/j2ghz/IntranetGJAK) | - |
+| Linux & OSX DNXCORE50 | [![Travis branch](https://img.shields.io/travis/j2ghz/IntranetGJAK/master.svg)](https://travis-ci.org/j2ghz/IntranetGJAK) | - |
 
-# Linux (OUTDATED)
+# Linux
 - Install dependencies
   - http://docs.asp.net/en/latest/getting-started/installing-on-linux.html
-  - `npm install`
-  - `bower install`
   - `dnu restore`
-- `dnx web` or `dnu publish`
+  - `cd IntranetGJAK`
+  - `npm install`
+- `dnx web` or `dnu publish` in /IntranetGJAK
 
 # Windows (with VS 2015)
 - open in VS 2015
