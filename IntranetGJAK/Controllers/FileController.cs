@@ -135,6 +135,7 @@ namespace IntranetGJAK.Controllers
                     file.Name = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
                     file.Size = formFile.Length;
                     file.Uploader = this.User.Identity.Name;
+                    file.DateUploaded = DateTime.Now;
                     this.Db.Files.Add(file);
 
                     await taskSave;

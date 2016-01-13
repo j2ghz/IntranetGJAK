@@ -26,6 +26,9 @@
         [Required]
         [Display(Name = "Odesílatel")]
         public string Uploader { get; set; }
+        [Required]
+        [Display(Name = "Datum")]
+        public DateTime DateUploaded { get; set; }
 
         public UploadSucceeded ToSerializeable()
         {

@@ -9,7 +9,7 @@
     <link asp-append-version="true" href="~/lib/datatables.net-dt/css/jquery.datatables.css" rel="stylesheet" />
 }
 
-<table id="filetable" class="display" cellspacing="0" width="100%">
+<table id="filetable" class="display" width="100%">
     <thead>
         <tr>
             <th>
@@ -17,6 +17,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateUploaded)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Uploader)
@@ -31,6 +34,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateUploaded)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Uploader)

@@ -8,7 +8,7 @@ using IntranetGJAK.Models;
 namespace IntranetGJAK.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160111180659_Initial")]
+    [Migration("20160113205933_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,8 @@ namespace IntranetGJAK.Migrations
             modelBuilder.Entity("IntranetGJAK.Models.File", b =>
                 {
                     b.Property<string>("Id");
+
+                    b.Property<DateTime>("DateUploaded");
 
                     b.Property<string>("Name")
                         .IsRequired();

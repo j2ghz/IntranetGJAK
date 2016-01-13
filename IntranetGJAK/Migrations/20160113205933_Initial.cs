@@ -37,6 +37,7 @@ namespace IntranetGJAK.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
+                    DateUploaded = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Path = table.Column<string>(nullable: false),
                     Size = table.Column<long>(nullable: false),

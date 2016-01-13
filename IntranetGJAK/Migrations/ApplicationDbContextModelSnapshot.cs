@@ -67,6 +67,8 @@ namespace IntranetGJAK.Migrations
                 {
                     b.Property<string>("Id");
 
+                    b.Property<DateTime>("DateUploaded");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
