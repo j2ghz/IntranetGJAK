@@ -2,3 +2,15 @@
 .body-content {
     margin-top: 70px;
 }
+
+.grid {
+    width: 100%;
+
+    .grid-item {
+        width: 100%;
+
+        table {
+            width: 100%;
+        }
+    }
+}

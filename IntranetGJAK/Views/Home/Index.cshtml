@@ -1,34 +1,30 @@
-@using IntranetGJAK.Tools
 @model IEnumerable<IntranetGJAK.Models.File>
 
 @{
     ViewData["Title"] = "Seznam souborù";
 }
 
-<table class="table table-striped table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Size)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Uploader)
-        </th>
-    </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Size)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Uploader)
-        </td>
-    </tr>
+@section scripts {
+    <script src="~/lib/isotope/dist/isotope.pkgd.js"></script>
 }
-</table>
+
+<div class="grid">
+    @foreach (var item in Model)
+    {
+        <div class="grid-item js-isotope">
+            <table>
+                <tr>
+                    <td>
+                        <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uploader)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+</div>
