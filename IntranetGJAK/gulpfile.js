@@ -62,15 +62,14 @@ gulp.task("install", shell.task([
 
 gulp.task("scripts",["tsd","clean:js"], function () {
     var tsResult = gulp.src(paths.ts)
-                       .pipe(sourcemaps.init()) // This means sourcemaps will be generated 
+                       .pipe(sourcemaps.init()) // This means sourcemaps will be generated
                        .pipe(ts({
                            sortOutput: true,
                            noImplicitAny: true
                        }));
 
     return tsResult.js
-                .pipe(concat("site.js")) // You can use other plugins that also support gulp-sourcemaps 
-                .pipe(sourcemaps.write()) // Now the sourcemaps are added to the .js file 
+                .pipe(sourcemaps.write()) // Now the sourcemaps are added to the .js file
                 .pipe(gulp.dest(paths.js));
 });
 

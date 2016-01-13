@@ -5,30 +5,45 @@
     ViewData["Title"] = "Seznam souborù";
 }
 
-<table class="table table-striped table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Size)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Uploader)
-        </th>
-    </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Size)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Uploader)
-        </td>
-    </tr>
+@section styles {
+    <link asp-append-version="true" href="~/lib/datatables.net-dt/css/jquery.datatables.css" rel="stylesheet" />
 }
+
+<table id="filetable" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uploader)
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uploader)
+            </td>
+        </tr>
+    }
 </table>
+
+@section scripts {
+    <script asp-append-version="true" src="~/lib/datatables.net/js/jquery.datatables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+    $("#filetable").DataTable();
+} );
+    </script>
+}
