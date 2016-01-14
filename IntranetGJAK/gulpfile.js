@@ -25,7 +25,7 @@ paths.js = paths.webroot + "js/";
 paths.jsOut = paths.webroot + "js/site.js";
 paths.css = paths.webroot + "css/";
 paths.cssOut = paths.webroot + "css/site.css";
-paths.fonts = paths.webroot + "/lib/bootstrap-sass/assets/fonts/*";
+paths.fonts = paths.webroot + "/lib/bootstrap-sass/assets/fonts/**/*";
 paths.fontsOut = paths.webroot + "fonts/";
 
 gulp.task("clean:js", function(cb) {
