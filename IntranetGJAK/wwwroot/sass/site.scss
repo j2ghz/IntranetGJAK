@@ -1,4 +1,11 @@
-﻿/*css*/
+﻿@import "../lib/bootstrap-sass/assets/stylesheets/bootstrap";
+
 .body-content {
     margin-top: 70px;
+}
+
+#filetable {
+    .name {
+        font-weight: bolder;
+    }
 }

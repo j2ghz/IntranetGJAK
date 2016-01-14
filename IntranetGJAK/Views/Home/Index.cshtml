@@ -29,16 +29,16 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
+            <td class="name">
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            <td class="size">
                 @Html.DisplayFor(modelItem => item.Size)
             </td>
-            <td>
+            <td class="date">
                 @Html.DisplayFor(modelItem => item.DateUploaded)
             </td>
-            <td>
+            <td class="uploader">
                 @Html.DisplayFor(modelItem => item.Uploader)
             </td>
         </tr>
@@ -48,8 +48,8 @@
 @section scripts {
     <script asp-append-version="true" src="~/lib/datatables.net/js/jquery.datatables.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-    $("#filetable").DataTable();
-} );
+        $(document).ready(function () {
+            $("#filetable").DataTable();
+        });
     </script>
 }

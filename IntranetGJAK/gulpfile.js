@@ -25,6 +25,8 @@ paths.js = paths.webroot + "js/";
 paths.jsOut = paths.webroot + "js/site.js";
 paths.css = paths.webroot + "css/";
 paths.cssOut = paths.webroot + "css/site.css";
+paths.fonts = paths.webroot + "/lib/bootstrap-sass/assets/fonts/*";
+paths.fontsOut = paths.webroot + "fonts/";
 
 gulp.task("clean:js", function(cb) {
     rimraf(paths.js, cb);
@@ -50,7 +52,7 @@ gulp.task("clean", ["clean:js", "clean:css"]);
 //        .pipe(gulp.dest("."));
 //});
 
-gulp.task("min", ["scripts", "sass"]);
+gulp.task("min", ["scripts", "sass", "fonts"]);
 
 gulp.task("default", ["min"]);
 
@@ -94,4 +96,9 @@ gulp.task("sass", ["clean:css"], function() {
         .pipe(cssmin())
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest(paths.css));
+});
+
+gulp.task("fonts", function () {
+    return gulp.src(paths.fonts)
+        .pipe(gulp.dest(paths.fontsOut));
 });
