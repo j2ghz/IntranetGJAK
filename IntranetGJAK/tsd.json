@@ -6,7 +6,7 @@
   "bundle": "wwwroot/ts/tsd.d.ts",
   "installed": {
     "jquery/jquery.d.ts": {
-      "commit": "e48f0c7a0a5f9e9d35e9cfd7506461bab435cb49"
+      "commit": "138ad74b9e8e6c08af7633964962835add4c91e2"
     },
     "bootstrap/bootstrap.d.ts": {
       "commit": "e48f0c7a0a5f9e9d35e9cfd7506461bab435cb49"
@@ -40,6 +40,9 @@
     },
     "gulp-concat/gulp-concat.d.ts": {
       "commit": "98b4177d24ed2b5679d395c832ef337bd0b17c1c"
+    },
+    "jquery.dataTables/jquery.dataTables.d.ts": {
+      "commit": "138ad74b9e8e6c08af7633964962835add4c91e2"
     }
   }
 }

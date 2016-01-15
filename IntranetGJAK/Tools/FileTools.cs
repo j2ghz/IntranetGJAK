@@ -11,7 +11,7 @@ namespace IntranetGJAK.Tools
     {
         public static Task DeleteAsync(this FileInfo fi)
         {
-            return Task.Factory.StartNew(() => fi.Delete());
+            return Task.Factory.StartNew(fi.Delete);
         }
     }
 }

@@ -92,20 +92,20 @@ namespace IntranetGJAK.Controllers
             ////    return this.HttpUnauthorized();
             ////}
 
-            var item = from record in this.Db.Files where record.Id == id select record;
-            if (item.Count() != 1)
+            var items = from record in this.Db.Files where record.Id == id select record;
+            if (items.Count() != 1)
             {
                 return this.HttpNotFound("File not found in database");
             }
-            var _item = item.First();
+            var item = items.First();
 
-            var file = new FileInfo(_item.Path);
+            var file = new FileInfo(item.Path);
             if (!file.Exists)
             {
                 return this.HttpNotFound("File found in database, but not on disk");
             }
 
-            return this.PhysicalFile(file.FullName, "application/octet-stream", _item.Name); // copypasted from old controller, refactor
+            return this.PhysicalFile(file.FullName, "application/octet-stream", item.Name); // copypasted from old controller, refactor
         }
 
         /// <summary>
