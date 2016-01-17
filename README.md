@@ -8,7 +8,6 @@
 | ------------- |:-------------:|:-----:|
 | Windows DNX45 and DNXCORE50 | [![AppVeyor branch](https://img.shields.io/appveyor/ci/j2ghz/intranetgjak/master.svg)](https://ci.appveyor.com/project/j2ghz/intranetgjak) | - |
 | Linux | [![Codeship](https://img.shields.io/codeship/8acf26d0-6776-0133-8e7d-2a824ee2caac/master.svg)](https://codeship.com/projects/114070) | - |
-| Linux | [![Travis branch](https://img.shields.io/travis/j2ghz/IntranetGJAK/master.svg)](https://travis-ci.org/j2ghz/IntranetGJAK) | - |
 
 # Linux
 - Install dependencies
