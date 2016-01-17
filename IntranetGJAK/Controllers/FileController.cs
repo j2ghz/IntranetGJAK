@@ -15,6 +15,7 @@ namespace IntranetGJAK.Controllers
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using IntranetGJAK.Models;
@@ -69,10 +70,11 @@ namespace IntranetGJAK.Controllers
         {
             this.log.Information("Listing files:");
             var files = new FilesData();
-            foreach (var file in this.Db.Files)
+            var dbfiles = from file in this.Db.Files where file.Uploader == User.GetUserName() select file;
+            foreach (var file in dbfiles)
             {
                 files.files.Add(file.ToSerializeable());
-                this.log.Information("Found {FileName} {Size}", file.Name, Format.Bytes(file.Size));
+                this.log.Verbose("Found {FileName} {Size}", file.Name, Format.Bytes(file.Size));
             }
             this.log.Information("Found {FileCount} file(s)", files.files.Count);
             return this.Json(files);

@@ -35,7 +35,7 @@
                 </a>
             </td>
             <td class="size">
-                @Html.DisplayFor(modelItem => item.Size)
+                @Format.Bytes(item.Size);
             </td>
             <td class="date">
                 @Html.DisplayFor(modelItem => item.DateUploaded)
