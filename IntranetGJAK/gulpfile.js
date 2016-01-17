@@ -5,23 +5,23 @@
 "use strict";
 
 var gulp = require("gulp"),
-    shell = require("gulp-shell"),
-    rimraf = require("rimraf"),
-    concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify"),
-    sass = require("gulp-sass"),
-    autoprefixer = require("gulp-autoprefixer"),
-    sourcemaps = require("gulp-sourcemaps"),
-    ts = require("gulp-typescript");
+	shell = require("gulp-shell"),
+	rimraf = require("rimraf"),
+	concat = require("gulp-concat"),
+	cssmin = require("gulp-cssmin"),
+	uglify = require("gulp-uglify"),
+	sass = require("gulp-sass"),
+	autoprefixer = require("gulp-autoprefixer"),
+	sourcemaps = require("gulp-sourcemaps"),
+	ts = require("gulp-typescript");
 
 var paths = {
-    webroot: "./wwwroot/"
+	webroot: "./wwwroot/"
 };
 
 paths.ts = paths.webroot + "ts/**/*.ts";
 paths.sass = paths.webroot + "sass/**/*.scss";
-paths.js = paths.webroot + "js/";
+paths.js = paths.webroot + "js/!js/index.js";
 paths.jsOut = paths.webroot + "js/site.js";
 paths.css = paths.webroot + "css/";
 paths.cssOut = paths.webroot + "css/site.css";
@@ -29,11 +29,11 @@ paths.fonts = paths.webroot + "/lib/bootstrap-sass/assets/fonts/**/*";
 paths.fontsOut = paths.webroot + "fonts/";
 
 gulp.task("clean:js", function(cb) {
-    rimraf(paths.js, cb);
+	rimraf(paths.js, cb);
 });
 
 gulp.task("clean:css", function(cb) {
-    rimraf(paths.css, cb);
+	rimraf(paths.css, cb);
 });
 
 gulp.task("clean", ["clean:js", "clean:css"]);
@@ -52,53 +52,42 @@ gulp.task("clean", ["clean:js", "clean:css"]);
 //        .pipe(gulp.dest("."));
 //});
 
-gulp.task("min", ["scripts", "sass", "fonts"]);
+gulp.task("min", ["sass", "fonts"]);
 
 gulp.task("default", ["min"]);
 
 gulp.task("install", shell.task([
-        "\"node_modules/.bin/bower\" install",
-        "\"node_modules/.bin/gulp\""
-])
+		"\"node_modules/.bin/bower\" install",
+		"\"node_modules/.bin/gulp\""
+	])
 );
 
-gulp.task("scripts",["tsd","clean:js"], function () {
-    var tsResult = gulp.src(paths.ts)
-                       .pipe(sourcemaps.init()) // This means sourcemaps will be generated
-                       .pipe(ts({
-                           sortOutput: true,
-                           noImplicitAny: true
-                       }));
-
-    return tsResult.js
-                .pipe(sourcemaps.write()) // Now the sourcemaps are added to the .js file
-                .pipe(gulp.dest(paths.js));
-});
+gulp.task("scripts", ["tsd", "clean:js"]);
 
 gulp.task("tsd:install", shell.task([
-        "\"node_modules/.bin/tsd\" install"
-    ])
+		"\"node_modules/.bin/tsd\" install"
+	])
 );
 
 gulp.task("tsd:rebundle", ["tsd:install"], shell.task([
-        "\"node_modules/.bin/tsd\" rebundle"
-    ])
+		"\"node_modules/.bin/tsd\" rebundle"
+	])
 );
 
 gulp.task("tsd", ["tsd:rebundle"]);
 
 gulp.task("sass", ["clean:css"], function() {
-    return gulp.src(paths.sass)
-        .pipe(sourcemaps.init())
-        .pipe(sass().on("error", sass.logError))
-        //.pipe(autoprefixer())
-        .pipe(concat("site.css"))
-        .pipe(cssmin())
-        .pipe(sourcemaps.write("."))
-        .pipe(gulp.dest(paths.css));
+	return gulp.src(paths.sass)
+		.pipe(sourcemaps.init())
+		.pipe(sass().on("error", sass.logError))
+		//.pipe(autoprefixer())
+		.pipe(concat("site.css"))
+		.pipe(cssmin())
+		.pipe(sourcemaps.write("."))
+		.pipe(gulp.dest(paths.css));
 });
 
-gulp.task("fonts", function () {
-    return gulp.src(paths.fonts)
-        .pipe(gulp.dest(paths.fontsOut));
+gulp.task("fonts", function() {
+	return gulp.src(paths.fonts)
+		.pipe(gulp.dest(paths.fontsOut));
 });
