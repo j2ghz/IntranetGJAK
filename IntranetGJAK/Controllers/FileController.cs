@@ -22,6 +22,7 @@ namespace IntranetGJAK.Controllers
     using IntranetGJAK.Models.JSON.Blueimp_FileUpload;
     using IntranetGJAK.Tools;
 
+    using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Mvc;
     using Microsoft.Data.Entity;
@@ -33,6 +34,7 @@ namespace IntranetGJAK.Controllers
     /// <summary>
     /// Controller for WebAPI used for uploading and downloading files
     /// </summary>
+    [Authorize(Roles = "Write")]
     [Route("api/files")]
     public class FileController : Controller
     {
@@ -86,6 +88,7 @@ namespace IntranetGJAK.Controllers
         /// <param name="id">ID of file from database</param>
         /// <returns>File to be sent to client</returns>
         [ActionName("Index")]
+        [Authorize(Roles = "Write, Read")]
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
