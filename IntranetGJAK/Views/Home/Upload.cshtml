@@ -47,7 +47,7 @@
         <table role="presentation" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th></th>
+                    @*<th></th>*@
                     <th>Název</th>
                     <th>Průběh</th>
                     <th>Akce</th>
@@ -72,9 +72,9 @@
     <script id="template-upload" type="text/x-tmpl">
         {% for (var i=0, file; file=o.files[i]; i++) { %}
         <tr class="template-upload fade">
-            <td>
+            @*<td>
                 <span class="preview"></span>
-            </td>
+            </td>*@
             <td>
                 <p class="name">{%=file.name%}</p>
                 <strong class="error text-danger"></strong>
@@ -103,13 +103,13 @@
     <script id="template-download" type="text/x-tmpl">
         {% for (var i=0, file; file=o.files[i]; i++) { %}
         <tr class="template-download fade">
-            <td>
+            @*<td>
                 <span class="preview">
                     {% if (file.thumbnailUrl) { %}
                     <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
                     {% } %}
                 </span>
-            </td>
+            </td>*@
             <td>
                 <p class="name">
                     {% if (file.url) { %}
