@@ -12,4 +12,4 @@ RUN ./node_modules/.bin/bower install --allow-root
 RUN ./node_modules/.bin/gulp
 
 EXPOSE 5000
-ENTRYPOINT ["dnx", "-p", "IntranetGJAK/project.json", "web"]
+ENTRYPOINT ["dnx", "-p", "project.json", "web"]
