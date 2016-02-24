@@ -1,15 +1,15 @@
 ﻿@model IndexViewModel
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData["Title"] = "Správa účtu";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 <div>
-    <h4>Change your account settings</h4>
+    <h4>Změňte nastavení svého účtu:</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Password:</dt>
+        <dt>Heslo:</dt>
         <dd>
             [
             @if (Model.HasPassword)
@@ -22,14 +22,14 @@
             }
             ]
         </dd>
-        <dt>External Logins:</dt>
+        <!--dt>External Logins:</dt>
         <dd>
 
             @Model.Logins.Count [<a asp-controller="Manage" asp-action="ManageLogins">Manage</a>]
         </dd>
 
 
-        <dt>Phone Number:</dt>
+        <dt>Phone Number:<dt>
         <dd>
             <p>
                 Phone Numbers can used as a second factor of verification in two-factor authentication.
@@ -74,6 +74,6 @@
                         </text>
                     </form>
                 }*@
-        </dd>
+        </dd-->
     </dl>
 </div>
