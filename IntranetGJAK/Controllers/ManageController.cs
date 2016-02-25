@@ -62,6 +62,13 @@ namespace IntranetGJAK.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpGet]
+        public ViewResult ListUsers()
+        {
+            return View(_userManager.Users.AsEnumerable());
+        }
+
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]

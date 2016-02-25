@@ -20,7 +20,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Swashbuckle.SwaggerGen;
 
     using ILogger = Serilog.ILogger;
 
@@ -85,30 +84,6 @@
 
             services.AddMvc();
 
-            string xmlPath = Directory.GetFiles(Path.Combine(this.envPath,".."), "IntranetGJAK.xml", SearchOption.AllDirectories).First();
-
-            services.AddSwaggerGen();
-
-            services.ConfigureSwaggerDocument(options =>
-            {
-                options.SingleApiVersion(new Info
-                {
-                    Version = "v1",
-                    Title = "IntranetGJAK API",
-                    Description = "A simple file repository",
-                    TermsOfService = "TBA"
-                });
-                options.OperationFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlActionComments(xmlPath));
-            });
-
-            services.ConfigureSwaggerSchema(
-                options =>
-                    {
-                        options.DescribeAllEnumsAsStrings = true;
-                        options.ModelFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlTypeComments(xmlPath));
-                    }
-            );
-
             //services.AddSingleton<IFileRepository, FileRepository>();
 
             // Add application services.
@@ -153,9 +128,6 @@
             app.UseStaticFiles(s);
 
             app.UseIdentity();
-
-            app.UseSwaggerGen();
-            app.UseSwaggerUi();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
