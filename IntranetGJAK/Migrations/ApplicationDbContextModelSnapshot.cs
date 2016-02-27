@@ -33,6 +33,9 @@ namespace IntranetGJAK.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("Name")
+                        .IsRequired();
+
                     b.Property<string>("NormalizedEmail")
                         .HasAnnotation("MaxLength", 256);
 

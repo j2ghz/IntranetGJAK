@@ -19,6 +19,7 @@ namespace IntranetGJAK.Migrations
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     NormalizedEmail = table.Column<string>(nullable: true),
                     NormalizedUserName = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),

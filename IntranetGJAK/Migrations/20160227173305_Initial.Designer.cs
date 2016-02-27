@@ -8,7 +8,7 @@ using IntranetGJAK.Models;
 namespace IntranetGJAK.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160113205933_Initial")]
+    [Migration("20160227173305_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace IntranetGJAK.Migrations
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<string>("NormalizedEmail")
                         .HasAnnotation("MaxLength", 256);

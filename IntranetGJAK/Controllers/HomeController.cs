@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 namespace IntranetGJAK.Controllers
 {
     using IntranetGJAK.Models;
+    using Microsoft.AspNet.Authorization;
 
+    [Authorize]
     public class HomeController : Controller
     {
         public HomeController()
