@@ -21,6 +21,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNet.Identity;
+
     using ILogger = Serilog.ILogger;
 
     public class Startup
@@ -80,6 +82,8 @@
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<UserStore<ApplicationUser,IdentityRole,ApplicationDbContext>>()
+                .AddRoleStore<RoleStore<IdentityRole,ApplicationDbContext>>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
