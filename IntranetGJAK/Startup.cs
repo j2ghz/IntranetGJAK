@@ -84,8 +84,8 @@
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserStore<UserStore<ApplicationUser,IdentityRole,ApplicationDbContext>>()
                 .AddRoleStore<RoleStore<IdentityRole,ApplicationDbContext>>()
-                .AddDefaultTokenProviders();
-
+                .AddDefaultTokenProviders()
+                .AddRoleManager<RoleManager<IdentityRole>>();
             services.AddMvc();
 
             //services.AddSingleton<IFileRepository, FileRepository>();

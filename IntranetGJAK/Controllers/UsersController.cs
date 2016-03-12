@@ -13,7 +13,7 @@ namespace IntranetGJAK.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public UsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext applicationDbContext)
+        public UsersController(UserManager<ApplicationUser> userManager, ApplicationDbContext applicationDbContext, RoleManager<ApplicationUser> roleManager)
         {
             _userManager = userManager;
             _context = applicationDbContext;
