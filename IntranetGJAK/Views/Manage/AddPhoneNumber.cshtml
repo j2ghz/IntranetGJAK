@@ -1,11 +1,11 @@
 ﻿@model AddPhoneNumberViewModel
 @{
-    ViewData["Title"] = "Add Phone Number";
+    ViewData["Title"] = "Přidat telefonní číslo";
 }
 
 <h2>@ViewData["Title"].</h2>
 <form asp-controller="Manage" asp-action="AddPhoneNumber" method="post" class="form-horizontal" role="form">
-    <h4>Add a phone number.</h4>
+    <h4>Přidat telefonní číslo.</h4>
     <hr />
     <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
     <div class="form-group">
@@ -17,7 +17,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Send verification code</button>
+            <button type="submit" class="btn btn-default">Odeslat kód k potvrzení</button>
         </div>
     </div>
 </form>

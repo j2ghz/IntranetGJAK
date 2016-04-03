@@ -4,10 +4,12 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using IntranetGJAK.Models;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 
 namespace IntranetGJAK.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
