@@ -1,8 +1,5 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.Data.Entity;
 using IntranetGJAK.Models;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
