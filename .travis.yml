@@ -6,7 +6,7 @@ install:
   - sudo apt-get install -qq unzip curl
   - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh
   - source ~/.dnx/dnvm/dnvm.sh
-  - sudo apt-get install -qq mono-complete ca-certificates-mono
+  - sudo apt-get install -qq mono-complete
   - dnvm upgrade -r mono
   - cd "$projectdir"
 script:
