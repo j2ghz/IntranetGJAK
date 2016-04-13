@@ -30,7 +30,8 @@ Task("Bower")
 Task("NPM")
 	.Does(() =>
 	{
-		Npm.Install();
+		var setting = new ProcessSettings{ Arguments = "install", WorkingDirectory = "./IntranetGJAK" };
+		StartProcess("npm" + (IsRunningOnWindows() ? ".cmd"  : "") , setting);
 		Npm.Install(settings => settings.Package("gulp").Globally());
 		Npm.Install(settings => settings.Package("bower").Globally());
 	});
