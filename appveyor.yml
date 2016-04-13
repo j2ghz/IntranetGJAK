@@ -1,33 +1,14 @@
-version: 0.1.{build}
 branches:
   except:
   - gh-pages
 os: Visual Studio 2015
 shallow_clone: true
-environment:
-  matrix:
-    - framework: dnx451
-      runtime: clr
-    - framework: dnxcore50
-      runtime: coreclr
 init:
 - cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
-- cmd: dnvm upgrade -r %runtime%
-install:
-- cmd: dnu restore
-- cmd: cd IntranetGJAK
-- cmd: npm install
-- cmd: node_modules/.bin/gulp install
+- cmd: dnvm upgrade -r clr
+- cmd: dnvm upgrade -r coreclr
 build_script:
-- cmd: dnu publish --framework %framework% -o %APPVEYOR_BUILD_FOLDER%\artifacts
-after_build:
-- cmd: cd ..
-- cmd: 7z a IntranetGJAK.zip %APPVEYOR_BUILD_FOLDER%\artifacts
-test_script:
-- cmd: dnx -p UnitTests\ test
-artifacts:
-- path: IntranetGJAK.zip
-  name: IntranetGJAK
+- ps: .\build.ps1
 cache:
  - IntranetGJAK\wwwroot\lib
  - IntranetGJAK\node_modules

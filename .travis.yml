@@ -1,8 +1,5 @@
 language: node_js
 sudo: true
-env:
-  - R=coreclr
-  - R=mono
 install:
   - projectdir="$PWD"
   - sudo apt-get update -qq
@@ -10,9 +7,7 @@ install:
   - curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh
   - source ~/.dnx/dnvm/dnvm.sh
   - sudo apt-get install -qq gettext libssl-dev libcurl3-dev zlib1g libicu-dev # libunwind8
-  - dnvm upgrade -r $R
+  - dnvm upgrade -r coreclr
   - cd "$projectdir"
 script:
-  - dnu restore
-  - dnu -p IntranetGJAK/project.json publish
-  - dnx -p UnitTests/project.json test
+  - ./build.sh

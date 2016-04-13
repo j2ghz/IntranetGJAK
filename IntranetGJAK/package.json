@@ -7,15 +7,7 @@
     "gulp-concat": "2.5.2",
     "gulp-cssmin": "0.1.7",
     "gulp-sass": "^2.1.0",
-    "gulp-shell": "^0.5.1",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-typescript": "^2.9.2",
-    "gulp-uglify": "1.2.0",
-    "rimraf": "2.2.8",
-    "tsd": "^0.6.5",
-    "typescript": "^1.6.2"
-  },
-  "dependencies": {
-    "bower": "^1.6.8"
+    "rimraf": "2.2.8"
   }
 }
