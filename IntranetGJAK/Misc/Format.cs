@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntranetGJAK.Tools
+namespace IntranetGJAK
 {
     public class Format
     {

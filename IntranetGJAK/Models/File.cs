@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
 
     using IntranetGJAK.Models.JSON.Blueimp_FileUpload;
-    using IntranetGJAK.Tools;
+    using IntranetGJAK;
 
     public class File
     {

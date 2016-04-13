@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace IntranetGJAK.Tools
+namespace IntranetGJAK
 {
     public static class Thumbnails
     {
