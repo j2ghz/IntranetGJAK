@@ -3,6 +3,8 @@
 [![Bower Dependency Status](https://www.versioneye.com/user/projects/56903ee2daa0bf003900006b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56903ee2daa0bf003900006b)
 # IntranetGJAK
 
+[![Join the chat at https://gitter.im/j2ghz/IntranetGJAK](https://badges.gitter.im/j2ghz/IntranetGJAK.svg)](https://gitter.im/j2ghz/IntranetGJAK?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ##Master build status:
 | OS | CI | Download |
 | ------------- |:-------------:|:-----:|
