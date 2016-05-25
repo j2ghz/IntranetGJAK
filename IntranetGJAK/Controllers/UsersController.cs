@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
+using IntranetGJAK.Data;
 using IntranetGJAK.Models;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace IntranetGJAK.Controllers
 {
@@ -29,13 +31,13 @@ namespace IntranetGJAK.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             ApplicationUser applicationUser = await _userManager.FindByIdAsync(id);
             if (applicationUser == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             return View(applicationUser);
@@ -46,13 +48,13 @@ namespace IntranetGJAK.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             ApplicationUser applicationUser = await _userManager.FindByIdAsync(id);
             if (applicationUser == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
             return View(applicationUser);
         }
@@ -76,13 +78,13 @@ namespace IntranetGJAK.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             ApplicationUser applicationUser = await _userManager.FindByIdAsync(id);
             if (applicationUser == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             return View(applicationUser);

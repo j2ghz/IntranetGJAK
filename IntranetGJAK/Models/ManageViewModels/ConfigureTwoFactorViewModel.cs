@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace IntranetGJAK.ViewModels.Manage
+namespace IntranetGJAK.Models.ManageViewModels
 {
     public class ConfigureTwoFactorViewModel
     {

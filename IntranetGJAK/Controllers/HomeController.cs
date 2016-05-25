@@ -1,25 +1,25 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IntranetGJAK.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using IntranetGJAK.Models;
 
 namespace IntranetGJAK.Controllers
 {
-    using IntranetGJAK.Models;
-    using Microsoft.AspNet.Authorization;
-
     [Authorize]
     public class HomeController : Controller
     {
-        public HomeController()
+        ApplicationDbContext DbContext { get; set; }
+
+        HomeController(ApplicationDbContext dbContext)
         {
-
+            DbContext = dbContext;
         }
-
-        [FromServices]
-        public ApplicationDbContext DbContext { get; set; }
 
         public IActionResult Index()
         {
@@ -37,7 +37,7 @@ namespace IntranetGJAK.Controllers
                 return this.RedirectToAction("Login", "Account");
             }
         }
-    
+
 
         public IActionResult Error()
         {

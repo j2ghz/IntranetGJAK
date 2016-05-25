@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IntranetGJAK.ViewModels.Manage
+namespace IntranetGJAK.Models.ManageViewModels
 {
     public class FactorViewModel
     {

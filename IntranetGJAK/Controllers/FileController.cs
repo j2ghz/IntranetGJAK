@@ -8,14 +8,19 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IntranetGJAK.Data;
 using IntranetGJAK.Models;
+using IntranetGJAK;
 using IntranetGJAK.Models.JSON.Blueimp_FileUpload;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Net.Http.Headers;
 using Serilog;
@@ -24,7 +29,7 @@ using File = IntranetGJAK.Models.File;
 namespace IntranetGJAK.Controllers
 {
     // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-    
+
     /// <summary>
     /// Controller for WebAPI used for uploading and downloading files
     /// </summary>
@@ -45,14 +50,14 @@ namespace IntranetGJAK.Controllers
         /// The hosting environment.
         /// </param>
         /// <param name="files">A list of files</param>
-        public FileController(IApplicationEnvironment hostingEnvironment)
+        public FileController(IHostingEnvironment env, ApplicationDbContext db)
         {
+            Db = db;
             log = Log.ForContext<FileController>();
-            fileUploadPath = Path.Combine(hostingEnvironment.ApplicationBasePath, "Uploads");
+            fileUploadPath = Path.Combine(env.ContentRootPath, "Uploads");
             log.Verbose("File handler created with base path: {@basepath}", fileUploadPath);
         }
 
-        [FromServices]
         public ApplicationDbContext Db { get; set; }
 
         /// <summary>
@@ -65,7 +70,7 @@ namespace IntranetGJAK.Controllers
         {
             log.Information("Listing files:");
             var files = new FilesData();
-            var dbfiles = from file in Db.Files where file.Uploader == User.GetUserName() select file;
+            IEnumerable<File> dbfiles = from file in Db.Files where file.Uploader == User.Identity.Name select file;
             foreach (var file in dbfiles)
             {
                 files.files.Add(file.ToSerializeable());
@@ -92,14 +97,14 @@ namespace IntranetGJAK.Controllers
             var items = from record in Db.Files where record.Id == id select record;
             if (items.Count() != 1)
             {
-                return HttpNotFound("File not found in database");
+                return NotFound("File not found in database");
             }
             var item = items.First();
 
             var file = new FileInfo(item.Path);
             if (!file.Exists)
             {
-                return HttpNotFound("File found in database, but not on disk");
+                return NotFound("File found in database, but not on disk");
             }
 
             return PhysicalFile(file.FullName, "application/octet-stream", item.Name); // copypasted from old controller, refactor
@@ -127,7 +132,7 @@ namespace IntranetGJAK.Controllers
                     file.Path = Path.Combine(fileUploadPath, file.Id);
 
                     Directory.CreateDirectory(Path.GetPathRoot(file.Path));
-                    var taskSave = formFile.SaveAsAsync(file.Path);
+                    var taskSave = formFile.CopyToAsync(new FileStream(file.Path, FileMode.Create));
 
                     file.Name = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
                     file.Size = formFile.Length;
@@ -182,7 +187,7 @@ namespace IntranetGJAK.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(string id)
         {
-            return HttpBadRequest("Not implemented");
+            return BadRequest("Not implemented");
         }
 
         /// <summary>
@@ -206,7 +211,7 @@ namespace IntranetGJAK.Controllers
             if (!items.Any())
             {
                 log.Warning("File {id} not found in database", id);
-                return HttpNotFound("File not found in database");
+                return NotFound("File not found in database");
             }
             if (items.Count() > 1)
             {
